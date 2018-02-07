@@ -1,0 +1,29 @@
+spring:
+  profiles: mysqldev
+
+logic:
+  database:
+    write_prefix:
+    read_prefix:
+  jndi:
+    master:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/facts_backend?setUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true
+      databaseId: mysql
+      username: root
+      password:
+    slave:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/facts_backend?setUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true
+      databaseId: mysql
+      username: root
+      password:
+  file:
+    path:
+      local: /Users/omer/development/logic/toshiba/backend-microservices/files
+      remote: http://localhost:1000/system
+
+logging:
+  level:
+    org.springframework.security.oauth2: DEBUG
+    org.apache.ibatis.mapping: DEBUG

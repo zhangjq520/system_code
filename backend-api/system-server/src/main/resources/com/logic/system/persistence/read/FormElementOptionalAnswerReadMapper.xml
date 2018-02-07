@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FormElementOptionalAnswerReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.FormElementOptionalAnswer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="form_element_id" property="formElementId" jdbcType="INTEGER" />
+    <result column="answer_seq" property="answerSeq" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="answer_text" property="answerText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, form_element_id, answer_seq, point, version, created_dtm, created_by, last_modified_dtm, 
+    last_modified_by, deleted, answer_text
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form_ele_opt_answer
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="selectByFormElementId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form_ele_opt_answer
+    where form_element_id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="selectByFormId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from system_form_ele_opt_answer
+    where 
+    form_element_id in ( select id from system_form_element where form_id = #{formId} and deleted = 0 )
+    and 
+    deleted = 0
+  </select>
+</mapper>

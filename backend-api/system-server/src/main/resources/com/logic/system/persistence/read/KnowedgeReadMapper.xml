@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.KnowedgeReadMapper">
+	<resultMap id="BaseResultMap" type="com.logic.system.domain.Knowedge">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="BUSINESS_TYPE" property="business_type" jdbcType="VARCHAR" />
+		<result column="FILE_NAME" property="file_name" jdbcType="VARCHAR" />
+		<result column="FILE_PATH" property="file_path" jdbcType="VARCHAR" />
+		<result column="FILE_SOURCE" property="file_source" jdbcType="VARCHAR" />
+		<result column="FILE_FORMAT" property="file_format" jdbcType="VARCHAR" />
+		<result column="FILE_SIZE" property="file_size" jdbcType="VARCHAR" />
+		<result column="UPLOADED_TIME" property="uploaded_time" jdbcType="DATE" />
+		<result column="OTHER_1" property="other_1" jdbcType="VARCHAR" />
+		<result column="OTHER_2" property="other_2" jdbcType="VARCHAR" />
+		<result column="OTHER_3" property="other_3" jdbcType="VARCHAR" />
+		<result column="OTHER_4" property="other_4" jdbcType="VARCHAR" />
+		<result column="OTHER_5" property="other_5" jdbcType="VARCHAR" />
+		<result column="OTHER_6" property="other_6" jdbcType="VARCHAR" />
+		<result column="OTHER_7" property="other_7" jdbcType="VARCHAR" />
+		<result column="OTHER_8" property="other_8" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.KnowedgeDTO">
+		<result column="PROJECT_ID" property="project_id" jdbcType="VARCHAR" />
+		<result column="MACHINE_NAME" property="machine_name" jdbcType="VARCHAR" />
+		<result column="BUSINESS_TYPE" property="business_type" jdbcType="VARCHAR" />
+		<result column="BUSINESS_TYPE_DESC" property="business_type_desc" jdbcType="VARCHAR" />
+		<result column="FILE_NAME" property="file_name" jdbcType="VARCHAR" />
+		<result column="FILE_PATH" property="file_path" jdbcType="VARCHAR" />
+		<result column="FILE_SOURCE" property="file_source" jdbcType="VARCHAR" />
+		<result column="FILE_FORMAT" property="file_format" jdbcType="VARCHAR" />
+		<result column="FILE_SIZE" property="file_size" jdbcType="VARCHAR" />
+		<result column="UPLOADED_TIME" property="uploaded_time" jdbcType="DATE" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, BUSINESS_TYPE, FILE_NAME, FILE_PATH, FILE_SOURCE, FILE_FORMAT, FILE_SIZE, UPLOADED_TIME, OTHER_1, OTHER_2, OTHER_3, OTHER_4, OTHER_5, OTHER_6, OTHER_7, OTHER_8
+	</sql>
+	<sql id="Query_Column_List">
+		PROJECT_ID, MACHINE_NAME, BUSINESS_TYPE, FILE_NAME, FILE_PATH, FILE_SOURCE, FILE_FORMAT, FILE_SIZE, UPLOADED_TIME
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from knowedge.pd_file
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getFilesByParams" resultMap="QueryResultMap"
+		parameterType="java.util.Map">
+		select r.ref_1 project_id, r.ref_2 machine_name,
+		f.business_type,
+		(case f.business_type
+		when '001' then '电气规格书'
+		when '002'
+		then 'H/W'
+		when '003' then '签认图'
+		when '004' then '工委单'
+		when '005' then
+		'土建布置图'
+		end) as business_type_desc,
+		f.file_path,
+		f.file_name,
+		f.file_source, f.file_format, f.file_size,
+		f.uploaded_time
+		from
+		knowedge.pd_reference_file r left join knowedge.pd_file f on
+		r.file_ids = f.id
+		where r.ref_1 = #{projectID,jdbcType=VARCHAR}
+		and
+		r.ref_2 = #{machineName,jdbcType=VARCHAR}
+		order by f.business_type asc
+	</select>
+</mapper>

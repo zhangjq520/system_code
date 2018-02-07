@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.DeviceWriteMapper" >
+
+    <delete id="deleteByPrimaryKey" parameterType="com.logic.system.domain.Device" >
+        update system_mobile_device set deleted = 1,
+        version = version+1,
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.Device" >
+        <selectKey keyProperty="id" order="AFTER"
+                   resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into system_mobile_device
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="deviceOs != null" >
+                device_os,
+            </if>
+            <if test="deviceOsVersion != null" >
+                device_os_version,
+            </if>
+            <if test="deviceSerial != null" >
+                device_serial,
+            </if>
+            <if test="deviceBrand != null" >
+                device_brand,
+            </if>
+            <if test="deviceModel != null" >
+                device_model,
+            </if>
+            <if test="deviceCpu != null" >
+                device_cpu,
+            </if>
+            <if test="deviceRam != null" >
+                device_ram,
+            </if>
+            <if test="purchaseDate != null" >
+                purchase_date,
+            </if>
+            <if test="phoneNumber != null" >
+                phone_number,
+            </if>
+            <if test="simIccid != null" >
+                sim_iccid,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="version != null" >
+                version,
+            </if>
+            <if test="createdDtm != null" >
+                created_dtm,
+            </if>
+            <if test="createdBy != null" >
+                created_by,
+            </if>
+            <if test="lastModifiedDtm != null" >
+                last_modified_dtm,
+            </if>
+            <if test="lastModifiedBy != null" >
+                last_modified_by,
+            </if>
+            <if test="deleted != null" >
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="deviceOs != null" >
+                #{deviceOs,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceOsVersion != null" >
+                #{deviceOsVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceSerial != null" >
+                #{deviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceBrand != null" >
+                #{deviceBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceModel != null" >
+                #{deviceModel,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceCpu != null" >
+                #{deviceCpu,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceRam != null" >
+                #{deviceRam,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDate != null" >
+                #{purchaseDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="phoneNumber != null" >
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="simIccid != null" >
+                #{simIccid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="createdDtm != null" >
+                #{createdDtm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastModifiedDtm != null" >
+                #{lastModifiedDtm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null" >
+                #{lastModifiedBy,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null" >
+                #{deleted,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update  id="unbindDevice" parameterType="java.lang.Integer" >
+        update system_mobile_device
+        <set >
+            user_id = null
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update  id="bindDevice" parameterType="java.lang.String" >
+        update system_mobile_device
+        <set >
+            user_id = #{param2,jdbcType=INTEGER}
+        </set>
+        where device_serial = #{param1,jdbcType=VARCHAR}
+    </update>
+
+    <update  id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.Device" >
+        update system_mobile_device
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="deviceOs != null" >
+                device_os = #{deviceOs,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceOsVersion != null" >
+                device_os_version = #{deviceOsVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceSerial != null" >
+                device_serial = #{deviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceBrand != null" >
+                device_brand = #{deviceBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceModel != null" >
+                device_model = #{deviceModel,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceCpu != null" >
+                device_cpu = #{deviceCpu,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceRam != null" >
+                device_ram = #{deviceRam,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDate != null" >
+                purchase_date = #{purchaseDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="phoneNumber != null" >
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="simIccid != null" >
+                sim_iccid = #{simIccid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            version = version + 1,
+            <if test="lastModifiedDtm != null" >
+                last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null" >
+                last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null" >
+                deleted = #{deleted,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.Device" >
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+            SELECT s_system_mobile_device.NextVal FROM DUAL
+        </selectKey>
+        insert into system_mobile_device
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="deviceOs != null" >
+                device_os,
+            </if>
+            <if test="deviceOsVersion != null" >
+                device_os_version,
+            </if>
+            <if test="deviceSerial != null" >
+                device_serial,
+            </if>
+            <if test="deviceBrand != null" >
+                device_brand,
+            </if>
+            <if test="deviceModel != null" >
+                device_model,
+            </if>
+            <if test="deviceCpu != null" >
+                device_cpu,
+            </if>
+            <if test="deviceRam != null" >
+                device_ram,
+            </if>
+            <if test="purchaseDate != null" >
+                purchase_date,
+            </if>
+            <if test="phoneNumber != null" >
+                phone_number,
+            </if>
+            <if test="simIccid != null" >
+                sim_iccid,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="version != null" >
+                version,
+            </if>
+            <if test="createdDtm != null" >
+                created_dtm,
+            </if>
+            <if test="createdBy != null" >
+                created_by,
+            </if>
+            <if test="lastModifiedDtm != null" >
+                last_modified_dtm,
+            </if>
+            <if test="lastModifiedBy != null" >
+                last_modified_by,
+            </if>
+            <if test="deleted != null" >
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{id,jdbcType=INTEGER},
+            <if test="userId != null" >
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="deviceOs != null" >
+                #{deviceOs,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceOsVersion != null" >
+                #{deviceOsVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceSerial != null" >
+                #{deviceSerial,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceBrand != null" >
+                #{deviceBrand,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceModel != null" >
+                #{deviceModel,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceCpu != null" >
+                #{deviceCpu,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceRam != null" >
+                #{deviceRam,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDate != null" >
+                #{purchaseDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="phoneNumber != null" >
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="simIccid != null" >
+                #{simIccid,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="createdDtm != null" >
+                #{createdDtm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdBy != null" >
+                #{createdBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastModifiedDtm != null" >
+                #{lastModifiedDtm,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null" >
+                #{lastModifiedBy,jdbcType=INTEGER},
+            </if>
+            <if test="deleted != null" >
+                #{deleted,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+</mapper>
+

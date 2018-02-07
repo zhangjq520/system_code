@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logic.system.persistence.read.SecurityCenterReadMapper">
+
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.SecurityCenter">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pwd_operation_switch" jdbcType="BIT" property="pwdOperationSwitch" />
+    <result column="pwd_operation" jdbcType="VARCHAR" property="pwdOperation" />
+    <result column="pwd_scope_delivery" jdbcType="BIT" property="pwdScopeDelivery" />
+    <result column="pwd_scope_recharge" jdbcType="BIT" property="pwdScopeRecharge" />
+    <result column="pwd_scope_fund_allocation" jdbcType="BIT" property="pwdScopeFundAllocation" />
+    <result column="sms_verify_switch" jdbcType="BIT" property="smsVerifySwitch" />
+    <result column="sms_phone_number" jdbcType="VARCHAR" property="smsPhoneNumber" />
+    <result column="sms_validation_code" jdbcType="VARCHAR" property="smsValidationCode" />
+    <result column="sms_expiry_time" jdbcType="BIGINT" property="smsExpiryTime" />
+    <result column="sms_scope_delivery" jdbcType="BIT" property="smsScopeDelivery" />
+    <result column="sms_scope_recharge" jdbcType="BIT" property="smsScopeRecharge" />
+    <result column="sms_scope_fund_allocation" jdbcType="BIT" property="smsScopeFundAllocation" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="created_dtm" jdbcType="TIMESTAMP" property="createdDtm" />
+    <result column="created_by" jdbcType="INTEGER" property="createdBy" />
+    <result column="last_modified_dtm" jdbcType="TIMESTAMP" property="lastModifiedDtm" />
+    <result column="last_modified_by" jdbcType="INTEGER" property="lastModifiedBy" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, pwd_operation_switch, pwd_operation, pwd_scope_delivery, pwd_scope_recharge,
+    pwd_scope_fund_allocation, sms_verify_switch, sms_phone_number, sms_validation_code, sms_expiry_time, sms_scope_delivery,
+    sms_scope_recharge, sms_scope_fund_allocation, 
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from system_security_center
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.PersonalInfoReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.PersonalInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="email_primary" property="emailPrimary" jdbcType="VARCHAR" />
+    <result column="email_second" property="emailSecond" jdbcType="VARCHAR" />
+    <result column="work_phone_conuntry" property="workPhoneConuntry" jdbcType="VARCHAR" />
+    <result column="work_phone_number" property="workPhoneNumber" jdbcType="VARCHAR" />
+    <result column="work_phone_number_ext" property="workPhoneNumberExt" jdbcType="VARCHAR" />
+    <result column="mobile_phone_country" property="mobilePhoneCountry" jdbcType="VARCHAR" />
+    <result column="mobile_phone_number" property="mobilePhoneNumber" jdbcType="VARCHAR" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
+    <result column="avatar" property="avatarId" jdbcType="INTEGER" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="proof_operation" property="proofOperation" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Personal_Base_Column_List" >
+    id, proof_operation, first_name, last_name, birthday, gender, title, email_primary, email_second, 
+    work_phone_conuntry, work_phone_number, work_phone_number_ext, mobile_phone_country, 
+    mobile_phone_number, address_id, avatar, comments, version, created_dtm, created_by, last_modified_dtm,
+    last_modified_by, deleted
+  </sql>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Personal_Base_Column_List" /> 
+    from system_personal_info
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+</mapper>

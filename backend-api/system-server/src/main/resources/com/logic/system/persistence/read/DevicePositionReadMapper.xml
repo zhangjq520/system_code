@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.DevicePositionReadMapper" >
+    <resultMap id="BaseResultMap" type="com.logic.system.domain.DevicePosition" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+        <result column="track_time" property="trackTime" jdbcType="TIMESTAMP" />
+        <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+        <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+        <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+        <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+        <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+    </resultMap>
+
+    <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.DevicePositionDTO" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="device_id" property="device_id" jdbcType="INTEGER" />
+        <result column="track_time" property="track_time" jdbcType="TIMESTAMP" />
+        <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+        <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+        <result column="device_brand" property="device_brand" jdbcType="VARCHAR" />
+        <result column="user_id" property="user_id" jdbcType="INTEGER" />
+        <result column="first_name" property="first_name" jdbcType="VARCHAR" />
+        <result column="last_name" property="last_name" jdbcType="VARCHAR" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, device_id, track_time, longitude, latitude, version, created_dtm,
+        created_by, last_modified_dtm, last_modified_by, deleted
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from system_mobile_device_position
+        where id = #{id,jdbcType=INTEGER}
+        and deleted = 0
+    </select>
+
+    <select id="selectDevicePositions" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+        SELECT t.*
+        FROM (
+        SELECT t1.id AS id,
+        t1.device_id AS device_id,
+        t1.track_time AS track_time,
+        t1.longitude AS longitude,
+        t1.latitude AS latitude
+        FROM system_mobile_device_position t1
+        WHERE
+        t1.deleted = 0
+        ) t
+        WHERE
+    </select>
+    
+    <select id="selectDevicePositionsByTrackTime" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    select cl.* from 
+       (select t1.id, t1.device_id, t1.track_time, t1.longitude, t1.latitude, t2.device_brand, t2.user_id, t4.first_name, t4.last_name
+		from system_mobile_device_position t1 
+		left join SYSTEM_MOBILE_DEVICE t2 on t1.device_id = t2.id
+		left join SYSTEM_USER t3 on t2.user_id = t3.id
+		left join SYSTEM_PERSONAL_INFO t4 on t3.personal_info_id = t4.id
+		where t1.id in (SELECT max(id) from (SELECT id, device_id from system_mobile_device_position) t group by t.device_id)) cl
+        where
+    </select>
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.MyProfileReadMapper" >
+  <resultMap id="ProfileResultMap" type="com.logic.common.ws.dto.system.MyProfileInfoDTO">
+    <result column="user_id" property="user_id" jdbcType="VARCHAR" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employee_id" jdbcType="VARCHAR" />
+    <result column="employee_code" property="employee_code" jdbcType="VARCHAR" />
+    <result column="org_code" property="org_code" jdbcType="VARCHAR" />
+    <result column="org_name" property="org_name" jdbcType="VARCHAR" />
+    <result column="facility_code" property="facility_code" jdbcType="VARCHAR" />
+    <result column="facility_name" property="facility_name" jdbcType="VARCHAR" />
+    <result column="primary_job" property="primary_job" jdbcType="VARCHAR" />
+    <result column="secondary_job" property="secondary_job" jdbcType="VARCHAR" />
+    <result column="role_code" property="role_code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="work_phone" property="work_phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="UserResultMap" type="com.logic.system.domain.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="locked" property="locked" jdbcType="BIT" />
+    <result column="default_locale" property="defaultLocale" jdbcType="VARCHAR" />
+    <result column="systemic" property="systemic" jdbcType="BIT" />
+    <result column="personal_info_id" property="personalInfoId" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, login_id, password, disabled, locked, default_locale, systemic, personal_info_id,
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+  <select databaseId="mysql" id="selectMyProfileInfo" resultMap="ProfileResultMap" parameterType="java.lang.Integer">
+	SELECT t.*
+		FROM (	SELECT t1.id AS user_id,
+					CONCAT(t2.first_name, ' ', t2.last_name) AS user_name,
+					t2.work_phone_number AS work_phone,
+					t2.email_primary AS email,
+					t3.id AS employee_id,
+					t3.`code` AS employee_code,
+					t3.primary_job AS primary_job,
+					t3.secondary_job AS secondary_job,
+					GROUP_CONCAT(t5.`code`) AS org_code,
+					GROUP_CONCAT(t5.short_name) AS org_name,
+					GROUP_CONCAT(t7.`code`) AS facility_code,
+					GROUP_CONCAT(t7.short_name) AS facility_name,
+					GROUP_CONCAT(t8.title) AS title,
+					t10.`code` AS role_code
+				FROM system_user t1 LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id AND t2.deleted = 0
+					LEFT JOIN ehs_employee t3 ON t1.id = t3.user_id AND t3.deleted = 0
+					LEFT JOIN ehs_employee_org t4 ON t3.id = t4.employee_id
+					LEFT JOIN system_organization t5 ON t4.org_id = t5.id AND t5.deleted = 0
+					LEFT JOIN ehs_employee_physical t6 ON t3.id = t6.employee_id
+					LEFT JOIN ehs_physical_structure t7 ON t6.facility_id = t7.id AND t7.deleted = 0
+					LEFT JOIN ehs_physical_contact t8 ON t7.id = t8.physical_id AND t8.deleted = 0
+					LEFT JOIN system_user_role t9 ON t1.id = t9.user_id
+					LEFT JOIN system_role t10 ON t9.role_id = t10.id AND t10.deleted = 0
+				WHERE t1.id = #{userId,jdbcType=INTEGER}
+				AND t1.deleted = 0
+				GROUP BY t1.id
+         	) t
+  </select>
+
+  <select databaseId="oracle" id="selectMyProfileInfo" resultMap="ProfileResultMap" parameterType="java.lang.Integer">
+	SELECT t.*
+		FROM (	SELECT t1.id AS user_id,
+					(t2.first_name || ' ' || t2.last_name) AS user_name,
+					t2.work_phone_number AS work_phone,
+					t2.email_primary AS email,
+					t3.id AS employee_id,
+					t3.`code` AS employee_code,
+					t3.primary_job AS primary_job,
+					t3.secondary_job AS secondary_job,
+					LISTAGG(t5.`code`, ', ') WITHIN GROUP (ORDER BY t5.`code`) as org_code,
+					LISTAGG(t5.short_name, ', ') WITHIN GROUP (ORDER BY t5.short_name) as org_name,
+					LISTAGG(t7.`code`, ', ') WITHIN GROUP (ORDER BY t7.`code`) as facility_code,
+					LISTAGG(t7.short_name, ', ') WITHIN GROUP (ORDER BY t7.short_name) as facility_name,
+					LISTAGG(t8.title, ', ') WITHIN GROUP (ORDER BY t8.title) as title,
+					t10.`code` AS role_code
+				FROM system_user t1 LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id AND t2.deleted = 0
+					LEFT JOIN ehs_employee t3 ON t1.id = t3.user_id AND t3.deleted = 0
+					LEFT JOIN ehs_employee_org t4 ON t3.id = t4.employee_id
+					LEFT JOIN system_organization t5 ON t4.org_id = t5.id AND t5.deleted = 0
+					LEFT JOIN ehs_employee_physical t6 ON t3.id = t6.employee_id
+					LEFT JOIN ehs_physical_structure t7 ON t6.facility_id = t7.id AND t7.deleted = 0
+					LEFT JOIN ehs_physical_contact t8 ON t7.id = t8.physical_id AND t8.deleted = 0
+					LEFT JOIN system_user_role t9 ON t1.id = t9.user_id
+					LEFT JOIN system_role t10 ON t9.role_id = t10.id AND t10.deleted = 0
+				WHERE t1.id = #{userId,jdbcType=INTEGER}
+				AND t1.deleted = 0
+				GROUP BY t1.id
+         	) t
+  </select>
+
+  <select id="selectUserInfo" resultMap="UserResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_user
+    where id = #{userId,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+</mapper>

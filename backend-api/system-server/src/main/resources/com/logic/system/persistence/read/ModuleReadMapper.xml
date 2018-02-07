@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.ModuleReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Module" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="name_zh" property="nameZh" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="descriptions_en" property="descriptionsEn" jdbcType="VARCHAR" />
+    <result column="descriptions_zh" property="descriptionsZh" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="permission_string" property="permissionString" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  
+   <resultMap id="JSTreeResultMap" type="com.logic.common.ws.dto.system.ModuleForJSTreeDTO">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name_zh" property="text" jdbcType="VARCHAR" />
+    <result column="children_count" property="children" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, code, name_en, name_zh, url, descriptions_en, descriptions_zh, parent_id, priority, permission_string, 
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_module
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getModuleList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_module
+    where parent_id is null
+    and deleted = 0
+  </select>
+  
+  <select id="getChildren" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_module
+    where parent_id = #{moduleId,jdbcType=INTEGER}
+    and deleted = 0
+    order by priority asc
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.Module">
+  	select count(1) from system_module where code = #{code} and deleted = 0 
+  	<if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+  
+   <select databaseId="mysql" id="getModuleForJSTree" resultMap="JSTreeResultMap" parameterType="java.lang.Integer">
+    SELECT
+      sc.id AS id,
+      <!--
+      ('[' || sc.code || '] ' || sc.name_zh) AS name_zh,
+        -->
+       CONCAT('[' , sc.code , '] ' , sc.name_zh) AS name_zh,
+      (
+        SELECT
+          COUNT(id)
+        FROM
+          system_module
+        WHERE
+          parent_id=sc.id AND deleted=0
+      ) AS children_count
+    FROM
+      system_module sc
+    WHERE
+      sc.id = #{moduleId,jdbcType=INTEGER}
+      AND sc.deleted = 0
+    ORDER by sc.priority    
+  </select>
+  
+  <select databaseId="mysql" id="getChildModulesForJSTree" resultMap="JSTreeResultMap" parameterType="java.lang.Integer" >
+  	SELECT
+      sc.id AS id,
+      CONCAT('[' , sc.code , '] ' , sc.name_zh) AS name_zh,
+      (
+        SELECT
+          COUNT(id)
+        FROM
+          system_module
+        WHERE
+          parent_id=sc.id AND deleted=0
+      ) AS children_count
+    FROM
+      system_module sc
+    WHERE
+      sc.parent_id = #{moduleId,jdbcType=INTEGER}
+      AND sc.deleted = 0
+    ORDER by sc.priority  
+  </select>
+  
+  <select databaseId="mysql" id="getUserModuleByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    from system_module
+ 	where id in (select p.module_id
+                from system_role_permission p
+               where p.role_id in (select r.role_id
+                                     from system_user_role r
+                                     left join system_user u
+                                       on r.user_id = u.id
+                                    where u.id = #{userId,jdbcType=INTEGER}))
+    and type = '_A52'
+    and deleted = 0
+    order by parent_id asc,priority asc
+  </select>
+</mapper>

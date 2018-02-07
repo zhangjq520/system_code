@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.OrganizationReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Organization" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.CorporateDTO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="org_type" property="org_type" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="short_name" property="short_name" jdbcType="VARCHAR" />
+    <result column="full_name" property="full_name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parent_id" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+  <resultMap id="JSTreeResultMap" type="com.logic.common.ws.dto.system.OrganizationForJSTreeDTO">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="short_name" property="text" jdbcType="VARCHAR" />
+    <result column="children_count" property="children" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, org_type, code, short_name, full_name, status, parent_id, address_id, description, manager_id, created_dtm, created_by, last_modified_dtm, 
+    last_modified_by, deleted, version
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_organization
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_organization
+    where  code = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+
+  <select id="getOrgByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from system_organization
+    where code = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+  
+  
+  <select id="getOrgByFullName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from system_organization
+    where full_name = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+  
+  <select id="getCorporateStructuresByPhysicalId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ehs_physical_org t1 join system_organization t2 on t1.org_id = t2.id
+    where t1.physical_id = #{physicalId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectCorporates" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  	SELECT t.*
+  	FROM (SELECT t1.*
+	FROM system_organization t1
+	WHERE t1.deleted = 0) t
+ 	WHERE
+  </select>
+  
+  <select id="getRootCorporate" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_organization
+    where parent_id is null
+    and deleted = 0
+  </select>
+  
+  <select id="getCorporateChildren" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+  	from (select so.*
+          from system_organization so, system_code sc
+         where so.org_type = sc.code
+           and sc.parent_code = '_A8'
+           and so.parent_id =  #{corporateId,jdbcType=INTEGER}
+           and so.deleted = 0
+         order by sc.priority asc) oc
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.Organization">
+    select count(1) from system_organization where deleted = 0 and code = #{code, jdbcType=VARCHAR}
+    <if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+	
+  <select id="quickSearch" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    FROM system_organization
+ 	WHERE     deleted = 0
+ 	and code like concat('%',#{code,jdbcType=VARCHAR},'%')
+  </select>
+  
+  <select id="queryOrgByUser" parameterType="java.lang.Integer" resultType="com.logic.common.ws.dto.system.OrganizationDTO">
+  	select
+  	o.id, o.org_type, o.code, o.short_name, o.full_name
+  	from
+  	system_organization o,
+  	system_org_user ou,
+  	system_user u
+  	where
+  	u.id = ou.user_id
+  	and 
+  	o.id = ou.org_id
+  	and
+  	u.id = #{userId }
+  </select>
+
+
+  <!-- ehs_physical_org 
+  <select id="getPhysicalCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from ehs_physical_org where org_id = #{id}
+  </select>
+-->
+  <!-- ehs_employee_org 
+  <select id="getEmployeeCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from ehs_employee_org where org_id = #{id}
+  </select>
+-->
+  <!-- ehs_inspection_audit 
+  <select id="getInspectionCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from ehs_inspection_audit where corporate_structure = #{id} and deleted = 0
+  </select>
+-->
+  <!-- system_org_user -->
+  <select id="getOrgUserCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from system_org_user where org_id = #{id}
+  </select>
+
+  <!-- system_org_question -->
+  <select id="getOrgQuestionCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from system_org_question where org_id = #{id}
+  </select>
+
+  <!-- system_org_form -->
+  <select id="getOrgFormCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(1) from system_org_form where org_id = #{id}
+  </select>
+  
+  <select databaseId="mysql" id="getRootOrgForJSTree" resultMap="JSTreeResultMap" parameterType="java.lang.String">
+    SELECT
+      so.id AS id,
+      CONCAT('[' , so.code , '] ' , so.short_name) AS short_name,
+      (
+        SELECT
+          COUNT(id)
+        FROM
+          system_organization
+        WHERE
+          parent_id=so.id AND deleted=0
+      ) AS children_count
+    FROM
+		system_organization so
+    WHERE
+      id = #{corporateIds,jdbcType=VARCHAR}
+      AND deleted = 0
+  </select>
+  
+  <select databaseId="mysql" id="getChildOrgForJSTree" resultMap="JSTreeResultMap" parameterType="java.lang.Integer" >
+   SELECT
+      so.id AS id,
+      CONCAT('[' , so.code , '] ' , so.short_name) AS short_name,
+      (
+        SELECT
+          COUNT(id)
+        FROM
+          system_organization
+        WHERE
+          parent_id=so.id AND deleted=0
+      ) AS children_count
+    FROM
+		system_organization so
+    WHERE
+      parent_id = #{orgId,jdbcType=INTEGER}
+      AND deleted = 0
+  </select>
+  <select databaseId="mysql" id="getDivisionBySubcompanyCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   	select 
+    <include refid="Base_Column_List" />
+  	from system_organization
+ 	where org_type = '_A8F' AND deleted = 0
+ 	start with id = (select id from system_organization where code = #{code,jdbcType=VARCHAR}) connect by id = prior parent_id
+  </select>
+</mapper>

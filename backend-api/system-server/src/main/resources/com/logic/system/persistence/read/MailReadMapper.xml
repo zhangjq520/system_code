@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.MailReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Mail" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mail_from" property="mailFrom" jdbcType="VARCHAR" />
+    <result column="mail_to" property="mailTo" jdbcType="VARCHAR" />
+    <result column="mail_cc" property="mailCc" jdbcType="VARCHAR" />
+    <result column="mail_bcc" property="mailBcc" jdbcType="VARCHAR" />
+    <result column="mail_attachments" property="mailAttachments" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="sent_dtm" property="sentDtm" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.logic.system.domain.Mail" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mail_from, mail_to, mail_cc, mail_bcc, mail_attachments, subject, sent_dtm, status, 
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from system_mail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select databaseId="mysql" id="fetchSendErrorEmails" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from system_mail
+	WHERE status = -1 AND version &lt;=3 AND deleted = 0
+	ORDER BY id
+	 LIMIT #{counts,jdbcType=INTEGER}
+  </select>
+
+  <select databaseId="oracle" id="fetchSendErrorEmails" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from system_mail
+	WHERE status = -1 AND version &lt;=3 AND deleted = 0 
+	AND ROWNUM  &lt;= #{counts,jdbcType=INTEGER}
+	ORDER BY id
+  </select>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.TaskPeopleReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.TaskPeople" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="responsibility" property="responsibility" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="DECIMAL" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="TaskPeopleResultMap" type="com.logic.common.ws.dto.system.TaskPeopleDTO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_id" property="task_id" jdbcType="INTEGER" />
+    <result column="responsibility" property="responsibility" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, task_id, responsibility, user_id, version, created_dtm, created_by, last_modified_dtm,
+    last_modified_by, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_task_people
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAssignByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_task_people
+    where task_id = #{id,jdbcType=INTEGER}
+    AND responsibility = '_T21'
+  </select>
+
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_task_people
+    where task_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectDTOByTaskId" resultMap="TaskPeopleResultMap" parameterType="java.lang.Integer" >
+    SELECT t.*
+    FROM (
+        SELECT
+            t1.id AS id,
+            t1.task_id AS task_id,
+            t1.responsibility AS responsibility,
+            t1.user_id AS user_id,
+            t1.deleted AS deleted,
+            CASE
+                WHEN t3.last_name IS NOT NULL THEN (t3.last_name || ' ' || t3.first_name)
+                WHEN t3.last_name IS NULL THEN t2.login_id
+            END AS user_name
+        FROM system_task_people t1
+            LEFT OUTER JOIN system_user t2 ON t1.user_id = t2.id AND t2.deleted = 0
+            LEFT OUTER JOIN system_personal_info t3 ON t2.personal_info_id = t3.id AND t3.deleted = 0
+        WHERE
+          t1.task_id = #{id,jdbcType=INTEGER} AND
+          t1.deleted = 0
+    ) t
+  </select>
+
+  <select id="checkPersonExistForTask" resultType="int" parameterType="java.lang.String">
+    select
+      count(1)
+    from
+      system_task_people
+    where
+      task_id = #{param1, jdbcType=INTEGER} AND
+      user_id = #{param2, jdbcType=INTEGER} AND
+      responsibility = #{param3, jdbcType=VARCHAR} AND
+      deleted = 0
+  </select>
+
+    <select id="selectResponsibilityCountForTask" resultType="int" parameterType="java.lang.String">
+        select
+        count(1)
+        from
+        system_task_people
+        where
+        task_id = #{param1, jdbcType=INTEGER} AND
+        responsibility = #{param2, jdbcType=VARCHAR} AND
+        deleted = 0
+    </select>
+</mapper>

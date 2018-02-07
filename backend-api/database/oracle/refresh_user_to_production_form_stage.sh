@@ -1,0 +1,1 @@
+sqlplus MAPP001P/MAPPDB01P@orcl @user_related_from_stage.sql

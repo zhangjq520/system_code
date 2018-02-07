@@ -1,0 +1,1658 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.TaskReadMapper">
+    <resultMap id="BaseResultMap" type="com.logic.system.domain.Task">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="task_priority" property="taskPriority" jdbcType="VARCHAR"/>
+        <result column="task_type" property="taskType" jdbcType="VARCHAR"/>
+        <result column="task_ref_id" property="taskRefId" jdbcType="INTEGER"/>
+        <result column="task_assign_type" property="taskAssignType" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="resolution" property="resolution" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="INTEGER"/>
+        <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP"/>
+        <result column="created_by" property="createdBy" jdbcType="INTEGER"/>
+        <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP"/>
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER"/>
+        <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="MiddleCheckMap" type="com.logic.system.domain.PDRequestMiddleCheck">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR"/>
+        <result column="CHECK_PHASES" property="checkPhases" jdbcType="VARCHAR"/>
+        <result column="machine_seqid" property="machineSeqid" jdbcType="VARCHAR"/>
+        <result column="company_employee_id" property="companyEmployeeId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="DiagCheckMap" type="com.logic.system.domain.PDRequestDiag">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR"/>
+        <result column="machine_seqid" property="machineSeqid" jdbcType="VARCHAR"/>
+        <result column="W_106" property="w106" jdbcType="VARCHAR"/>
+        <result column="W_108" property="w108" jdbcType="VARCHAR"/>
+        <result column="W_255" property="w255" jdbcType="VARCHAR"/>
+        <result column="W_252" property="w252" jdbcType="VARCHAR"/>
+        <result column="W_A153" property="wA153" jdbcType="VARCHAR"/>
+        <result column="W_256" property="w256" jdbcType="VARCHAR"/>
+        <result column="W_257" property="w257" jdbcType="VARCHAR"/>
+        <result column="W_429" property="w429" jdbcType="VARCHAR"/>
+        <result column="W_271" property="w271" jdbcType="VARCHAR"/>
+        <result column="W_259" property="w259" jdbcType="VARCHAR"/>
+        <result column="W_258" property="w258" jdbcType="VARCHAR"/>
+        <result column="W_508" property="w508" jdbcType="VARCHAR"/>
+        <result column="W_531" property="w531" jdbcType="VARCHAR"/>
+        <result column="W_109" property="w109" jdbcType="VARCHAR"/>
+        <result column="W_272" property="w272" jdbcType="VARCHAR"/>
+        <result column="W610_s" property="w610s" jdbcType="VARCHAR"/>
+        <result column="W610_e" property="w610e" jdbcType="VARCHAR"/>
+        <result column="company_employee_id" property="companyEmployeeId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="OverallCheckCheckMap" type="com.logic.system.domain.PDRequestOverallCheck">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="APPLY_TYPE" property="applyType" jdbcType="VARCHAR"/>
+        <result column="machine_seqid" property="machineSeqid" jdbcType="VARCHAR"/>
+        <result column="company_employee_id" property="companyEmployeeId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="DetailResultMap" type="com.logic.common.ws.dto.system.TaskDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="task_priority" property="task_priority" jdbcType="VARCHAR"/>
+        <result column="task_assign_type" property="task_assign_type" jdbcType="VARCHAR"/>
+        <result column="task_type" property="task_type" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="resolution" property="resolution" jdbcType="VARCHAR"/>
+        <result column="project_no" property="project_no" jdbcType="VARCHAR"/>
+        <result column="project_name" property="project_name" jdbcType="VARCHAR"/>
+        <result column="emphasis_flag" property="emphasis_flag" jdbcType="VARCHAR"/>
+        <result column="project_manager" property="project_manager" jdbcType="VARCHAR"/>
+        <result column="apply_type" property="apply_type" jdbcType="VARCHAR"/>
+        <result column="apply_type_code" property="apply_type_code" jdbcType="VARCHAR"/>
+        <result column="machine_no" property="machine_no" jdbcType="VARCHAR"/>
+        <result column="machine_name" property="machine_name" jdbcType="VARCHAR"/>
+        <result column="machine_brief_spec" property="machine_brief_spec" jdbcType="VARCHAR"/>
+        <result column="site_address" property="site_address" jdbcType="VARCHAR"/>
+        <result column="install_vendor_name" property="install_vendor_name" jdbcType="VARCHAR"/>
+        <result column="machine_kind_id" property="machine_kind_id" jdbcType="INTEGER"/>
+        <result column="install_subcompany_name" property="install_subcompany_name" jdbcType="VARCHAR"/>
+        <result column="org_id" property="org_id" jdbcType="VARCHAR"/>
+        <result column="diag_vendor_id" property="diag_vendor_id" jdbcType="INTEGER"/>
+        <result column="diag_vendor_name" property="diag_vendor_name" jdbcType="VARCHAR"/>
+        <result column="install_subcompany_id" property="install_subcompany_id" jdbcType="VARCHAR"/>
+        <result column="install_director" property="install_director" jdbcType="VARCHAR"/>
+        <result column="half_install_director_phone" property="half_install_director_phone" jdbcType="VARCHAR"/>
+        <discriminator javaType="string" column="task_type">
+            <case value="_T11" resultType="com.logic.common.ws.dto.system.TaskDTO">
+                <association property="task_details" column="task_ref_id" select="selectMiddleCheckDetails"/>
+            </case>
+            <case value="_T12" resultType="com.logic.common.ws.dto.system.TaskDTO">
+                <association property="task_details" column="task_ref_id" select="selectDiagDetails"/>
+            </case>
+            <case value="_T13" resultType="com.logic.common.ws.dto.system.TaskDTO">
+                <association property="task_details" column="task_ref_id" select="selectOverallDetails"/>
+            </case>
+        </discriminator>
+    </resultMap>
+
+    <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.TaskDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="task_priority" property="task_priority" jdbcType="VARCHAR"/>
+        <result column="task_type" property="task_type" jdbcType="VARCHAR"/>
+        <result column="task_assign_type" property="task_assign_type" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="resolution" property="resolution" jdbcType="VARCHAR"/>
+        <result column="project_no" property="project_no" jdbcType="VARCHAR"/>
+        <result column="project_name" property="project_name" jdbcType="VARCHAR"/>
+        <result column="emphasis_flag" property="emphasis_flag" jdbcType="VARCHAR"/>
+        <result column="project_manager" property="project_manager" jdbcType="VARCHAR"/>
+        <result column="apply_type" property="apply_type" jdbcType="VARCHAR"/>
+        <result column="machine_no" property="machine_no" jdbcType="VARCHAR"/>
+        <result column="machine_name" property="machine_name" jdbcType="VARCHAR"/>
+        <result column="machine_brief_spec" property="machine_brief_spec" jdbcType="VARCHAR"/>
+        <result column="site_address" property="site_address" jdbcType="VARCHAR"/>
+        <result column="install_subcompany_name" property="install_subcompany_name" jdbcType="VARCHAR"/>
+        <result column="install_vendor_name" property="install_vendor_name" jdbcType="VARCHAR"/>
+        <result column="install_region_name" property="install_region_name" jdbcType="VARCHAR"/>
+        <result column="machine_kind_name" property="machine_kind_name" jdbcType="VARCHAR"/>
+        <result column="install_subcompany_id" property="install_subcompany_id" jdbcType="VARCHAR"/>
+        <result column="point" property="point" jdbcType="NUMERIC"/>
+        <result column="total_point" property="total_point" jdbcType="NUMERIC"/>
+        
+        <result column="r_mid_quality_person" property="r_mid_quality_person" jdbcType="VARCHAR"/>
+        <result column="r_mid_quality_person_id" property="r_mid_quality_person_id" jdbcType="VARCHAR"/>
+        <result column="r_mid_start_date" property="r_mid_start_date" jdbcType="DATE"/>
+        <result column="r_mid_acceptance_date" property="r_mid_acceptance_date" jdbcType="DATE"/>
+        <result column="r_mid_quality_score" property="r_mid_quality_score" jdbcType="VARCHAR"/>
+        <result column="r_mid_rectification_days" property="r_mid_rectification_days" jdbcType="VARCHAR"/>
+        <result column="r_mid_check_result" property="r_mid_check_result" jdbcType="VARCHAR"/>
+        <result column="r_mid_end_date" property="r_mid_end_date" jdbcType="DATE"/>
+        <result column="r_mid_recheck_score" property="r_mid_recheck_score" jdbcType="VARCHAR"/>
+        <result column="r_mid_recheck_date" property="r_mid_recheck_date" jdbcType="DATE"/>
+        <result column="r_mid_recheck_inspector" property="r_mid_recheck_inspector" jdbcType="VARCHAR"/>
+        <result column="r_mid_recheck_inspector_id" property="r_mid_recheck_inspector_id" jdbcType="VARCHAR"/>
+        <result column="r_mid_recheck_result" property="r_mid_recheck_result" jdbcType="VARCHAR"/>
+        <result column="r_quality_person" property="r_quality_person" jdbcType="VARCHAR"/>
+        <result column="r_quality_person_id" property="r_quality_person_id" jdbcType="VARCHAR"/>
+        <result column="r_check_date" property="r_check_date" jdbcType="DATE"/>
+        <result column="r_check_score" property="r_check_score" jdbcType="VARCHAR"/>
+        <result column="r_rectification_days" property="r_rectification_days" jdbcType="NUMERIC"/>
+        <result column="r_check_result" property="r_check_result" jdbcType="NUMERIC"/>
+        <result column="r_check_start_date_real" property="r_check_start_date_real" jdbcType="DATE"/>
+        <result column="r_check_end_date_real" property="r_check_end_date_real" jdbcType="DATE"/>
+        <result column="r_check_start_date_schedule" property="r_check_start_date_schedule" jdbcType="DATE"/>
+        <result column="r_check_end_date_schedule" property="r_check_end_date_schedule" jdbcType="DATE"/>
+        <result column="r_followed_the_plan_date" property="r_followed_the_plan_date" jdbcType="NUMERIC"/>
+        <result column="r_recheck_date" property="r_recheck_date" jdbcType="DATE"/>
+        <result column="r_recheck_result" property="r_recheck_result" jdbcType="NUMERIC"/>
+        <result column="r_recheck_inspector" property="r_recheck_inspector" jdbcType="VARCHAR"/>
+        <result column="r_recheck_inspector_id" property="r_recheck_inspector_id" jdbcType="VARCHAR"/>
+        <result column="r_snd_rectification_days" property="r_snd_rectification_days" jdbcType="NUMERIC"/>
+        <result column="r_trd_check_date" property="r_trd_check_date" jdbcType="DATE"/>
+        <result column="r_trd_check_result" property="r_trd_check_result" jdbcType="NUMERIC"/>
+        <result column="r_trd_check_inspector" property="r_trd_check_inspector" jdbcType="VARCHAR"/>
+        <result column="r_trd_check_inspector_id" property="r_trd_check_inspector_id" jdbcType="VARCHAR"/>
+        
+        <collection column="task_people_id" property="task_people"
+                    ofType="com.logic.common.ws.dto.system.TaskPeopleDTO"
+                    resultMap="TaskPeopleResultMap">
+        </collection>
+        <collection column="task_date_id" property="task_dates"
+                    ofType="com.logic.common.ws.dto.system.TaskPeopleDTO"
+                    resultMap="TaskDateResultMap">
+        </collection>
+    </resultMap>
+
+    <resultMap id="TaskPeopleResultMap" type="com.logic.common.ws.dto.system.TaskPeopleDTO">
+        <id column="task_people_id" property="id" jdbcType="INTEGER"/>
+        <result column="responsibility" property="responsibility" jdbcType="VARCHAR"/>
+        <result column="user_id" property="user_id" jdbcType="INTEGER"/>
+        <result column="user_name" property="user_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="TaskDateResultMap" type="com.logic.common.ws.dto.system.TaskDateDTO">
+        <id column="task_date_id" property="id" jdbcType="INTEGER"/>
+        <result column="date_type" property="date_type" jdbcType="VARCHAR"/>
+        <result column="date_value" property="date_value" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    </resultMap>
+
+    <resultMap id="InspectionResultsResultMap" type="com.logic.common.ws.dto.system.TaskResultSectionDTO">
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <collection column="response_id" property="results"
+                    ofType="com.logic.common.ws.dto.system.TaskResultDetailDTO"
+                    resultMap="InspectionResultDetailResultMap">
+        </collection>
+    </resultMap>
+
+    <resultMap id="InspectionResultDetailResultMap" type="com.logic.common.ws.dto.system.TaskResultDetailDTO">
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="subject" property="subject" jdbcType="VARCHAR"/>
+        <result column="result" property="result" jdbcType="VARCHAR"/>
+        <result column="score" property="score" jdbcType="INTEGER"/>
+        <result column="st_score" property="st_score" jdbcType="INTEGER"/>
+        <result column="comments" property="comments" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="RectificationResultsResultMap" type="com.logic.common.ws.dto.system.TaskResultRectificationDTO">
+        <result column="days" property="days" jdbcType="INTEGER"/>
+        <result column="comments" property="comments" jdbcType="VARCHAR"/>
+        <result column="endDate" property="endDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="signature_picture_ids" property="signature_picture_ids" jdbcType="VARCHAR"/>
+        <collection column="corrective_action_id" property="items"
+                    ofType="com.logic.common.ws.dto.system.TaskResultRectificationItemDTO"
+                    resultMap="RectificationResultItemResultMap">
+        </collection>
+    </resultMap>
+
+    <resultMap id="RectificationResultItemResultMap"
+               type="com.logic.common.ws.dto.system.TaskResultRectificationItemDTO">
+        <result column="corrective_action_id" property="id" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="section" property="section" jdbcType="VARCHAR"/>
+        <result column="part" property="part" jdbcType="VARCHAR"/>
+        <result column="error_cause" property="error_cause" jdbcType="VARCHAR"/>
+        <result column="corrective_action" property="corrective_action" jdbcType="VARCHAR"/>
+        <result column="resp_party" property="resp_party" jdbcType="VARCHAR"/>
+        <result column="detail_comments" property="detail_comments" jdbcType="VARCHAR"/>
+        <result column="attachment_ids" property="attachment_ids" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="TaskResultSummaryResultMap" type="com.logic.common.ws.dto.system.TaskResultSummaryDTO">
+        <result column="section_id" property="section_id" jdbcType="INTEGER"/>
+        <result column="section_name" property="section_name" jdbcType="VARCHAR"/>
+        <result column="total_element" property="total_element" jdbcType="INTEGER"/>
+        <result column="passed_element" property="passed_element" jdbcType="INTEGER"/>
+        <result column="not_passed_element" property="not_passed_element" jdbcType="INTEGER"/>
+        <result column="total_point" property="total_point" jdbcType="INTEGER"/>
+        <result column="passed_point" property="passed_point" jdbcType="INTEGER"/>
+        <result column="not_passed_point" property="not_passed_point" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <resultMap id="TaskFormInfoResultMap" type="com.logic.common.ws.dto.system.TaskFormInfoDTO">
+        <result column="task_id" property="taskID" jdbcType="INTEGER"/>
+        <result column="form_id" property="formID" jdbcType="INTEGER"/>
+        <result column="task_form_type" property="task_form_type" jdbcType="VARCHAR"/>
+        <result column="task_type" property="task_type" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="resolution" property="resolution" jdbcType="VARCHAR"/>
+        <result column="task_ref_id" property="task_ref_id" jdbcType="VARCHAR"/>
+        <result column="machine_seqID" property="machine_seqID" jdbcType="VARCHAR"/>
+        <result column="apply_type" property="apply_type" jdbcType="VARCHAR"/>
+        <result column="check_phases" property="check_phases" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+    id, subject, task_priority, task_type, task_ref_id, task_assign_type, status, resolution, version, created_dtm, created_by,
+    last_modified_dtm, last_modified_by, deleted
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from system_task
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectTaskByPrimaryKey" resultMap="DetailResultMap" parameterType="java.lang.String">
+        SELECT t.*
+        FROM (
+        SELECT t1.id AS id,
+        t1.task_ref_id AS task_ref_id,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        <if test="param2 == '_T12'">
+            t2.diag_vendor_id as diag_vendor_id,
+            t8.full_name as diag_vendor_name,
+        </if>
+        <if test="param2 == '_T11'">
+          t2.install_director as install_director,
+          t2.half_install_director_phone as half_install_director_phone,
+        </if>
+        <if test="param2 == '_T13'">
+            t2.install_director as install_director,
+        </if>
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        t5.code_desc_zh AS apply_type,
+        t2.apply_type AS apply_type_code,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.machine_kind_id AS machine_kind_id,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id AS install_subcompany_id,
+        t6.full_name AS install_vendor_name,
+        t7.id AS org_id
+        FROM system_task t1
+        LEFT JOIN
+        <choose>
+            <when test="param2 == '_T12'">
+                pd_request_diag
+            </when>
+            <when test="param2 == '_T11'">
+                pd_request_middle_check
+            </when>
+            <when test="param2 == '_T13'">
+                pd_request_overall_check
+            </when>
+        </choose>
+        t2
+        ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN system_code t5 ON t5.code = t2.apply_type
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        LEFT JOIN system_organization t6 ON t3.install_vendor_id = t6.code AND t6.deleted = 0
+        LEFT JOIN system_organization t7 on t4.install_subcompany_name = t7.full_name
+        <if test="param2 == '_T12'">
+        LEFT JOIN system_organization t8 on t2.diag_vendor_id = t8.code
+        </if>
+        WHERE t1.id = #{param1,jdbcType=INTEGER}
+        AND t1.deleted = 0
+        ) t
+    </select>
+
+    <!--  INSTALL_REGION_ID(PD_PROJECT_INFO,org) 检查结果 检查分数 install_vendor_name(machine_info, orgranization), machine_kind_id(machine_info,code)-->
+
+    <sql id="diag_check_task">
+       SELECT t1.id AS id,
+            t1.subject AS subject,
+            t1.task_type AS task_type,
+            t1.task_assign_type AS task_assign_type,
+            t1.task_priority AS task_priority,
+            t1.status AS status,
+            t1.resolution AS resolution,
+            t4.project_id AS project_no,
+            t4.project_name AS project_name,
+            t4.emphasis_flag AS emphasis_flag,
+            t2.project_manager AS project_manager,
+            (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+            t3.machine_no AS machine_no,
+            t3.machine_name AS machine_name,
+            t3.brief_spec AS machine_brief_spec,
+            t4.building_site_address AS site_address,
+            t4.install_subcompany_name AS install_subcompany_name,
+            t4.install_subcompany_id as install_subcompany_id,
+            t5.id AS task_people_id, t5.user_id, t5.responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+            t6.id AS task_date_id, t6.date_type, t6.date_value,
+            t9.FULL_NAME as install_vendor_name,
+            t10.FULL_NAME as install_region_name,
+            t11.CODE_DESC_ZH as machine_kind_name,
+            0 as point,
+            0 as total_point,
+            '' AS R_MID_QUALITY_PERSON,
+			'' AS R_MID_QUALITY_PERSON_ID,
+			TO_DATE('') AS R_MID_START_DATE,
+			TO_DATE('') AS R_MID_ACCEPTANCE_DATE,
+			TO_NUMBER('') AS R_MID_QUALITY_SCORE,
+			TO_NUMBER('') AS R_MID_RECTIFICATION_DAYS,
+			TO_NUMBER('') AS R_MID_CHECK_RESULT,
+			TO_DATE('') AS R_MID_END_DATE,
+			TO_NUMBER('') AS R_MID_RECHECK_SCORE,
+			TO_DATE('') AS R_MID_RECHECK_DATE,
+			'' AS R_MID_RECHECK_INSPECTOR,
+			'' AS R_MID_RECHECK_INSPECTOR_ID,
+			'' AS R_MID_RECHECK_RESULT,
+			'' AS R_QUALITY_PERSON,
+			'' AS R_QUALITY_PERSON_ID,
+			TO_DATE('') AS R_CHECK_DATE,
+			TO_NUMBER('') AS R_CHECK_SCORE,
+			TO_NUMBER('') AS R_RECTIFICATION_DAYS,
+			TO_NUMBER('') AS R_CHECK_RESULT,
+			TO_DATE('') AS R_CHECK_START_DATE_REAL,
+			TO_DATE('') AS R_CHECK_END_DATE_REAL,
+			TO_DATE('') AS R_CHECK_START_DATE_SCHEDULE,
+			TO_DATE('') AS R_CHECK_END_DATE_SCHEDULE,
+			TO_NUMBER('') AS R_FOLLOWED_THE_PLAN_DATE,
+			TO_DATE('') AS R_RECHECK_DATE,
+			'' AS R_RECHECK_RESULT,
+			'' AS R_RECHECK_INSPECTOR,
+			'' AS R_RECHECK_INSPECTOR_ID,
+			'' AS R_SND_RECTIFICATION_DAYS,
+			TO_DATE('') AS R_TRD_CHECK_DATE,
+			'' AS R_TRD_CHECK_RESULT,
+			'' AS R_TRD_CHECK_INSPECTOR,
+			'' AS R_TRD_CHECK_INSPECTOR_ID,
+      		t12.responsibility as responsibility_query,
+      		CASE WHEN t13.last_name IS NOT NULL THEN (t13.last_name || ' ' || t13.first_name) END AS username_query,
+            t15.date_type as date_type_query,
+      		t15.date_value as date_value_query
+        FROM system_task t1
+            LEFT JOIN pd_request_diag t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+
+            LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+            LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+            LEFT OUTER JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+            LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+            LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+            LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+            inner JOIN system_task_people t12 ON t1.id = t12.task_id AND t12.deleted = 0
+            inner JOIN system_user t14 ON t12.user_id = t14.id AND t14.deleted = 0
+            inner JOIN system_personal_info t13 ON t14.personal_info_id = t13.id AND t13.deleted = 0
+            inner JOIN system_task_date t15 ON t1.id = t15.task_id AND t15.deleted = 0
+            LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+            LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+            LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+            LEFT JOIN PD_REQUEST_DIAG reqd ON t1.task_ref_id = reqd.ID
+        WHERE t1.deleted = 0 AND t1.task_type = '_T12'
+    </sql>
+
+    <sql id="middle_check_task">
+      SELECT t1.id AS id,
+            t1.subject AS subject,
+            t1.task_type AS task_type,
+            t1.task_assign_type AS task_assign_type,
+            t1.task_priority AS task_priority,
+            t1.status AS status,
+            t1.resolution AS resolution,
+            t4.project_id AS project_no,
+            t4.project_name AS project_name,
+            t4.emphasis_flag AS emphasis_flag,
+            t2.project_manager AS project_manager,
+            (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+            t3.machine_no AS machine_no,
+            t3.machine_name AS machine_name,
+            t3.brief_spec AS machine_brief_spec,
+            t4.building_site_address AS site_address,
+            t4.install_subcompany_name AS install_subcompany_name,
+            t4.install_subcompany_id as install_subcompany_id,
+            t5.id AS task_people_id, t5.user_id, t5.responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+            t6.id AS task_date_id, t6.date_type, t6.date_value,
+            t9.FULL_NAME as install_vendor_name,
+            t10.FULL_NAME as install_region_name,
+            t11.CODE_DESC_ZH as machine_kind_name,
+           (select nvl(sum(nvl(it0.POINT,0)),0) from
+              SYSTEM_FORM_ELEMENT it0
+              INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+              INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+              Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+              where it3.FORM_TYPE='_T71' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as point,
+            (select sum(nvl(it1.POINT,0)) from
+              SYSTEM_FORM_ELEMENT it1
+              Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it1.FORM_ID
+              where it3.FORM_TYPE='_T71' and it3.TASK_ID = t1.id) as total_point,
+              TO_CHAR(reqm.R_MID_QUALITY_PERSON) AS R_MID_QUALITY_PERSON,
+			TO_CHAR(reqm.R_MID_QUALITY_PERSON_ID) AS R_MID_QUALITY_PERSON_ID,
+			TO_DATE(reqm.R_MID_START_DATE) AS R_MID_START_DATE,
+			TO_DATE(reqm.R_MID_ACCEPTANCE_DATE) AS R_MID_ACCEPTANCE_DATE,
+			TO_NUMBER(reqm.R_MID_QUALITY_SCORE) AS R_MID_QUALITY_SCORE,
+			TO_NUMBER(reqm.R_MID_RECTIFICATION_DAYS) AS R_MID_RECTIFICATION_DAYS,
+			TO_NUMBER(reqm.R_MID_CHECK_RESULT) AS R_MID_CHECK_RESULT,
+			TO_DATE(reqm.R_MID_END_DATE) AS R_MID_END_DATE,
+			TO_NUMBER(reqm.R_MID_RECHECK_SCORE) AS R_MID_RECHECK_SCORE,
+			TO_DATE(reqm.R_MID_RECHECK_DATE) AS R_MID_RECHECK_DATE,
+			TO_CHAR(reqm.R_MID_RECHECK_INSPECTOR) AS R_MID_RECHECK_INSPECTOR,
+			TO_CHAR(reqm.R_MID_RECHECK_INSPECTOR_ID) AS R_MID_RECHECK_INSPECTOR_ID,
+			TO_CHAR(reqm.R_MID_RECHECK_RESULT) AS R_MID_RECHECK_RESULT,
+			'' AS R_QUALITY_PERSON,
+			'' AS R_QUALITY_PERSON_ID,
+			TO_DATE('') AS R_CHECK_DATE,
+			TO_NUMBER('') AS R_CHECK_SCORE,
+			TO_NUMBER('') AS R_RECTIFICATION_DAYS,
+			TO_NUMBER('') AS R_CHECK_RESULT,
+			TO_DATE('') AS R_CHECK_START_DATE_REAL,
+			TO_DATE('') AS R_CHECK_END_DATE_REAL,
+			TO_DATE('') AS R_CHECK_START_DATE_SCHEDULE,
+			TO_DATE('') AS R_CHECK_END_DATE_SCHEDULE,
+			TO_NUMBER('') AS R_FOLLOWED_THE_PLAN_DATE,
+			TO_DATE('') AS R_RECHECK_DATE,
+			'' AS R_RECHECK_RESULT,
+			'' AS R_RECHECK_INSPECTOR,
+			'' AS R_RECHECK_INSPECTOR_ID,
+			'' AS R_SND_RECTIFICATION_DAYS,
+			TO_DATE('') AS R_TRD_CHECK_DATE,
+			'' AS R_TRD_CHECK_RESULT,
+			'' AS R_TRD_CHECK_INSPECTOR,
+			'' AS R_TRD_CHECK_INSPECTOR_ID,
+      		t12.responsibility as responsibility_query,
+      		CASE WHEN t13.last_name IS NOT NULL THEN (t13.last_name || ' ' || t13.first_name) END AS username_query,
+            t15.date_type as date_type_query,
+      		t15.date_value as date_value_query
+        FROM system_task t1
+            LEFT JOIN pd_request_middle_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+
+            LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+            LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+            LEFT OUTER JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+            LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+            LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+            LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+            inner JOIN system_task_people t12 ON t1.id = t12.task_id AND t12.deleted = 0
+            inner JOIN system_user t14 ON t12.user_id = t14.id AND t14.deleted = 0
+            inner JOIN system_personal_info t13 ON t14.personal_info_id = t13.id AND t13.deleted = 0
+            inner JOIN system_task_date t15 ON t1.id = t15.task_id AND t15.deleted = 0
+            LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+            LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+            LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+            LEFT JOIN PD_REQUEST_MIDDLE_CHECK reqm ON t1.task_ref_id = reqm.ID
+        WHERE t1.deleted = 0 AND t1.task_type = '_T11'
+    </sql>
+
+    <sql id="overall_check_task">
+         SELECT t1.id AS id,
+            t1.subject AS subject,
+            t1.task_type AS task_type,
+            t1.task_assign_type AS task_assign_type,
+            t1.task_priority AS task_priority,
+            t1.status AS status,
+            t1.resolution AS resolution,
+            t4.project_id AS project_no,
+            t4.project_name AS project_name,
+            t4.emphasis_flag AS emphasis_flag,
+            t2.project_manager AS project_manager,
+            (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+            t3.machine_no AS machine_no,
+            t3.machine_name AS machine_name,
+            t3.brief_spec AS machine_brief_spec,
+            t4.building_site_address AS site_address,
+            t4.install_subcompany_name AS install_subcompany_name,
+            t4.install_subcompany_id as install_subcompany_id,
+            t5.id AS task_people_id, t5.user_id, t5.responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+            t6.id AS task_date_id, t6.date_type, t6.date_value,
+            t9.FULL_NAME as install_vendor_name,
+            t10.FULL_NAME as install_region_name,
+            t11.CODE_DESC_ZH as machine_kind_name,
+            (select nvl(sum(nvl(it0.POINT,0)),0) from
+              SYSTEM_FORM_ELEMENT it0
+              INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+              INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+              Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+              where it3.FORM_TYPE='_T78' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as point,
+            (select sum(nvl(it1.POINT,0)) from
+              SYSTEM_FORM_ELEMENT it1
+              Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it1.FORM_ID
+              where it3.FORM_TYPE='_T78' and it3.TASK_ID = t1.id) as total_point,
+              '' AS R_MID_QUALITY_PERSON,
+			'' AS R_MID_QUALITY_PERSON_ID,
+			TO_DATE('') AS R_MID_START_DATE,
+			TO_DATE('') AS R_MID_ACCEPTANCE_DATE,
+			TO_NUMBER('') AS R_MID_QUALITY_SCORE,
+			TO_NUMBER('') AS R_MID_RECTIFICATION_DAYS,
+			TO_NUMBER('') AS R_MID_CHECK_RESULT,
+			TO_DATE('') AS R_MID_END_DATE,
+			TO_NUMBER('') AS R_MID_RECHECK_SCORE,
+			TO_DATE('') AS R_MID_RECHECK_DATE,
+			'' AS R_MID_RECHECK_INSPECTOR,
+			'' AS R_MID_RECHECK_INSPECTOR_ID,
+			'' AS R_MID_RECHECK_RESULT,
+			TO_CHAR(reqo.R_QUALITY_PERSON) AS R_QUALITY_PERSON,
+			TO_CHAR(reqo.R_QUALITY_PERSON_ID) AS R_QUALITY_PERSON_ID,
+			TO_DATE(reqo.R_CHECK_DATE) AS R_CHECK_DATE,
+			TO_NUMBER(reqo.R_CHECK_SCORE) AS R_CHECK_SCORE,
+			TO_NUMBER(reqo.R_RECTIFICATION_DAYS) AS R_RECTIFICATION_DAYS,
+			TO_NUMBER(reqo.R_CHECK_RESULT) AS R_CHECK_RESULT,
+			TO_DATE(reqo.R_CHECK_START_DATE_REAL) AS R_CHECK_START_DATE_REAL,
+			TO_DATE(reqo.R_CHECK_END_DATE_REAL) AS R_CHECK_END_DATE_REAL,
+			TO_DATE(reqo.R_CHECK_START_DATE_SCHEDULE) AS R_CHECK_START_DATE_SCHEDULE,
+			TO_DATE(reqo.R_CHECK_END_DATE_SCHEDULE) AS R_CHECK_END_DATE_SCHEDULE,
+			TO_NUMBER(reqo.R_FOLLOWED_THE_PLAN_DATE) AS R_FOLLOWED_THE_PLAN_DATE,
+			TO_DATE(reqo.R_RECHECK_DATE) AS R_RECHECK_DATE,
+			TO_CHAR(reqo.R_RECHECK_RESULT) AS R_RECHECK_RESULT,
+			TO_CHAR(reqo.R_RECHECK_INSPECTOR) AS R_RECHECK_INSPECTOR,
+			TO_CHAR(reqo.R_RECHECK_INSPECTOR_ID) AS R_RECHECK_INSPECTOR_ID,
+			TO_CHAR(reqo.R_SND_RECTIFICATION_DAYS) AS R_SND_RECTIFICATION_DAYS,
+			TO_DATE(reqo.R_TRD_CHECK_DATE) AS R_TRD_CHECK_DATE,
+			TO_CHAR(reqo.R_TRD_CHECK_RESULT) AS R_TRD_CHECK_RESULT,
+			TO_CHAR(reqo.R_TRD_CHECK_INSPECTOR) AS R_TRD_CHECK_INSPECTOR,
+			TO_CHAR(reqo.R_TRD_CHECK_INSPECTOR_ID) AS R_TRD_CHECK_INSPECTOR_ID,
+      		t12.responsibility as responsibility_query,
+      		CASE WHEN t13.last_name IS NOT NULL THEN (t13.last_name || ' ' || t13.first_name) END AS username_query,
+            t15.date_type as date_type_query,
+      		t15.date_value as date_value_query
+        FROM system_task t1
+            LEFT JOIN pd_request_overall_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+
+            LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+            LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+            LEFT OUTER JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+            LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+            LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+            LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+            inner JOIN system_task_people t12 ON t1.id = t12.task_id AND t12.deleted = 0
+            inner JOIN system_user t14 ON t12.user_id = t14.id AND t14.deleted = 0
+            inner JOIN system_personal_info t13 ON t14.personal_info_id = t13.id AND t13.deleted = 0
+            inner JOIN system_task_date t15 ON t1.id = t15.task_id AND t15.deleted = 0
+            LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+            LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+            LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+            LEFT JOIN PD_REQUEST_OVERALL_CHECK reqo ON t1.task_ref_id = reqo.ID
+        WHERE t1.deleted = 0 AND t1.task_type = '_T13'
+    </sql>
+
+    <select id="selectTasks" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+    SELECT distinct t.*
+    FROM (
+        <include refid="diag_check_task"/>
+
+        UNION ALL
+
+        <include refid="middle_check_task"/>
+
+        UNION ALL
+
+        <include refid="overall_check_task"/>
+    ) t
+    WHERE
+  </select>
+
+    <!-- 所有调试-->
+    <select id="selectDiagCheckTasks" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+          <include refid="diag_check_task"/>
+        ) t
+        WHERE
+    </select>
+
+    <!--所有中检-->
+    <select id="selectMiddleCheckTasks" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+        <include refid="middle_check_task"/>
+        ) t
+        WHERE
+    </select>
+
+    <!--所有整机-->
+    <select id="selectOverallCheckTasks" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+        <include refid="overall_check_task"/>
+        ) t
+        WHERE
+    </select>
+
+    <select id="selectWorkTasksById" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t1.last_modified_dtm AS last_modified_dtm,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        0 as point
+        FROM system_task t1
+        LEFT JOIN pd_request_diag t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+        LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        WHERE t1.deleted = 0 AND t1.task_type = '_T12' AND nvl(t1.STATUS,'') != '_TS4' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        UNION ALL
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t1.last_modified_dtm AS last_modified_dtm,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T71') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_middle_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+        LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        WHERE t1.deleted = 0 AND t1.task_type = '_T11' AND nvl(t1.STATUS,'') != '_TS4' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        UNION ALL
+
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t1.last_modified_dtm AS last_modified_dtm,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T78') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_overall_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+        LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        WHERE t1.deleted = 0 AND t1.task_type = '_T13' AND nvl(t1.STATUS,'') != '_TS4' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        ) t order by last_modified_dtm DESC
+    </select>
+
+
+    <sql id="diag_check_task_with_org">
+      SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        t7.ID as role_user_id,
+        0 as point
+        FROM system_task t1
+        LEFT JOIN pd_request_diag t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        LEFT JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+        LEFT JOIN system_user t14 on t5.USER_ID = t14.ID
+        LEFT JOIN system_personal_info t8 ON t14.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+        WHERE t1.deleted = 0 AND t1.task_type = '_T12'
+    </sql>
+
+    <sql id="middle_check_task_with_org">
+      SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        t7.ID as role_user_id,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T71') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_middle_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        LEFT JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+        LEFT JOIN system_user t14 on t5.USER_ID = t14.ID
+        LEFT JOIN system_personal_info t8 ON t14.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+        WHERE t1.deleted = 0 AND t1.task_type = '_T11'
+    </sql>
+
+    <sql id="overall_check_task_with_org">
+      SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        t7.ID as role_user_id,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T78') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_overall_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        LEFT JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+        LEFT JOIN system_user t14 on t5.USER_ID = t14.ID
+        LEFT JOIN system_personal_info t8 ON t14.personal_info_id = t8.id AND t8.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+      WHERE t1.deleted = 0 AND t1.task_type = '_T13'
+    </sql>
+
+    <select id="selectManagerTasksWithDM" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+          <include refid="diag_check_task_with_org"/>
+
+          UNION ALL
+
+          <include refid="middle_check_task_with_org"/>
+         ) t
+         where
+    </select>
+
+    <select id="selectManagerTasks" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+        <include refid="diag_check_task_with_org"/>
+
+        UNION ALL
+
+        <include refid="middle_check_task_with_org"/>
+
+        UNION ALL
+
+        <include refid="overall_check_task_with_org"/>
+        ) t
+        where
+    </select>
+
+    <select id="selectManagerTasksById" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+        SELECT t.*
+        FROM (
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        0 as point
+        FROM system_task t1
+        LEFT JOIN pd_request_diag t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' And USER_ID is NULL  AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+        LEFT JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        WHERE t1.deleted = 0 AND t1.task_type = '_T12' AND t1.STATUS = '_TS1' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        UNION ALL
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T71') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_middle_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' And USER_ID is NULL  AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+        LEFT JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        WHERE t1.deleted = 0 AND t1.task_type = '_T11' AND t1.STATUS = '_TS1' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        UNION ALL
+        SELECT t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t4.project_id AS project_no,
+        t4.project_name AS project_name,
+        t4.emphasis_flag AS emphasis_flag,
+        t2.project_manager AS project_manager,
+        (select code_desc_zh from system_code where code = t2.apply_type) as apply_type,
+        t3.machine_no AS machine_no,
+        t3.machine_name AS machine_name,
+        t3.brief_spec AS machine_brief_spec,
+        t4.building_site_address AS site_address,
+        t4.install_subcompany_name AS install_subcompany_name,
+        t4.install_subcompany_id as install_subcompany_id,
+        t5.id AS task_people_id, t5.user_id as user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value,
+        t9.FULL_NAME as install_vendor_name,
+        t10.FULL_NAME as install_region_name,
+        t11.CODE_DESC_ZH as machine_kind_name,
+        (select nvl(sum(nvl(it1.POINT,0)), 0) from
+        SYSTEM_FORM_RESPONSE_DETAIL it1
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.TASK_ID=t1.id and it3.FORM_TYPE='_T78') as point
+        FROM system_task t1
+        LEFT JOIN pd_request_overall_check t2 ON t1.task_ref_id = t2.id AND t2.deleted = 0
+        LEFT JOIN pd_machine_info t3 ON t2.machine_seqid = t3.seqid AND t3.deleted = 0
+        LEFT JOIN pd_project_info t4 ON t3.project_id = t4.project_id AND t4.deleted = 0
+        INNER JOIN  system_task_people t5 ON t1.id = t5.task_id AND t5.RESPONSIBILITY ='_T21' And USER_ID is NULL  AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT JOIN system_organization t9 ON t3.install_vendor_id = t9.code AND t3.deleted = 0
+        LEFT JOIN system_organization t10 ON t10.id = t4.INSTALL_REGION_ID AND t3.deleted = 0
+        LEFT JOIN SYSTEM_CODE t11 on t11.code = ('_BG-' || t3.MACHINE_KIND_ID)
+        INNER JOIN SYSTEM_ORGANIZATION t12 on t12.code = t4.INSTALL_SUBCOMPANY_ID
+        INNER JOIN SYSTEM_ORG_USER t13 on t13.ORG_ID = t12.ID
+        INNER JOIN system_user t7 on t7.id = t13.USER_ID and t7.deleted = 0
+        LEFT JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        WHERE t1.deleted = 0 AND t1.task_type = '_T13' AND t1.STATUS = '_TS1' AND t7.id = #{userId, jdbcType=INTEGER}
+
+        ) t
+    </select>
+
+    <select id="selectMiddleCheckDetails" resultType="com.logic.common.ws.dto.toshiba.PDRequestMiddleCheckDTO">
+        SELECT
+            t1.id AS id,
+            t1.machine_seqid AS machine_seqid,
+            t1.project_manager AS project_manager,
+            t1.install_director AS install_director,
+            t1.half_install_director_phone AS half_install_director_phone,
+            t1.apply_type AS apply_type_code,
+            t2.code_desc_zh AS apply_type,
+            (
+              select LISTAGG(code_desc_zh, ', ') WITHIN GROUP (ORDER BY code_desc_zh) from system_code where code in
+              (
+                select regexp_substr((
+                  select check_phases from pd_request_middle_check where id=#{param1,jdbcType=INTEGER}
+                ),'[^,]+', 1, level) from dual connect by regexp_substr(
+                (
+                  select check_phases from pd_request_middle_check where id=#{param1,jdbcType=INTEGER}
+                ), '[^,]+', 1, level) is not null
+              )
+            ) AS check_phases,
+            t1.apply_date AS apply_date,
+            t1.install_start_real_date AS install_start_real_date,
+            t1.schedule_date AS schedule_date,
+            t1.install_logs AS install_logs,
+            t1.notes AS notes,
+            t1.r_mid_quality_person AS r_mid_quality_person,
+            t1.r_mid_quality_score AS r_mid_quality_score,
+            t1.r_mid_end_date AS r_mid_end_date,
+            t1.r_mid_acceptance_date AS r_mid_acceptance_date,
+            t1.r_mid_check_result AS r_mid_check_result,
+            t1.r_mid_rectification_days AS r_mid_rectification_days,
+            t1.r_mid_recheck_inspector AS r_mid_recheck_inspector,
+            t1.r_mid_recheck_date AS r_mid_recheck_date,
+            t1.r_mid_recheck_score AS r_mid_recheck_score,
+            t1.r_mid_recheck_result AS r_mid_recheck_result
+        FROM
+            pd_request_middle_check t1
+            LEFT JOIN system_code t2 ON t2.code = t1.apply_type
+        WHERE t1.id = #{param1,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectDiagDetails" resultType="com.logic.common.ws.dto.toshiba.PDRequestDiagDTO">
+        SELECT
+            t1.id AS id,
+            t1.machine_seqid AS machine_seqid,
+            t1.project_manager AS project_manager,
+            t1.diag_side AS diag_side,
+            t1.diag_vendor_id AS diag_vendor_id,
+            t1.w_106 AS w_106,
+            t1.w_108 AS w_108,
+            t1.w_255 AS w_255,
+            t1.w_252 AS w_252,
+            t1.w_A153 AS w_A153,
+            t1.w_256 AS w_256,
+            t1.w_257 AS w_257,
+            t1.w_429 AS w_429,
+            t1.w_271 AS w_271,
+            t1.w_259 AS w_259,
+            t1.w_258 AS w_258,
+            t1.w_508 AS w_508,
+            t1.w_531 AS w_531,
+            t1.apply_date as apply_date,
+            t1.apply_type AS apply_type_code,
+            t2.code_desc_zh AS apply_type,
+            t1.r_diag_act_start_date AS r_diag_act_start_date,
+            t1.r_diag_act_end_date AS r_diag_act_end_date,
+            t1.write_back_status AS write_back_status
+        FROM
+            pd_request_diag t1
+            LEFT JOIN system_code t2 ON t2.code = t1.apply_type
+        WHERE id = #{param1,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOverallDetails" resultType="com.logic.common.ws.dto.toshiba.PDRequestOverallCheckDTO">
+        SELECT
+            t1.id AS id,
+            t1.machine_seqid AS machine_seqid,
+            t1.project_manager AS project_manager,
+            t1.install_director AS install_director,
+            t1.install_director_phone AS install_director_phone,
+            t1.apply_type AS apply_type_code,
+            t2.code_desc_zh AS apply_type,
+            t1.overall_apply_date AS overall_apply_date,
+            t1.overall_check_date AS overall_check_date,
+            t1.diag_end_date AS diag_end_date,
+            t1.install_logs AS install_logs,
+            t1.notes AS notes,
+            t1.diag_report AS diag_report,
+            t1.r_check_date AS r_check_date,
+            t1.r_check_score as r_check_score,
+            t1.r_check_start_date_real AS r_check_start_date_real,
+            t1.r_check_end_date_real AS r_check_end_date_real,
+            t1.r_check_start_date_schedule AS r_check_start_date_schedule,
+            t1.r_check_end_date_schedule AS r_check_end_date_schedule,
+            t1.r_quality_person_id AS r_quality_person_id,
+            t1.r_quality_person AS r_quality_person,
+            t1.r_check_result AS r_check_result,
+            t1.r_acceptance_date AS r_acceptance_date,
+            t1.r_recheck_inspector_id AS r_recheck_inspector_id,
+            t1.r_recheck_date AS r_recheck_date,
+            t1.r_recheck_result AS r_recheck_result,
+            t1.r_snd_rectification_days AS r_snd_rectification_days,
+            t1.snd_rectification_end_date AS snd_rectification_end_date,
+            t1.r_trd_check_inspector_id AS r_trd_check_inspector_id,
+            t1.r_trd_check_inspector AS r_trd_check_inspector,
+            t1.r_trd_check_date AS r_trd_check_date,
+            t1.r_trd_check_result AS r_trd_check_result
+        FROM
+            pd_request_overall_check t1
+            LEFT JOIN system_code t2 ON t2.code = t1.apply_type
+        WHERE id = #{param1,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllProjectNos" resultType="java.lang.String">
+        SELECT
+            DISTINCT project_id AS project_no
+        FROM
+            pd_project_info
+    </select>
+
+    <select id="selectAllProjectNames" resultType="java.lang.String">
+        SELECT
+        DISTINCT project_name AS project_name
+        FROM
+        pd_project_info
+    </select>
+
+    <select id="selectAllMachineNos" resultType="java.lang.String">
+        SELECT
+        DISTINCT machine_no AS machine_no
+        FROM
+        pd_machine_info
+    </select>
+
+    <select id="getRelatedFirstRoundTasksBySecondRoundTaskId" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+       select
+          st.id AS id,
+          st.subject AS subject,
+          st.task_type AS task_type,
+          st.task_assign_type AS task_assign_type,
+          st.task_priority AS task_priority,
+          st.status AS status,
+          st.resolution AS resolution
+       from system_task st, pd_request_middle_check prmc
+       where st.TASK_REF_ID=prmc.id
+       and st.task_type='_T11'
+       and prmc.apply_type='Z31-110'
+       and prmc.MACHINE_SEQID =
+      (select prmc1.MACHINE_SEQID from system_task st1, pd_request_middle_check prmc1 where st1.TASK_REF_ID=prmc1.id and prmc1.apply_type='Z32-210'
+      and st1.id=#{id,jdbcType=INTEGER})
+   </select>
+
+    <select id="selectRealtedTask" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        st.id AS id,
+        st.subject AS subject,
+        st.task_type AS task_type,
+        st.task_assign_type AS task_assign_type,
+        st.task_priority AS task_priority,
+        st.status AS status,
+        st.resolution AS resolution,
+        st.created_dtm as created_dtm,
+        st.task_ref_id as task_ref_id
+        from system_task st,
+        <choose>
+            <when test="taskType == '_T11'">
+                pd_request_middle_check prmc
+            </when>
+            <when test="taskType == '_T12'">
+                pd_request_diag prmc
+            </when>
+            <when test="taskType == '_T13'">
+                pd_request_overall_check prmc
+            </when>
+        </choose>
+        where st.TASK_REF_ID=prmc.id
+        and st.task_type= #{taskType,jdbcType=VARCHAR}
+        <if test="applyType != null">
+            and prmc.apply_type= #{applyType,jdbcType=VARCHAR}
+        </if>
+        and prmc.machine_seqid = #{machineSeqId,jdbcType=VARCHAR}
+        ORDER by st.id asc
+    </select>
+
+    <select id="getPDRequestMiddleCheckByTaskId" resultMap="MiddleCheckMap" parameterType="java.lang.Integer">
+      select
+        prmc.id as id,
+        prmc.apply_type as apply_type,
+        prmc.check_phases as check_phases,
+        prmc.machine_seqid as machine_seqid,
+        prmc.company_employee_id as company_employee_id
+        from system_task st, pd_request_middle_check prmc
+        where st.task_ref_id=prmc.id and st.id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getPDRequestDiagByTaskId" resultMap="DiagCheckMap" parameterType="java.lang.Integer">
+        select
+        prmc.id as id,
+        prmc.apply_type as apply_type,
+        prmc.machine_seqid as machine_seqid,
+        prmc.w_106 AS W_106,
+        prmc.w_108 AS W_108,
+        prmc.w_255 AS W_255,
+        prmc.w_252 AS W_252,
+        prmc.w_A153 AS W_A153,
+        prmc.w_256 AS W_256,
+        prmc.w_257 AS W_257,
+        prmc.w_429 AS W_429,
+        prmc.w_271 AS W_271,
+        prmc.w_259 AS W_259,
+        prmc.w_258 AS W_258,
+        prmc.w_508 AS W_508,
+        prmc.w_531 AS W_531,
+        prmc.w_109 as W_109,
+        prmc.w_272 as W_272,
+        prmc.w610_s as W610_s,
+        prmc.w610_e as W610_e,
+        prmc.company_employee_id as company_employee_id
+        from system_task st,pd_request_diag prmc
+        where st.task_ref_id=prmc.id and st.id=#{id,jdbcType=INTEGER}
+   </select>
+
+    <select id="getPDRequestOverallCheckByTaskId" resultMap="OverallCheckCheckMap" parameterType="java.lang.Integer">
+        select
+        prmc.id as id,
+        prmc.apply_type as apply_type,
+        prmc.machine_seqid as machine_seqid,
+        prmc.company_employee_id as company_employee_id
+        from system_task st, pd_request_overall_check prmc
+        where st.task_ref_id=prmc.id and st.id=#{id,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectAllAssignees" resultType="java.lang.String">
+        select
+          DISTINCT CASE
+              WHEN t4.last_name IS NOT NULL THEN (t4.last_name || ' ' || t4.first_name)
+              WHEN t4.last_name IS NULL THEN t3.login_id
+          END AS user_name
+        FROM system_task t1
+          LEFT JOIN system_task_people t2 ON t2.task_id = t1.id AND t2.deleted = 0 AND t2.responsibility = '_T21'
+          LEFT JOIN system_user t3 ON t2.user_id = t3.id AND t3.deleted = 0
+          LEFT JOIN system_personal_info t4 ON t3.personal_info_id = t4.id AND t4.deleted = 0
+        WHERE t1.deleted = 0 AND t3.login_id is not null
+    </select>
+
+
+    <select id="selectInspectionResults" resultMap="InspectionResultsResultMap" parameterType="java.lang.Integer">
+        select
+          DISTINCT
+          t5.id AS section_id,
+          t5.name AS name,
+          t3.id AS response_id,
+          t4.seq AS seq,
+          t3.point AS score,
+          t4.point AS st_score,
+          t3.response AS result,
+          cad.comments AS comments,
+          t4.subject AS subject,
+          t4.code as code
+        from SYSTEM_TASK t1
+        LEFT JOIN SYSTEM_FORM_RESPONSE_MASTER t2 ON t1.id = t2.task_id
+        LEFT JOIN SYSTEM_FORM_RESPONSE_DETAIL t3 ON t2.id = t3.form_response_master_id
+        LEFT JOIN SYSTEM_FORM_ELEMENT t4 ON t3.form_element_id = t4.id
+        LEFT JOIN SYSTEM_FORM_SECTION t5 ON t4.section_id = t5.id
+        LEFT JOIN pd_corrective_action_detail cad ON t3.id = cad.form_response_detail_id
+
+        WHERE
+        t1.id = #{taskId,jdbcType=INTEGER}
+        AND t4.form_id = #{formId,jdbcType=INTEGER}
+        ORDER BY t4.seq ASC
+    </select>
+
+    <select id="selectRectificationResults" resultMap="RectificationResultsResultMap" parameterType="java.lang.Integer">
+        SELECT
+          DISTINCT
+          cam.days_for_correct AS days,
+          cam.comments AS comments,
+          cam.date_for_corrected AS endDate,
+          cad.id AS corrective_action_id,
+          fe.code AS code,
+          fs.code AS fs_code,
+          fs.name AS section,
+          (case when regexp_like(cad.other_1,'^Z21','i')
+            then
+          (select sc.CODE_DESC_EN from system_code sc where sc.code = cad.other_1)
+            else cad.other_1 end) AS part,
+          (case when regexp_like(cad.error_cause,'^Z22','i')
+          then
+          (select sc.CODE_DESC_EN from system_code sc where sc.code = cad.error_cause)
+          else cad.error_cause end) AS error_cause,
+          (case when regexp_like(cad.corrective_action,'^Z23','i')
+          then
+          (select sc.CODE_DESC_EN from system_code sc where sc.code = cad.corrective_action)
+          else cad.corrective_action end) AS corrective_action,
+          cad.resp_party AS resp_party,
+          cad.comments AS detail_comments,
+          frd.attachments AS attachment_ids,
+          cam.attachments AS signature_picture_ids
+        FROM system_task tsk
+        LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+        LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+        LEFT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+        LEFT JOIN system_form_element fe ON frd.form_element_id = fe.id
+        LEFT JOIN system_form_section fs ON fe.section_id = fs.id
+      WHERE
+        tsk.id = #{taskId,jdbcType=INTEGER}
+      AND
+        fe.form_id = #{formId,jdbcType=INTEGER}
+      AND frd.response = 0
+      ORDER BY fs.code, fe.code ASC
+    </select>
+
+
+    <select id="selectTaskResultsSummary" resultMap="TaskResultSummaryResultMap" parameterType="java.lang.Integer">
+        SELECT
+          distinct
+          fs.id AS section_id,
+          fs.name as section_name,
+          (SELECT
+            COALESCE(count(fe.id), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND fe.section_id = fs.id
+              And fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as total_element,
+          (SELECT
+            COALESCE(count(fe.id), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND frd.response = '1' AND fe.section_id = fs.id
+              AND fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as passed_element,
+          (SELECT
+            COALESCE(count(fe.id), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND (frd.response is null OR frd.response = '0') AND fe.section_id = fs.id
+              AND fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as not_passed_element,
+
+          (SELECT
+            COALESCE(sum(fe.point), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND fe.section_id = fs.id
+              AND fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as total_point,
+
+          (SELECT
+            COALESCE(sum(fe.point), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND frd.response = '1' AND fe.section_id = fs.id
+               AND fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as passed_point,
+
+          (SELECT
+            COALESCE(sum(fe.point), 0)
+            FROM system_task tsk
+              LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+              LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+              RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+              RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+            WHERE
+              tsk.id = #{taskId,jdbcType=INTEGER} AND (frd.response is null OR frd.response = '0') AND fe.section_id = fs.id
+              AND fe.form_id = #{formId,jdbcType=INTEGER}
+          ) as not_passed_point
+
+        FROM system_task tsk
+          LEFT JOIN pd_corrective_action_master cam ON tsk.id = cam.task_id
+          LEFT JOIN pd_corrective_action_detail cad ON cam.id = cad.master_id
+          RIGHT JOIN system_form_response_detail frd ON cad.form_response_detail_id = frd.id
+          RIGHT JOIN system_form_element fe ON frd.form_element_id = fe.id
+          RIGHT JOIN system_form_section fs ON fe.section_id = fs.id
+        WHERE
+          tsk.id = #{taskId,jdbcType=INTEGER}  AND fe.form_id = #{formId,jdbcType=INTEGER} ORDER BY fs.id asc
+
+    </select>
+
+    <select id="selectTasksByUserId" resultMap="QueryResultMap" parameterType="java.lang.Integer">
+        SELECT
+        t1.id AS id,
+        t1.subject AS subject,
+        t1.task_type AS task_type,
+        t1.task_assign_type AS task_assign_type,
+        t1.task_priority AS task_priority,
+        t1.status AS status,
+        t1.resolution AS resolution,
+        t5.id AS task_people_id, user_id, responsibility, CASE WHEN t8.last_name IS NOT NULL THEN (t8.last_name || ' ' || t8.first_name) END AS user_name,
+        t6.id AS task_date_id, date_type, date_value
+        FROM system_task t1
+        LEFT OUTER JOIN system_task_people t5 ON t1.id = t5.task_id AND t5.deleted = 0
+        LEFT OUTER JOIN system_task_date t6 ON t1.id = t6.task_id AND t6.deleted = 0
+        LEFT OUTER JOIN system_user t7 ON t5.user_id = t7.id AND t7.deleted = 0
+        LEFT OUTER JOIN system_personal_info t8 ON t7.personal_info_id = t8.id AND t8.deleted = 0
+        WHERE t1.deleted = 0 and t5.user_id= #{userId,jdbcType=INTEGER}
+    </select>
+
+    <!-- 任务状态仍然是“分公司审核完成(_TS8)”、“总部派工完成(_TSA)”、“大区审核完成(_TSC)”、“总部审核完成(_TSE)”，并且“任务接受时间(_T36)”为空 -->
+    <select id="selectNeedFallbackTask" resultMap="BaseResultMap">
+      select
+        t1.*
+      from SYSTEM_TASK t1
+      INNER JOIN  SYSTEM_TASK_DATE t2 on t1.id = t2.TASK_ID
+      where t1.STATUS in ('_TS8', '_TSA', '_TSC', '_TSE') and t2.DATE_TYPE='_T36' and t2.DATE_VALUE is NULL
+    </select>
+
+    <select id="getCurrentTime" resultType="java.util.Date">
+        select now() from dual
+    </select>
+
+    <select id="getVendorIdByProjectId" resultType="java.lang.String" parameterType="java.lang.String">
+      select INSTALL_VENDOR_ID from PD_PROJECT_INFO where PROJECT_ID = #{projectId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectInfoForUpdateMiddleCheckRequest" resultType="com.logic.common.ws.dto.toshiba.PDRequestMiddleCheckDTO" parameterType="com.logic.system.domain.Task">
+    select
+      t1.id as id,
+      t6.LOGIN_ID as r_mid_quality_person_id,
+      CASE WHEN t7.last_name IS NOT NULL THEN (t7.last_name || ' ' || t7.first_name) END AS r_mid_quality_person,
+      (select nvl(sum(nvl(it0.POINT,0)),0) from
+        SYSTEM_FORM_ELEMENT it0
+        INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+      where it3.FORM_TYPE='_T71' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as r_mid_quality_score,
+      (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T33') as r_mid_start_date,
+      (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_mid_end_date,
+      (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_mid_acceptance_date,
+      t5.DAYS_FOR_CORRECT as r_mid_rectification_days
+  from SYSTEM_TASK t1
+  LEFT JOIN SYSTEM_TASK_PEOPLE t2 on t1.id = t2.TASK_ID AND t2.RESPONSIBILITY='_T2H' and t2.DELETED = 0
+  LEFT JOIN SYSTEM_USER t6 on t6.id = t2.USER_ID and t6.DELETED = 0
+  LEFT JOIN SYSTEM_PERSONAL_INFO t7 on t7.id = t6.PERSONAL_INFO_ID and t7.DELETED = 0
+  LEFT JOIN PD_REQUEST_MIDDLE_CHECK t3 on t3.id = t1.TASK_REF_ID and t3.DELETED = 0
+  LEFT JOIN SYSTEM_TASK_FORM t4 on t4.TASK_ID = t1.id and t4.FORM_TYPE='_T71' and t4.DELETED = 0
+  LEFT JOIN PD_CORRECTIVE_ACTION_MASTER t5 on t5.TASK_ID=t1.ID AND t5.FORM_ID= t4.FORM_ID and t5.DELETED = 0
+  where t1.id=#{id, jdbcType=INTEGER} and t1.STATUS in('_TS3','_TS4') AND t1.RESOLUTION='_T61'
+  </select>
+
+    <select id="selectInfoForUpdateMiddleCheckRequestBySeqId" resultType="com.logic.common.ws.dto.toshiba.PDRequestMiddleCheckDTO" parameterType="com.logic.system.domain.Task">
+        select
+        t1.id as id,
+        t6.LOGIN_ID as r_mid_quality_person_id,
+        CASE WHEN t7.last_name IS NOT NULL THEN (t7.last_name || ' ' || t7.first_name) END AS r_mid_quality_person,
+        (select nvl(sum(nvl(it0.POINT,0)),0) from
+        SYSTEM_FORM_ELEMENT it0
+        INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.FORM_TYPE='_T71' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as r_mid_quality_score,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T33') as r_mid_start_date,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_mid_end_date,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_mid_acceptance_date,
+        t5.DAYS_FOR_CORRECT as r_mid_rectification_days,
+        t3.APPLY_TYPE as apply_type
+        from SYSTEM_TASK t1
+        LEFT JOIN SYSTEM_TASK_PEOPLE t2 on t1.id = t2.TASK_ID AND t2.RESPONSIBILITY='_T2H' and t2.DELETED = 0
+        LEFT JOIN SYSTEM_USER t6 on t6.id = t2.USER_ID and t6.DELETED = 0
+        LEFT JOIN SYSTEM_PERSONAL_INFO t7 on t7.id = t6.PERSONAL_INFO_ID and t7.DELETED = 0
+        LEFT JOIN PD_REQUEST_MIDDLE_CHECK t3 on t3.id = t1.TASK_REF_ID and t3.DELETED = 0
+        LEFT JOIN SYSTEM_TASK_FORM t4 on t4.TASK_ID = t1.id and t4.FORM_TYPE='_T71' and t4.DELETED = 0
+        LEFT JOIN PD_CORRECTIVE_ACTION_MASTER t5 on t5.TASK_ID=t1.ID AND t5.FORM_ID= t4.FORM_ID and t5.DELETED = 0
+        where t3.MACHINE_SEQID=#{machineSeqId, jdbcType=INTEGER} and t1.STATUS in('_TS3','_TS4') AND t1.RESOLUTION='_T61'
+    </select>
+
+
+    <select id="selectInfoForUpdateOverallCheckRequest" resultType="com.logic.common.ws.dto.toshiba.PDRequestOverallCheckDTO" parameterType="com.logic.system.domain.Task">
+        select
+        t1.id as id,
+        t6.LOGIN_ID as r_quality_person_id,
+        CASE WHEN t7.last_name IS NOT NULL THEN (t7.last_name || ' ' || t7.first_name) END AS r_quality_person,
+        (select nvl(sum(nvl(it0.POINT,0)),0) from
+        SYSTEM_FORM_ELEMENT it0
+        INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.FORM_TYPE='_T78' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as r_check_score,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T31') as r_check_start_date_schedule,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T32') as r_check_end_date_schedule,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T33') as r_check_start_date_real,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_check_end_date_real,
+        t5.DAYS_FOR_CORRECT as r_rectification_days
+
+        from SYSTEM_TASK t1
+        LEFT JOIN SYSTEM_TASK_PEOPLE t2 on t1.id = t2.TASK_ID AND t2.RESPONSIBILITY='_T2I' and t2.DELETED = 0
+        LEFT JOIN SYSTEM_USER t6 on t6.id = t2.USER_ID and t6.DELETED = 0
+        LEFT JOIN SYSTEM_PERSONAL_INFO t7 on t7.id = t6.PERSONAL_INFO_ID and t7.DELETED = 0
+        LEFT JOIN PD_REQUEST_OVERALL_CHECK t3 on t3.id = t1.TASK_REF_ID and t3.DELETED = 0
+        LEFT JOIN SYSTEM_TASK_FORM t4 on t4.TASK_ID = t1.id and t4.FORM_TYPE='_T78' and t4.DELETED = 0
+        LEFT JOIN PD_CORRECTIVE_ACTION_MASTER t5 on t5.TASK_ID=t1.ID AND t5.FORM_ID= t4.FORM_ID and t5.DELETED = 0
+        where t1.id=#{id, jdbcType=INTEGER} and t1.STATUS in('_TS3','_TS4') AND t1.RESOLUTION='_T61'
+    </select>
+
+    <select id="selectInfoForUpdateOverallCheckRequestBySeqId" resultType="com.logic.common.ws.dto.toshiba.PDRequestOverallCheckDTO" parameterType="com.logic.system.domain.Task">
+        select
+        t1.id as id,
+        t6.LOGIN_ID as r_quality_person_id,
+        CASE WHEN t7.last_name IS NOT NULL THEN (t7.last_name || ' ' || t7.first_name) END AS r_quality_person,
+        (select nvl(sum(nvl(it0.POINT,0)),0) from
+        SYSTEM_FORM_ELEMENT it0
+        INNER JOIN  SYSTEM_FORM_RESPONSE_DETAIL it1 on it1.FORM_ELEMENT_ID = it0.ID
+        INNER JOIN SYSTEM_FORM_RESPONSE_MASTER it2 on it1.FORM_RESPONSE_MASTER_ID = it2.ID and it2.DELETED=0
+        Inner JOIN SYSTEM_TASK_FORM it3 on it3.FORM_ID = it2.FORM_ID and it3.TASK_ID=it2.TASK_ID and it3.DELETED=0
+        where it3.FORM_TYPE='_T71' and it1.RESPONSE='1' and it3.TASK_ID = t1.id) as r_check_score,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T31') as r_check_start_date_schedule,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T32') as r_check_end_date_schedule,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T33') as r_check_start_date_real,
+        (select it1.DATE_VALUE from SYSTEM_TASK_DATE it1 where it1.TASK_ID=t1.ID and it1.DATE_TYPE='_T34') as r_check_end_date_real,
+        t5.DAYS_FOR_CORRECT as r_rectification_days,
+        t3.APPLY_TYPE as apply_type
+        from SYSTEM_TASK t1
+        LEFT JOIN SYSTEM_TASK_PEOPLE t2 on t1.id = t2.TASK_ID AND t2.RESPONSIBILITY='_T2I' and t2.DELETED = 0
+        LEFT JOIN SYSTEM_USER t6 on t6.id = t2.USER_ID and t6.DELETED = 0
+        LEFT JOIN SYSTEM_PERSONAL_INFO t7 on t7.id = t6.PERSONAL_INFO_ID and t7.DELETED = 0
+        LEFT JOIN PD_REQUEST_OVERALL_CHECK t3 on t3.id = t1.TASK_REF_ID and t3.DELETED = 0
+        LEFT JOIN SYSTEM_TASK_FORM t4 on t4.TASK_ID = t1.id and t4.FORM_TYPE='_T78' and t4.DELETED = 0
+        LEFT JOIN PD_CORRECTIVE_ACTION_MASTER t5 on t5.TASK_ID=t1.ID AND t5.FORM_ID= t4.FORM_ID and t5.DELETED = 0
+        where t3.MACHINE_SEQID=#{machineSeqId, jdbcType=INTEGER} and t1.STATUS in('_TS3','_TS4') AND t1.RESOLUTION='_T61'
+    </select>
+
+
+
+    <select id="getTasks" resultMap="TaskFormInfoResultMap" parameterType="java.lang.Integer">
+select td.task_id, td.form_id, td.form_type as task_form_type, td.subject, td.task_type, td.STATUS, td.RESOLUTION, td.task_ref_id, td.machine_seqid, td.apply_type, td.CHECK_PHASES
+FROM (
+select task.ID as task_id, tf.id as form_id, tf.form_type, task.SUBJECT, task.TASK_TYPE, task.STATUS, task.RESOLUTION, task.TASK_REF_ID, reqm.MACHINE_SEQID, reqm.APPLY_TYPE, reqm.CHECK_PHASES             
+from system_task task join PD_REQUEST_MIDDLE_CHECK reqm on task.TASK_TYPE = '_T11' and task.TASK_REF_ID = reqm.id join SYSTEM_TASK_FORM tf on tf.task_id = task.id
+UNION
+select task.ID, tf.id as form_id, tf.form_type, task.SUBJECT, task.TASK_TYPE, task.STATUS, task.RESOLUTION, task.TASK_REF_ID, reqd.MACHINE_SEQID, reqd.APPLY_TYPE, '' as CHECK_PHASES
+from system_task task join PD_REQUEST_DIAG reqd on task.TASK_TYPE = '_T12' and task.TASK_REF_ID = reqd.id join SYSTEM_TASK_FORM tf on tf.task_id = task.id 
+UNION
+select task.ID, tf.id as form_id, tf.form_type, task.SUBJECT, task.TASK_TYPE, task.STATUS, task.RESOLUTION, task.TASK_REF_ID, reqo.MACHINE_SEQID, reqo.APPLY_TYPE, '' as CHECK_PHASES
+from system_task task join PD_REQUEST_OVERALL_CHECK reqo on task.TASK_TYPE = '_T13' and task.TASK_REF_ID = reqo.id join SYSTEM_TASK_FORM tf on tf.task_id = task.id 
+) td
+where td.RESOLUTION = '_T61' and td.machine_seqid = (select td1.machine_seqid from (
+select task.ID, reqm.MACHINE_SEQID from system_task task join PD_REQUEST_MIDDLE_CHECK reqm on task.TASK_TYPE = '_T11' and task.TASK_REF_ID = reqm.id
+UNION
+select task.ID, reqd.MACHINE_SEQID from system_task task join PD_REQUEST_DIAG reqd on task.TASK_TYPE = '_T12' and task.TASK_REF_ID = reqd.id
+UNION
+select task.ID, reqo.MACHINE_SEQID from system_task task join PD_REQUEST_OVERALL_CHECK reqo on task.TASK_TYPE = '_T13' and task.TASK_REF_ID = reqo.id
+) td1
+where td1.id = #{taskId, jdbcType=INTEGER}
+)
+order by td.form_type desc, td.apply_type  desc 
+    </select>
+
+
+    <select id="selectUnPassedElement" resultType="com.logic.system.domain.FormElement" parameterType="com.logic.system.domain.Task">
+      select
+        t4.id as id,
+        t4.CODE as code,
+        t4.OTHER_1 as other1,
+        t4.other_2 as other2,
+        t4.other_3 as other3,
+        t4.other_4 as other4
+      from SYSTEM_TASK t1
+      INNER JOIN SYSTEM_TASK_FORM t2 on t1.id = t2.TASK_ID
+      <choose>
+          <when test="taskType == '_T11'">
+              and t2.FORM_TYPE ='_T71'
+          </when>
+          <when test="taskType == '_T13'">
+              and t2.FORM_TYPE ='_T78'
+          </when>
+      </choose>
+      INNER JOIN SYSTEM_FORM t3 on t2.FORM_ID = t3.ID and t3.DELETED = 0
+      INNER JOIN SYSTEM_FORM_ELEMENT t4 on t4.FORM_ID = t3.ID
+      INNER JOIN SYSTEM_FORM_RESPONSE_DETAIL t5 on t4.ID = t5.FORM_ELEMENT_ID and (t5.RESPONSE = '0' or t5.RESPONSE is null)
+      where t1.id = #{id, jdbcType=INTEGER}
+    </select>
+</mapper>

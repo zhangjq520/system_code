@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logic.system.persistence.write.OAuthAccessTokenWriteMapper">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from oauth_access_token
+    where authentication_id = #{authenticationId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.OAuthAccessToken">
+    insert into oauth_access_token (authentication_id, token_id, user_name,
+      client_id, refresh_token, token, authentication)
+    values (#{authenticationId,jdbcType=VARCHAR}, #{tokenId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{clientId,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{token,javaType=byte[], jdbcType=BLOB,typeHandler=org.apache.ibatis.type.BlobTypeHandler},
+      #{authentication,javaType=byte[], jdbcType=BLOB,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
+  </insert>
+  <update id="update" parameterType="com.logic.system.domain.OAuthAccessToken" >
+    update oauth_access_token
+    <set >
+      token_id = #{tokenId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      client_id = #{clientId,jdbcType=BIT},
+      refresh_token = #{refreshToken,jdbcType=BIT},
+      token = #{token,javaType=byte[],jdbcType=BLOB,typeHandler=org.apache.ibatis.type.BlobTypeHandler},
+      authentication = #{authentication,javaType=byte[],jdbcType=BLOB,typeHandler=org.apache.ibatis.type.BlobTypeHandler},
+    </set>
+    where authentication_id = #{authenticationId,jdbcType=VARCHAR}
+  </update>
+</mapper>

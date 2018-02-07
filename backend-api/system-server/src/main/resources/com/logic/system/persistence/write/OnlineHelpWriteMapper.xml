@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.OnlineHelpWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SYSTEM_ONLINE_HELP
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.OnlineHelp" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_online_help.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_ONLINE_HELP (ID, QUES_SUBJECT, QUES_ANSWER, 
+      RELATED_MODULES, PUBLISH_STATUS, VERSION, 
+      CREATED_DTM, CREATED_BY, LAST_MODIFIED_DTM, 
+      LAST_MODIFIED_BY, DELETED)
+    values (#{id,jdbcType=INTEGER}, #{quesSubject,jdbcType=VARCHAR}, #{quesAnswer,jdbcType=VARCHAR}, 
+      #{relatedModules,jdbcType=VARCHAR}, #{publishStatus,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, 
+      #{lastModifiedBy,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.OnlineHelp" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_online_help.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_ONLINE_HELP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="quesSubject != null" >
+        QUES_SUBJECT,
+      </if>
+      <if test="quesAnswer != null" >
+        QUES_ANSWER,
+      </if>
+      <if test="relatedModules != null" >
+        RELATED_MODULES,
+      </if>
+      <if test="publishStatus != null" >
+        PUBLISH_STATUS,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM,
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY,
+      </if>
+      <if test="deleted != null" >
+        DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="quesSubject != null" >
+        #{quesSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="quesAnswer != null" >
+        #{quesAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedModules != null" >
+        #{relatedModules,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null" >
+        #{publishStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.OnlineHelp" >
+    update SYSTEM_ONLINE_HELP
+    <set >
+      <if test="quesSubject != null" >
+        QUES_SUBJECT = #{quesSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="quesAnswer != null" >
+        QUES_ANSWER = #{quesAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="relatedModules != null" >
+        RELATED_MODULES = #{relatedModules,jdbcType=VARCHAR},
+      </if>
+      <if test="publishStatus != null" >
+        PUBLISH_STATUS = #{publishStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        DELETED = #{deleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.OnlineHelp" >
+    update SYSTEM_ONLINE_HELP
+    set QUES_SUBJECT = #{quesSubject,jdbcType=VARCHAR},
+      QUES_ANSWER = #{quesAnswer,jdbcType=VARCHAR},
+      RELATED_MODULES = #{relatedModules,jdbcType=VARCHAR},
+      PUBLISH_STATUS = #{publishStatus,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=INTEGER},
+      CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=INTEGER},
+      LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=INTEGER},
+      DELETED = #{deleted,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

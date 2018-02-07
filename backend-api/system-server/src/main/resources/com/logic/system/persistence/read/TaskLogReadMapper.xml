@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.TaskLogReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.TaskLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="changed_time" property="changedTime" jdbcType="TIMESTAMP" />
+    <result column="field_name" property="fieldName" jdbcType="VARCHAR" />
+    <result column="original_value" property="originalValue" jdbcType="VARCHAR" />
+    <result column="new_value" property="newValue" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="DetailResultMap" type="com.logic.common.ws.dto.system.TaskLogRootDTO" >
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <collection column="changed_time" property="logs"
+                ofType="com.logic.common.ws.dto.system.TaskLogDTO"
+                resultMap="TaskLogResultMap">
+    </collection>
+  </resultMap>
+  <resultMap id="TaskLogResultMap" type="com.logic.common.ws.dto.system.TaskLogDTO" >
+    <result column="changed_time" property="changed_time" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="task_id" property="task_id" jdbcType="INTEGER" />
+    <result column="field_name" property="field_name" jdbcType="VARCHAR" />
+    <result column="original_value" property="original_value" jdbcType="VARCHAR" />
+    <result column="new_value" property="new_value" jdbcType="VARCHAR" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, task_id, user_id, changed_time, field_name, original_value, new_value, version,
+    created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_task_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_task_log
+    where task_id = #{id,jdbcType=INTEGER} ORDER BY changed_time ASC
+  </select>
+
+  <select id="selectRootByTaskId" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
+    select
+          t1.changed_time AS time,
+          t1.changed_time AS changed_time,
+          t1.user_id AS user_id,
+          t1.task_id AS task_id,
+          t1.field_name AS field_name,
+          t1.original_value AS original_value,
+          t1.new_value AS new_value,
+          CASE
+              WHEN t3.last_name IS NOT NULL THEN (t3.last_name || ' ' || t3.first_name)
+              WHEN t3.last_name IS NULL THEN t2.login_id
+          END AS user_name
+    from system_task_log t1
+    LEFT JOIN system_user t2 ON t1.user_id = t2.id AND t2.deleted = 0
+    LEFT JOIN system_personal_info t3 ON t2.personal_info_id = t3.id AND t3.deleted = 0
+    where task_id = #{id,jdbcType=INTEGER} ORDER BY changed_time ASC
+  </select>
+
+
+
+</mapper>

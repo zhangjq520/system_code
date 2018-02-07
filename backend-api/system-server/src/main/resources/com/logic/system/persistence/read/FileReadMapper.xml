@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FileReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.SystemFile" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="file_type" property="fileType" jdbcType="VARCHAR" />
+    <result column="file_size" property="fileSize" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="cover_image" property="coverImage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, path, name, file_type, file_size, description, tags,cover_image,status, version,
+    created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_file
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+    <select id="selectByPrimaryKeyStr" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from system_file
+        where id = #{id,jdbcType=VARCHAR}
+        and deleted = 0
+    </select>
+
+
+    <select id="selectSystemFile" resultMap="BaseResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  	SELECT t.*
+  	FROM (
+	    select 
+	    <include refid="Base_Column_List" />
+	    from system_file 
+	    where deleted = 0
+	    ) t
+	WHERE
+  </select>
+</mapper>

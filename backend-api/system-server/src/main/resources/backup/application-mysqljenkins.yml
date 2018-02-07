@@ -1,0 +1,26 @@
+spring:
+  profiles: mysqljenkins
+
+logic:
+  database:
+    write_prefix:
+    read_prefix:
+  jndi:
+    master:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.8.45:3306/toshiba_inspection?setUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true
+      databaseId: mysql
+      username: root
+      password: 123
+    slave:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.8.46:3306/toshiba_inspection?setUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true
+      databaseId: mysql
+      username: root
+      password: 123
+  file:
+    path:
+      local: #configure
+      remote: #configure
+logging:
+  file: logs/system-server-oracle.log

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.PersonalInfoWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="com.logic.system.domain.PersonalInfo" >
+    update system_personal_info set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.PersonalInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_personal_info.NextVal FROM DUAL
+    </selectKey>   
+    insert into system_personal_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proofOperation != null" >
+        proof_operation,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="emailPrimary != null" >
+        email_primary,
+      </if>
+      <if test="emailSecond != null" >
+        email_second,
+      </if>
+      <if test="workPhoneConuntry != null" >
+        work_phone_conuntry,
+      </if>
+      <if test="workPhoneNumber != null" >
+        work_phone_number,
+      </if>
+      <if test="workPhoneNumberExt != null" >
+        work_phone_number_ext,
+      </if>
+      <if test="mobilePhoneCountry != null" >
+        mobile_phone_country,
+      </if>
+      <if test="mobilePhoneNumber != null" >
+        mobile_phone_number,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="avatarId != null" >
+        avatar,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proofOperation != null" >
+        #{proofOperation,jdbcType=INTEGER},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPrimary != null" >
+        #{emailPrimary,jdbcType=VARCHAR},
+      </if>
+      <if test="emailSecond != null" >
+        #{emailSecond,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneConuntry != null" >
+        #{workPhoneConuntry,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumber != null" >
+        #{workPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumberExt != null" >
+        #{workPhoneNumberExt,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneCountry != null" >
+        #{mobilePhoneCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneNumber != null" >
+        #{mobilePhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="avatarId != null" >
+        #{avatarId,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.PersonalInfo" >
+    <selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+    </selectKey> 
+    insert into system_personal_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+       <if test="id != null">
+		id,
+	  </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="proofOperation != null" >
+        proof_operation,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="emailPrimary != null" >
+        email_primary,
+      </if>
+      <if test="emailSecond != null" >
+        email_second,
+      </if>
+      <if test="workPhoneConuntry != null" >
+        work_phone_conuntry,
+      </if>
+      <if test="workPhoneNumber != null" >
+        work_phone_number,
+      </if>
+      <if test="workPhoneNumberExt != null" >
+        work_phone_number_ext,
+      </if>
+      <if test="mobilePhoneCountry != null" >
+        mobile_phone_country,
+      </if>
+      <if test="mobilePhoneNumber != null" >
+        mobile_phone_number,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="avatarId != null" >
+        avatar,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+    	<if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="proofOperation != null" >
+        #{proofOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPrimary != null" >
+        #{emailPrimary,jdbcType=VARCHAR},
+      </if>
+      <if test="emailSecond != null" >
+        #{emailSecond,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneConuntry != null" >
+        #{workPhoneConuntry,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumber != null" >
+        #{workPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumberExt != null" >
+        #{workPhoneNumberExt,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneCountry != null" >
+        #{mobilePhoneCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneNumber != null" >
+        #{mobilePhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="avatarId != null" >
+        #{avatarId,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.PersonalInfo" >
+    update system_personal_info
+    <set >
+      <if test="firstName != null" >
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="proofOperation != null" >
+        proof_operation = #{proofOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPrimary != null" >
+        email_primary = #{emailPrimary,jdbcType=VARCHAR},
+      </if>
+      <if test="emailSecond != null" >
+        email_second = #{emailSecond,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneConuntry != null" >
+        work_phone_conuntry = #{workPhoneConuntry,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumber != null" >
+        work_phone_number = #{workPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="workPhoneNumberExt != null" >
+        work_phone_number_ext = #{workPhoneNumberExt,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneCountry != null" >
+        mobile_phone_country = #{mobilePhoneCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhoneNumber != null" >
+        mobile_phone_number = #{mobilePhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="avatarId != null" >
+        avatar = #{avatarId,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      version = version + 1,
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

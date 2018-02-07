@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.MobileNotificationLogWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SYSTEM_MOBILE_NOTIFICATION_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.MobileNotificationLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_NOTI_LOG.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_NOTIFICATION_LOG (ID, DEVICE_ID, USER_ID, 
+      RECEIVED_TIME, TYPE, TITLE, 
+      CONTENT, TASK_ID, STATUS, 
+      VERSION, CREATED_DTM, CREATED_BY, 
+      LAST_MODIFIED_DTM, LAST_MODIFIED_BY, DELETED
+      )
+    values (#{id,jdbcType=DECIMAL}, #{deviceId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, 
+      #{receivedTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{taskId,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{version,jdbcType=DECIMAL}, #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=DECIMAL}, 
+      #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=DECIMAL}, #{deleted,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.MobileNotificationLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_NOTI_LOG.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_NOTIFICATION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="deviceId != null" >
+        DEVICE_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="receivedTime != null" >
+        RECEIVED_TIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM,
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY,
+      </if>
+      <if test="deleted != null" >
+        DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="receivedTime != null" >
+        #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.MobileNotificationLog" >
+    update SYSTEM_MOBILE_NOTIFICATION_LOG
+    <set >
+      <if test="deviceId != null" >
+        DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="receivedTime != null" >
+        RECEIVED_TIME = #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        TASK_ID = #{taskId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        DELETED = #{deleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.MobileNotificationLog" >
+    update SYSTEM_MOBILE_NOTIFICATION_LOG
+    set DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      RECEIVED_TIME = #{receivedTime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=DECIMAL},
+      CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      DELETED = #{deleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,27 @@
+spring:
+  profiles: oraclejenkins
+
+logic:
+  database:
+    write_prefix:
+    read_prefix:
+  jndi:
+    master:
+      driverClassName: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@//192.168.8.134:1521/orcl
+      databaseId: oracle
+      username: toshiba
+      password: ql3k45hj
+    slave:
+      driverClassName: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@//192.168.8.134:1521/orcl
+      databaseId: oracle
+      username: toshiba
+      password: ql3k45hj
+  file:
+    path:
+      local: /usr/share/nginx/html/uploads
+      remote: http://toshiba-elevator.shlogic.com.cn/uploads
+
+logging:
+  file: logs/system-server-oracle.log

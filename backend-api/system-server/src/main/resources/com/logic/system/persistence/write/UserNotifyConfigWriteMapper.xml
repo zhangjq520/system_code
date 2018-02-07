@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.UserNotifyConfigWriteMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.UserNotifyConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="notification_type" property="notificationType" jdbcType="VARCHAR" />
+    <result column="accept_system_notification" property="acceptSystemNotification" jdbcType="BIT" />
+    <result column="accept_sms" property="acceptSms" jdbcType="BIT" />
+    <result column="accept_email" property="acceptEmail" jdbcType="BIT" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, notification_type, accept_system_notification, accept_sms, accept_email, 
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update system_user_notify_config
+    set deleted = 1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.UserNotifyConfig" >
+    insert into system_user_notify_config (id, user_id, notification_type, 
+      accept_system_notification, accept_sms, accept_email, 
+      version, created_dtm, created_by, 
+      last_modified_dtm, last_modified_by, deleted
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{notificationType,jdbcType=VARCHAR}, 
+      #{acceptSystemNotification,jdbcType=BIT}, #{acceptSms,jdbcType=BIT}, #{acceptEmail,jdbcType=BIT}, 
+      #{version,jdbcType=INTEGER}, #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=INTEGER}, 
+      #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=INTEGER}, #{deleted,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.UserNotifyConfig" >
+    insert into system_user_notify_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="notificationType != null" >
+        notification_type,
+      </if>
+      <if test="acceptSystemNotification != null" >
+        accept_system_notification,
+      </if>
+      <if test="acceptSms != null" >
+        accept_sms,
+      </if>
+      <if test="acceptEmail != null" >
+        accept_email,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="notificationType != null" >
+        #{notificationType,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptSystemNotification != null" >
+        #{acceptSystemNotification,jdbcType=BIT},
+      </if>
+      <if test="acceptSms != null" >
+        #{acceptSms,jdbcType=BIT},
+      </if>
+      <if test="acceptEmail != null" >
+        #{acceptEmail,jdbcType=BIT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.UserNotifyConfig" >
+    update system_user_notify_config
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="notificationType != null" >
+        notification_type = #{notificationType,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptSystemNotification != null" >
+        accept_system_notification = #{acceptSystemNotification,jdbcType=BIT},
+      </if>
+      <if test="acceptSms != null" >
+        accept_sms = #{acceptSms,jdbcType=BIT},
+      </if>
+      <if test="acceptEmail != null" >
+        accept_email = #{acceptEmail,jdbcType=BIT},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.UserNotifyConfig" >
+    update system_user_notify_config
+    set user_id = #{userId,jdbcType=INTEGER},
+      notification_type = #{notificationType,jdbcType=VARCHAR},
+      accept_system_notification = #{acceptSystemNotification,jdbcType=BIT},
+      accept_sms = #{acceptSms,jdbcType=BIT},
+      accept_email = #{acceptEmail,jdbcType=BIT},
+      version = #{version,jdbcType=INTEGER},
+      created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

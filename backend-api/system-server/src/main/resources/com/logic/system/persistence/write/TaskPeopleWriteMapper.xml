@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.TaskPeopleWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update system_task_people
+    set
+    deleted = 1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert databaseId="oracle" id="insert" parameterType="com.logic.system.domain.TaskPeople" >
+  
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_task_people.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_TASK_PEOPLE (ID, task_id, responsibility, 
+      user_id, version, created_dtm, 
+      created_by, last_modified_dtm, last_modified_by, 
+      deleted)
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{responsibility,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{createdDtm,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=INTEGER}, 
+      #{deleted,jdbcType=INTEGER})
+  </insert>
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.TaskPeople" >
+ 
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_task_people.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_TASK_PEOPLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="responsibility != null" >
+        responsibility,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="responsibility != null" >
+        #{responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+   <insert databaseId="mysql" id="insert" parameterType="com.logic.system.domain.TaskPeople" >
+  	<selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+     </selectKey>  
+  
+    insert into SYSTEM_TASK_PEOPLE ( task_id, responsibility, 
+      user_id, version, created_dtm, 
+      created_by, last_modified_dtm, last_modified_by, 
+      deleted)
+    values (#{taskId,jdbcType=INTEGER}, #{responsibility,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{createdDtm,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=INTEGER}, 
+      #{deleted,jdbcType=INTEGER})
+  </insert>
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.TaskPeople" >
+ 	 <selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+     </selectKey>  
+    insert into SYSTEM_TASK_PEOPLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="responsibility != null" >
+        responsibility,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="responsibility != null" >
+        #{responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.TaskPeople" >
+    <!--
+      WARNING - @mbggenerated
+      This element is automatically generated by MyBatis Generator, do not modify.
+      This element was generated on Fri Dec 18 13:43:17 CST 2015.
+    -->
+    update SYSTEM_TASK_PEOPLE
+    <set >
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="responsibility != null" >
+        responsibility = #{responsibility,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.TaskPeople" >
+    <!--
+      WARNING - @mbggenerated
+      This element is automatically generated by MyBatis Generator, do not modify.
+      This element was generated on Fri Dec 18 13:43:17 CST 2015.
+    -->
+    update SYSTEM_TASK_PEOPLE
+    set task_id = #{taskId,jdbcType=INTEGER},
+      responsibility = #{responsibility,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      version = #{version,jdbcType=INTEGER},
+      created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

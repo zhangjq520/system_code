@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FormSectionReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.FormSection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="form_id" property="formId" jdbcType="INTEGER" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="columns" property="columns" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, seq, form_id, step_id, name, code, columns, version, created_dtm, created_by, last_modified_dtm,
+    last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form_section
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+  <select id="getSectionByFormIdAndCode" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from system_form_section
+    where form_id = #{formId,jdbcType=VARCHAR}
+    and code = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+  
+  <select id="selectMaxSequence" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+    select max(seq)
+    from system_form_section
+    where form_id = #{formId,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="selectByFormId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form_section
+    where form_id = #{formId,jdbcType=INTEGER}
+    and deleted = 0
+    order by seq asc
+  </select>
+  
+  <select id="checkFormSectionExist" resultType="int" parameterType="com.logic.system.domain.FormElement">
+    select count(1) from system_form_section 
+    where deleted = 0
+    <if test="sectionId != null">
+  		and id = #{sectionId}
+  	</if>
+  </select>
+  
+  <select id="getSectionListByFormId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    from system_form_section
+    where form_id = #{formId, jdbcType=INTEGER}
+  </select>
+</mapper>

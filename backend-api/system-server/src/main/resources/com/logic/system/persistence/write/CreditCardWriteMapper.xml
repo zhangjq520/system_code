@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.CreditCardWriteMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.CreditCard" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="cad_number" property="cadNumber" jdbcType="VARCHAR" />
+    <result column="expire_year" property="expireYear" jdbcType="VARCHAR" />
+    <result column="expire_month" property="expireMonth" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cvn" property="cvn" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="reserved_phone" property="reservedPhone" jdbcType="VARCHAR" />
+    <result column="sms_code" property="smsCode" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bank, cad_number, expire_year, expire_month, name, cvn, status, reserved_phone, 
+    sms_code, version, created_dtm, created_by, last_modified_dtm, last_modified_by, 
+    deleted
+  </sql>
+  
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from system_credit_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert databaseId="mysql" id="insert" parameterType="com.logic.system.domain.CreditCard" >
+    insert into system_credit_card (id, bank, cad_number, 
+      expire_year, expire_month, name, 
+      cvn, status, reserved_phone, 
+      sms_code, version, created_dtm, 
+      created_by, last_modified_dtm, last_modified_by, 
+      deleted)
+    values (#{id,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, #{cadNumber,jdbcType=VARCHAR}, 
+      #{expireYear,jdbcType=VARCHAR}, #{expireMonth,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{cvn,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{reservedPhone,jdbcType=VARCHAR}, 
+      #{smsCode,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{createdDtm,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=INTEGER}, 
+      #{deleted,jdbcType=BIT})
+  </insert>
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.CreditCard" >
+    insert into system_credit_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="cadNumber != null" >
+        cad_number,
+      </if>
+      <if test="expireYear != null" >
+        expire_year,
+      </if>
+      <if test="expireMonth != null" >
+        expire_month,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cvn != null" >
+        cvn,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reservedPhone != null" >
+        reserved_phone,
+      </if>
+      <if test="smsCode != null" >
+        sms_code,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="cadNumber != null" >
+        #{cadNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="expireYear != null" >
+        #{expireYear,jdbcType=VARCHAR},
+      </if>
+      <if test="expireMonth != null" >
+        #{expireMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cvn != null" >
+        #{cvn,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhone != null" >
+        #{reservedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smsCode != null" >
+        #{smsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.CreditCard" >
+    update system_credit_card
+    <set >
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="cadNumber != null" >
+        cad_number = #{cadNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="expireYear != null" >
+        expire_year = #{expireYear,jdbcType=VARCHAR},
+      </if>
+      <if test="expireMonth != null" >
+        expire_month = #{expireMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cvn != null" >
+        cvn = #{cvn,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhone != null" >
+        reserved_phone = #{reservedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smsCode != null" >
+        sms_code = #{smsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.CreditCard" >
+    update system_credit_card
+    set bank = #{bank,jdbcType=VARCHAR},
+      cad_number = #{cadNumber,jdbcType=VARCHAR},
+      expire_year = #{expireYear,jdbcType=VARCHAR},
+      expire_month = #{expireMonth,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      cvn = #{cvn,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      reserved_phone = #{reservedPhone,jdbcType=VARCHAR},
+      sms_code = #{smsCode,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=INTEGER},
+      last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert databaseId="oracle" id="insert" parameterType="com.logic.system.domain.CreditCard" >
+  
+  	<selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_credit_card.NextVal FROM DUAL
+    </selectKey>
+    
+    insert into system_credit_card (id, bank, cad_number, 
+      expire_year, expire_month, name, 
+      cvn, status, reserved_phone, 
+      sms_code, version, created_dtm, 
+      created_by, last_modified_dtm, last_modified_by, 
+      deleted)
+    values (#{id,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, #{cadNumber,jdbcType=VARCHAR}, 
+      #{expireYear,jdbcType=VARCHAR}, #{expireMonth,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{cvn,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{reservedPhone,jdbcType=VARCHAR}, 
+      #{smsCode,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{createdDtm,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=INTEGER}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=INTEGER}, 
+      #{deleted,jdbcType=BIT})
+  </insert>
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.CreditCard" >
+  
+  	<selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_credit_card.NextVal FROM DUAL
+    </selectKey>
+    
+    insert into system_credit_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="cadNumber != null" >
+        cad_number,
+      </if>
+      <if test="expireYear != null" >
+        expire_year,
+      </if>
+      <if test="expireMonth != null" >
+        expire_month,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cvn != null" >
+        cvn,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reservedPhone != null" >
+        reserved_phone,
+      </if>
+      <if test="smsCode != null" >
+        sms_code,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=INTEGER},
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="cadNumber != null" >
+        #{cadNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="expireYear != null" >
+        #{expireYear,jdbcType=VARCHAR},
+      </if>
+      <if test="expireMonth != null" >
+        #{expireMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cvn != null" >
+        #{cvn,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhone != null" >
+        #{reservedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="smsCode != null" >
+        #{smsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.UserNotifyConfigReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.UserNotifyConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="notification_type" property="notificationType" jdbcType="VARCHAR" />
+    <result column="nt_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="accept_system_notification" property="acceptSystemNotification" jdbcType="BIT" />
+    <result column="accept_sms" property="acceptSms" jdbcType="BIT" />
+    <result column="accept_email" property="acceptEmail" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ListResultMap" type="com.logic.system.domain.UserNotifyConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="notification_type" property="notificationType" jdbcType="VARCHAR" />    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, notification_type, accept_system_notification, accept_sms, accept_email
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_user_notify_config
+    where id = #{id,jdbcType=INTEGER} AND deleted = 0
+  </select>  
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT 
+    	unc.id,
+    	unc.user_id,
+    	sc.code as nt_code,
+	    sc.code_desc_zh as notification_type,
+	    accept_system_notification, 
+		accept_sms,
+		accept_email 
+    FROM system_user_notify_config unc inner join (select code, code_desc_zh from system_code where parent_code='I10' AND deleted = 0) sc on unc.notification_type = sc.code
+    WHERE unc.deleted = 0 AND user_id=#{userId,jdbcType=INTEGER}
+    Order By sc.code ASC
+  </select>
+  
+</mapper>

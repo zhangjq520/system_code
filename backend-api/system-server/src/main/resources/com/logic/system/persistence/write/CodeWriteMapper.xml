@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.CodeWriteMapper" >
+ 
+  <delete id="deleteByPrimaryKey" parameterType="com.logic.common.domain.Code" >
+    update system_code
+    set 
+    deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert  id="insertSelective" parameterType="com.logic.common.domain.Code" >
+    insert into system_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="codeDescEn != null" >
+        code_desc_en,
+      </if>
+      <if test="codeDescZh != null" >
+        code_desc_zh,
+      </if>
+      <if test="codeDescTr != null" >
+        code_desc_tr,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="disabled != null" >
+        disabled,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="other1 != null" >
+        other_1,
+      </if>
+      <if test="other2 != null" >
+        other_2,
+      </if>
+      <if test="other3 != null" >
+        other_3,
+      </if>
+      <if test="other4 != null" >
+        other_4,
+      </if>
+      <if test="other5 != null" >
+        other_5,
+      </if>
+      <if test="other6 != null" >
+        other_6,
+      </if>
+      <if test="other7 != null" >
+        other_7,
+      </if>
+      <if test="other8 != null" >
+        other_8,
+      </if>
+      <if test="other9 != null" >
+        other_9,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDescEn != null" >
+        #{codeDescEn,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDescZh != null" >
+        #{codeDescZh,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDescTr != null" >
+        #{codeDescTr,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="disabled != null" >
+        #{disabled,jdbcType=BIT},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        #{other4,jdbcType=VARCHAR},
+      </if>
+      <if test="other5 != null" >
+        #{other5,jdbcType=VARCHAR},
+      </if>
+      <if test="other6 != null" >
+        #{other6,jdbcType=VARCHAR},
+      </if>
+      <if test="other7 != null" >
+        #{other7,jdbcType=VARCHAR},
+      </if>
+      <if test="other8 != null" >
+        #{other8,jdbcType=VARCHAR},
+      </if>
+      <if test="other9 != null" >
+        #{other9,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.common.domain.Code" >
+    update system_code
+    <set >
+      <if test="codeDescEn != null" >
+        code_desc_en = #{codeDescEn,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDescZh != null" >
+        code_desc_zh = #{codeDescZh,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDescTr != null" >
+        code_desc_tr = #{codeDescTr,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="disabled != null" >
+        disabled = #{disabled,jdbcType=BIT},
+      </if>
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        other_1 = #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        other_2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        other_3 = #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+       other_4 = #{other4,jdbcType=VARCHAR},
+      </if>
+      <if test="other5 != null" >
+        other_5 = #{other5,jdbcType=VARCHAR},
+      </if>
+      <if test="other6 != null" >
+        other_6 = #{other6,jdbcType=VARCHAR},
+      </if>
+      <if test="other7 != null" >
+        other_7 = #{other7,jdbcType=VARCHAR},
+      </if>
+      <if test="other8 != null" >
+        other_8 = #{other8,jdbcType=VARCHAR},
+      </if>
+      <if test="other9 != null" >
+        other_9 = #{other9,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+  </update>
+
+  <!--                  process for relationship                    -->
+  <insert id="insertOrgCodes" parameterType="java.util.List">
+    insert into system_org_code ( org_id, code )
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      ( #{item.orgId}, #{item.code})
+    </foreach>
+  </insert>
+
+  <delete id="deleteOrgCodes" parameterType="java.lang.String">
+    delete from system_org_code
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  
+ 
+</mapper>

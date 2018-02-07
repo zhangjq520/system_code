@@ -1,0 +1,28 @@
+spring:
+  profiles: oracledev
+logic:
+  database:
+    write_prefix:
+    read_prefix:
+  jndi:
+    master:
+      driverClassName: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@//192.168.8.134:1521/orcl
+      databaseId: oracle
+      username: toshiba
+      password: ql3k45hj
+    slave:
+      driverClassName: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@//192.168.8.134:1521/orcl
+      databaseId: oracle
+      username: toshiba
+      password: ql3k45hj
+  file:
+    path:
+      local: /Users/omer/development/logic/toshiba/backend-microservices/files
+      remote: http://localhost:1000/system
+
+logging:
+  level:
+    org.springframework.security.oauth2: DEBUG
+    org.apache.ibatis.mapping: DEBUG

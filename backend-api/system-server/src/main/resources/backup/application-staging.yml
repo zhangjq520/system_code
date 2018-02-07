@@ -1,0 +1,34 @@
+spring:
+  profiles: staging
+
+logic:
+  database:
+    write_prefix:
+    read_prefix:
+  file:
+    path:
+      local: /usr/share/nginx/html/uploads
+      remote: http://toshiba-elevator-alpha.shlogic.com.cn/uploads
+  jndi:
+    master:
+      driverClassName: oracle.jdbc.OracleDriver
+      databaseId: oracle
+## database url do not change anything manually
+      url: jdbc:oracle:thin:@//10.84.98.183:1521/orcl
+## database username do not change anything manually
+      username: toshiba
+## database pasword do not change anything manually
+      password: ql3k45hj
+## database end do not change anything manually
+    slave:
+      driverClassName: oracle.jdbc.OracleDriver
+      databaseId: oracle
+## database url do not change anything manually
+      url: jdbc:oracle:thin:@//10.84.98.183:1521/orcl
+## database username do not change anything manually
+      username: toshiba
+## database pasword do not change anything manually
+      password: ql3k45hj
+## database end do not change anything manually
+logging:
+  file: logs/system-server-oracle.log

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.MobileDataSyncWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SYSTEM_MOBILE_DATA_SYNC
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.MobileDataSync" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_DATA_SYNC.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DATA_SYNC (ID, DEVICE_ID, LATEST_SYNC_TIME, 
+      SYNC_TYPE, DATA_TYPE, SYNC_DESCRIPTION, 
+      VERSION, CREATED_DTM, CREATED_BY, 
+      LAST_MODIFIED_DTM, LAST_MODIFIED_BY, DELETED
+      )
+    values (#{id,jdbcType=DECIMAL}, #{deviceId,jdbcType=DECIMAL}, #{latestSyncTime,jdbcType=TIMESTAMP}, 
+      #{syncType,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{syncDescription,jdbcType=VARCHAR}, 
+      #{version,jdbcType=DECIMAL}, #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=DECIMAL}, 
+      #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=DECIMAL}, #{deleted,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.MobileDataSync" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_DATA_SYNC.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DATA_SYNC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="deviceId != null" >
+        DEVICE_ID,
+      </if>
+      <if test="latestSyncTime != null" >
+        LATEST_SYNC_TIME,
+      </if>
+      <if test="syncType != null" >
+        SYNC_TYPE,
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE,
+      </if>
+      <if test="syncDescription != null" >
+        SYNC_DESCRIPTION,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM,
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY,
+      </if>
+      <if test="deleted != null" >
+        DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="latestSyncTime != null" >
+        #{latestSyncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncType != null" >
+        #{syncType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDescription != null" >
+        #{syncDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.MobileDataSync" >
+    update SYSTEM_MOBILE_DATA_SYNC
+    <set >
+      <if test="deviceId != null" >
+        DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="latestSyncTime != null" >
+        LATEST_SYNC_TIME = #{latestSyncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncType != null" >
+        SYNC_TYPE = #{syncType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="syncDescription != null" >
+        SYNC_DESCRIPTION = #{syncDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        DELETED = #{deleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.MobileDataSync" >
+    update SYSTEM_MOBILE_DATA_SYNC
+    set DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      LATEST_SYNC_TIME = #{latestSyncTime,jdbcType=TIMESTAMP},
+      SYNC_TYPE = #{syncType,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      SYNC_DESCRIPTION = #{syncDescription,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=DECIMAL},
+      CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      DELETED = #{deleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

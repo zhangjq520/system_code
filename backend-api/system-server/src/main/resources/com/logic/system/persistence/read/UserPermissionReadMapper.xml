@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.UserPermissionReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.UserPermission" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <id column="module_id" property="moduleId" jdbcType="INTEGER" />
+    <result column="permission_string" property="permissionString" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, module_id, permission_string
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.logic.system.domain.UserPermissionKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_user_permission
+    where user_id = #{userId,jdbcType=INTEGER}
+      and module_id = #{moduleId,jdbcType=INTEGER}
+  </select>
+
+</mapper>

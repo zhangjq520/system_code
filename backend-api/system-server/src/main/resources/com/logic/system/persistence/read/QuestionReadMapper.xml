@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.QuestionReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Question" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="subject_desc" property="subjectDesc" jdbcType="VARCHAR" />
+    <result column="input_desc" property="inputDesc" jdbcType="VARCHAR" />
+    <result column="correct_response" property="correctResponse" jdbcType="VARCHAR" />
+    <result column="correct_number_start" property="correctNumberStart" jdbcType="DECIMAL" />
+    <result column="correct_number_end" property="correctNumberEnd" jdbcType="DECIMAL" />
+    <result column="input_for_exception" property="inputForException" jdbcType="VARCHAR" />
+    <result column="parent_answer_code" property="parentAnswerCode" jdbcType="VARCHAR" />
+    <result column="view_name" property="viewName" jdbcType="VARCHAR" />
+    <result column="column_for_display" property="columnForDisplay" jdbcType="VARCHAR" />
+    <result column="column_for_value" property="columnForValue" jdbcType="VARCHAR" />
+    <result column="where_clause" property="whereClause" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="point" property="point" jdbcType="DECIMAL" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="other_1" property="other1" jdbcType="VARCHAR" />
+    <result column="other_2" property="other2" jdbcType="VARCHAR" />
+    <result column="other_3" property="other3" jdbcType="VARCHAR" />
+      <result column="other_4" property="other4" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.QuestionDTO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+	<result column="code" property="code" jdbcType="VARCHAR" />
+	<result column="subject" property="subject" jdbcType="VARCHAR" /> 
+	<result column="status" property="status" jdbcType="VARCHAR" />
+	<result column="type" property="type" jdbcType="VARCHAR" />
+	<result column="score" property="score" jdbcType="INTEGER" />
+	<result column="reference_item" property="sReference_item" jdbcType="VARCHAR" />
+	<result column="squestion_category" property="squestion_category" jdbcType="VARCHAR" />
+    <result column="acceptable_answer" property="acceptable_answer" jdbcType="VARCHAR" />
+    <result column="numeric_acceptable_range_start" property="numeric_acceptable_range_start" jdbcType="VARCHAR" />
+    <result column="numeric_acceptable_range_start" property="numeric_acceptable_range_start" jdbcType="VARCHAR" />
+    <result column="logical_acceptable_answer" property="logical_acceptable_answer" jdbcType="VARCHAR" />
+    <result column="org_ids" property="org_ids" jdbcType="VARCHAR" />
+    <result column="other_1" property="part" jdbcType="VARCHAR" />
+    <result column="other_2" property="cause" jdbcType="VARCHAR" />
+    <result column="other_3" property="corrective_action" jdbcType="VARCHAR" />
+      <result column="other_4" property="must_true" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="OrgQuestionResultMap" type="com.logic.system.domain.OrgQuestion" >
+    <result column="question_id" property="questionId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, code, type, subject_desc, input_desc, correct_response, correct_number_start, correct_number_end, 
+    input_for_exception, parent_answer_code, view_name, column_for_display, column_for_value, 
+    where_clause, version, created_dtm, created_by, last_modified_dtm, last_modified_by, 
+    deleted, point, subject, status, other_1, other_2, other_3, other_4
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	select 
+    <include refid="Base_Column_List" />
+    from system_question
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+  <select databaseId="mysql" id="selectQuestions" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+	SELECT DISTINCT
+		t.id,
+		t.code,
+		t.subject,
+		t.status,
+		t.type,
+		t.score,
+		t.reference_item,
+		t.squestion_type,
+		t.acceptable_answer,
+		t.numeric_acceptable_range_start,
+		t.numeric_acceptable_range_end,
+		t.logical_acceptable_answer,
+    	t.other_1,
+   		t.other_2,
+    	t.other_3,
+    	t.other_4,
+		t.org_ids
+	FROM (
+		SELECT
+			t1.id AS id,
+			t1.code AS code,
+			t1.subject AS subject,
+			t1.status AS status,
+			t1.type AS type,
+			t1.point AS score,
+			t1.correct_response as acceptable_answer,
+			t1.correct_response as logical_acceptable_answer,
+			t1.correct_number_start as numeric_acceptable_range_start,
+			t1.correct_number_end as numeric_acceptable_range_end,
+      		t1.other_1 AS other_1,
+      		t1.other_2 AS other_2,
+      		t1.other_3 AS other_3,
+      		t1.other_4 AS other_4,
+			(
+				SELECT
+					GROUP_CONCAT(t3.reference_item_id)
+				FROM
+					system_question_reference_item t3
+				WHERE
+					t1.id = t3.question_id
+			) AS reference_item,
+			(
+				SELECT
+					GROUP_CONCAT(t4.category)
+				FROM
+					system_question_category t4
+				WHERE
+					t1.id = t4.question_id
+			) AS squestion_type,
+			(
+				SELECT
+					GROUP_CONCAT(t5.org_id)
+				FROM
+					system_org_question t5
+				WHERE
+					t1.id = t5.question_id
+			) org_ids,
+			t2.org_id AS org_id
+		FROM
+			system_question t1
+		LEFT JOIN system_org_question t2 ON t1.id = t2.question_id
+		WHERE
+			t1.deleted = 0
+	) t
+	WHERE
+  </select>
+
+  <select databaseId="oracle" id="selectQuestions" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  SELECT DISTINCT
+    t.id,
+    t.code,
+    t.subject,
+    t.status,
+    t.score,
+    t.type,
+    t.reference_item,
+    t.squestion_category,
+    t.acceptable_answer,
+    t.numeric_acceptable_range_start,
+    t.numeric_acceptable_range_end,
+    t.logical_acceptable_answer,
+    t.other_1,
+    t.other_2,
+    t.other_3,
+    t.other_4,
+    t.org_ids
+  FROM (
+    SELECT
+      t1.id AS id,
+      t1.code AS code,
+      t1.subject AS subject,
+      t1.status AS status,
+      t1.point AS score,
+      t1.type AS type,
+      t1.correct_response as acceptable_answer,
+      t1.correct_response as logical_acceptable_answer,
+      t1.correct_number_start as numeric_acceptable_range_start,
+      t1.correct_number_end as numeric_acceptable_range_end,
+      t1.other_1 AS other_1,
+      t1.other_2 AS other_2,
+      t1.other_3 AS other_3,
+      t1.other_4 AS other_4,
+      (
+        SELECT
+          LISTAGG(t3.reference_item_id, ',') WITHIN GROUP (ORDER BY t3.reference_item_id)
+        FROM
+          system_question_reference_item t3
+        WHERE
+          t1.id = t3.question_id
+      ) AS reference_item,
+      (
+        SELECT
+          LISTAGG(t4.category, ',') WITHIN GROUP (ORDER BY t4.category)
+        FROM
+          system_question_category t4
+        WHERE
+          t1.id = t4.question_id
+      ) AS squestion_category,
+      (
+        SELECT
+          LISTAGG(t5.org_id, ',') WITHIN GROUP (ORDER BY t5.org_id)
+        FROM
+          system_org_question t5
+        WHERE
+          t1.id = t5.question_id
+      ) org_ids,
+      t2.org_id AS org_id
+    FROM
+      system_question t1
+    LEFT JOIN system_org_question t2 ON t1.id = t2.question_id
+    WHERE
+      t1.deleted = 0
+  ) t
+  WHERE
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.Question">
+    select count(1) from system_question 
+    where deleted = 0 
+    and code = #{code, jdbcType=VARCHAR}
+    <if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+
+  <select id="selectOrgQuestions" resultMap="OrgQuestionResultMap" parameterType="java.lang.Integer" >
+    select question_id, org_id
+    from system_org_question
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </select>
+</mapper>

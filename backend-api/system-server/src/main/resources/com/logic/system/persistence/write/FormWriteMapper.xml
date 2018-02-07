@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.FormWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="com.logic.system.domain.Form" >
+    update system_form
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.Form" >
+  	<selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+    </selectKey>
+    insert into system_form
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="shortDesc != null" >
+        short_desc,
+      </if>
+      <if test="longDesc != null" >
+        long_desc,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="theme != null" >
+        theme,
+      </if>
+      <if test="other1 != null" >
+        other_1,
+      </if>
+      <if test="other2 != null" >
+        other_2,
+      </if>
+      <if test="other3 != null" >
+        other_3,
+      </if>
+      <if test="other4 != null" >
+        other_4,
+      </if>
+      <if test="other5 != null" >
+        other_5,
+      </if>
+      <if test="other6 != null" >
+        other_6,
+      </if>
+      <if test="other7 != null" >
+        other_7,
+      </if>
+      <if test="other8 != null" >
+        other_8,
+      </if>
+      <if test="other9 != null" >
+        other_9,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="shortDesc != null" >
+        #{shortDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="longDesc != null" >
+        #{longDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="theme != null" >
+        #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        #{other4,jdbcType=VARCHAR},
+      </if>
+      <if test="other5 != null" >
+        #{other5,jdbcType=VARCHAR},
+      </if>
+      <if test="other6 != null" >
+        #{other6,jdbcType=VARCHAR},
+      </if>
+      <if test="other7 != null" >
+        #{other7,jdbcType=VARCHAR},
+      </if>
+      <if test="other8 != null" >
+        #{other8,jdbcType=VARCHAR},
+      </if>
+      <if test="other9 != null" >
+        #{other9,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+   <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.Form" >
+  	<selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_form.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="shortDesc != null" >
+        short_desc,
+      </if>
+      <if test="longDesc != null" >
+        long_desc,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="theme != null" >
+        theme,
+      </if>
+      <if test="other1 != null" >
+        other_1,
+      </if>
+      <if test="other2 != null" >
+        other_2,
+      </if>
+      <if test="other3 != null" >
+        other_3,
+      </if>
+      <if test="other4 != null" >
+        other_4,
+      </if>
+      <if test="other5 != null" >
+        other_5,
+      </if>
+      <if test="other6 != null" >
+        other_6,
+      </if>
+      <if test="other7 != null" >
+        other_7,
+      </if>
+      <if test="other8 != null" >
+        other_8,
+      </if>
+      <if test="other9 != null" >
+        other_9,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=INTEGER},
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="shortDesc != null" >
+        #{shortDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="longDesc != null" >
+        #{longDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="theme != null" >
+        #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        #{other4,jdbcType=VARCHAR},
+      </if>
+      <if test="other5 != null" >
+        #{other5,jdbcType=VARCHAR},
+      </if>
+      <if test="other6 != null" >
+        #{other6,jdbcType=VARCHAR},
+      </if>
+      <if test="other7 != null" >
+        #{other7,jdbcType=VARCHAR},
+      </if>
+      <if test="other8 != null" >
+        #{other8,jdbcType=VARCHAR},
+      </if>
+      <if test="other9 != null" >
+        #{other9,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.Form" >
+    update system_form
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="shortDesc != null" >
+        short_desc = #{shortDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="longDesc != null" >
+        long_desc = #{longDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="theme != null" >
+        theme = #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        other_1 = #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        other_2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        other_3 = #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        other_4 = #{other4,jdbcType=VARCHAR},
+      </if>
+      <if test="other5 != null" >
+        other_5 = #{other5,jdbcType=VARCHAR},
+      </if>
+      <if test="other6 != null" >
+        other_6 = #{other6,jdbcType=VARCHAR},
+      </if>
+      <if test="other7 != null" >
+        other_7 = #{other7,jdbcType=VARCHAR},
+      </if>
+      <if test="other8 != null" >
+        other_8 = #{other8,jdbcType=VARCHAR},
+      </if>
+      <if test="other9 != null" >
+        other_9 = #{other9,jdbcType=VARCHAR},
+      </if>
+      version = version + 1,
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertOrgForms" parameterType="java.util.List">
+    insert into system_org_form ( form_id, org_id )
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.formId}, #{item.orgId} )
+    </foreach>
+  </insert>
+
+  <delete id="deleteOrgForms" parameterType="java.lang.Integer">
+    delete from system_org_form
+    where form_id = #{formId,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

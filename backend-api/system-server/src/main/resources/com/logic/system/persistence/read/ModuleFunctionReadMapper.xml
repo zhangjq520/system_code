@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.ModuleFunctionReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.ModuleFunction" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="module_id" property="moduleId" jdbcType="INTEGER" />
+    <result column="function_new_enabled" property="functionNewEnabled" jdbcType="BIT" />
+    <result column="function_new_label_en" property="functionNewLabelEn" jdbcType="VARCHAR" />
+    <result column="function_new_label_zh" property="functionNewLabelZh" jdbcType="VARCHAR" />
+    <result column="function_update_enabled" property="functionUpdateEnabled" jdbcType="BIT" />
+    <result column="function_update_label_en" property="functionUpdateLabelEn" jdbcType="VARCHAR" />
+    <result column="function_update_label_zh" property="functionUpdateLabelZh" jdbcType="VARCHAR" />
+    <result column="function_delete_enabled" property="functionDeleteEnabled" jdbcType="BIT" />
+    <result column="function_delete_label_en" property="functionDeleteLabelEn" jdbcType="VARCHAR" />
+    <result column="function_delete_label_zh" property="functionDeleteLabelZh" jdbcType="VARCHAR" />
+    <result column="function_query_enabled" property="functionQueryEnabled" jdbcType="BIT" />
+    <result column="function_query_label_en" property="functionQueryLabelEn" jdbcType="VARCHAR" />
+    <result column="function_query_label_zh" property="functionQueryLabelZh" jdbcType="VARCHAR" />
+    <result column="function_other1_enabled" property="functionOther1Enabled" jdbcType="BIT" />
+    <result column="function_other1_label_en" property="functionOther1LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other1_label_zh" property="functionOther1LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other2_enabled" property="functionOther2Enabled" jdbcType="BIT" />
+    <result column="function_other2_label_en" property="functionOther2LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other2_label_zh" property="functionOther2LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other3_enabled" property="functionOther3Enabled" jdbcType="BIT" />
+    <result column="function_other3_label_en" property="functionOther3LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other3_label_zh" property="functionOther3LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other4_enabled" property="functionOther4Enabled" jdbcType="BIT" />
+    <result column="function_other4_label_en" property="functionOther4LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other4_label_zh" property="functionOther4LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other5_enabled" property="functionOther5Enabled" jdbcType="BIT" />
+    <result column="function_other5_label_en" property="functionOther5LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other5_label_zh" property="functionOther5LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other6_enabled" property="functionOther6Enabled" jdbcType="BIT" />
+    <result column="function_other6_label_en" property="functionOther6LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other6_label_zh" property="functionOther6LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other7_enabled" property="functionOther7Enabled" jdbcType="BIT" />
+    <result column="function_other7_label_en" property="functionOther7LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other7_label_zh" property="functionOther7LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other8_enabled" property="functionOther8Enabled" jdbcType="BIT" />
+    <result column="function_other8_label_en" property="functionOther8LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other8_label_zh" property="functionOther8LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other9_enabled" property="functionOther9Enabled" jdbcType="BIT" />
+    <result column="function_other9_label_en" property="functionOther9LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other9_label_zh" property="functionOther9LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other10_enabled" property="functionOther10Enabled" jdbcType="BIT" />
+    <result column="function_other10_label_en" property="functionOther10LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other10_label_zh" property="functionOther10LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other11_enabled" property="functionOther11Enabled" jdbcType="BIT" />
+    <result column="function_other11_label_en" property="functionOther11LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other11_label_zh" property="functionOther11LabelZh" jdbcType="VARCHAR" />
+    <result column="function_other12_enabled" property="functionOther12Enabled" jdbcType="BIT" />
+    <result column="function_other12_label_en" property="functionOther12LabelEn" jdbcType="VARCHAR" />
+    <result column="function_other12_label_zh" property="functionOther12LabelZh" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, module_id, function_new_enabled, function_new_label_en, function_new_label_zh, function_update_enabled, 
+    function_update_label_en, function_update_label_zh, function_delete_enabled, function_delete_label_en, function_delete_label_zh, function_query_enabled, 
+    function_query_label_en, function_query_label_zh, function_other1_enabled, function_other1_label_en, function_other1_label_zh, function_other2_enabled, 
+    function_other2_label_en, function_other2_label_zh, function_other3_enabled, function_other3_label_en, function_other3_label_zh, function_other4_enabled, 
+    function_other4_label_en, function_other4_label_zh, function_other5_enabled, function_other5_label_en, function_other5_label_zh, function_other6_enabled, 
+    function_other6_label_en, function_other6_label_zh, function_other7_enabled, function_other7_label_en, function_other7_label_zh, function_other8_enabled, 
+    function_other8_label_en, function_other8_label_zh, function_other9_enabled, function_other9_label_en, function_other9_label_zh, function_other10_enabled, 
+    function_other10_label_en, function_other10_label_zh, function_other11_enabled, function_other11_label_en, function_other11_label_zh, function_other12_enabled, 
+    function_other12_label_en, function_other12_label_zh, version, created_dtm, created_by, last_modified_dtm, last_modified_by, 
+    deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_module_function
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="getModuleFunctionByModuleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_module_function
+    where module_id = #{moduleId,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+</mapper>

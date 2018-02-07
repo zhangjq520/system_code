@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.OrgProfileReadMapper">
+
+	<resultMap id="BaseResultMap" type="com.logic.system.domain.OrgProfile">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />
+		<result column="org_type" property="orgType" jdbcType="VARCHAR" />
+		<result column="license_no" property="licenseNo" jdbcType="VARCHAR" />
+		<result column="license_image" property="licenseImage"
+			jdbcType="INTEGER" />
+		<result column="website_url" property="websiteUrl" jdbcType="VARCHAR" />
+		<result column="capitical_account_name" property="capiticalAccountName"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_location" property="capticalAccountLocation"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_bank_name" property="capticalAccountBankName"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_no" property="capticalAccountNo"
+			jdbcType="VARCHAR" />
+		<result column="contact_personal_info_id" property="contactPersonalInfoId"
+			jdbcType="INTEGER" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="ics_merchant_code" property="icsMerchantCode"
+			jdbcType="VARCHAR" />
+		<result column="ics_capitical_account_id" property="icsCapiticalAccountId"
+			jdbcType="VARCHAR" />
+		<result column="ics_md5_key" property="icsMd5Key" jdbcType="VARCHAR" />
+		<result column="ics_des3_key" property="icsDes3Key" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="INTEGER" />
+		<result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+		<result column="created_by" property="createdBy" jdbcType="INTEGER" />
+		<result column="last_modified_dtm" property="lastModifiedDtm"
+			jdbcType="TIMESTAMP" />
+		<result column="last_modified_by" property="lastModifiedBy"
+			jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="SMALLINT" />
+	</resultMap>
+
+	<resultMap id="QueryResultMap" type="com.logic.system.ws.dto.OrgProfileDTO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="org_id" property="orgId" jdbcType="INTEGER" />
+		<result column="org_type" property="orgType" jdbcType="VARCHAR" />
+		<result column="license_no" property="licenseNo" jdbcType="VARCHAR" />
+		<result column="license_image" property="licenseImage"
+			jdbcType="INTEGER" />
+		<result column="website_url" property="websiteUrl" jdbcType="VARCHAR" />
+		<result column="contact_personal_info_id" property="contactPersonalInfoId"
+			jdbcType="INTEGER" />
+		<result column="capitical_account_name" property="capiticalAccountName"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_location" property="capticalAccountLocation"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_bank_name" property="capticalAccountBankName"
+			jdbcType="VARCHAR" />
+		<result column="captical_account_no" property="capticalAccountNo"
+			jdbcType="VARCHAR" />
+		<result column="comments" property="comments" jdbcType="VARCHAR" />
+		<result column="ics_merchant_code" property="icsMerchantCode"
+			jdbcType="VARCHAR" />
+		<result column="ics_capitical_account_id" property="icsCapiticalAccountId"
+			jdbcType="VARCHAR" />
+		<result column="ics_md5_key" property="icsMd5Key" jdbcType="VARCHAR" />
+		<result column="ics_des3_key" property="icsDes3Key" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, org_id,org_type, license_no, license_image, website_url,
+		contact_personal_info_id,capitical_account_name,captical_account_location,captical_account_bank_name,captical_account_no,
+		comments,
+		ics_merchant_code, ics_capitical_account_id, ics_md5_key, ics_des3_key, version,
+		created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+	</sql>
+	<sql id="Query_Column_List">
+		id, org_id,org_type, license_no, license_image,
+		website_url,
+		contact_personal_info_id,capitical_account_name,captical_account_location,captical_account_bank_name,captical_account_no,
+		comments,
+		ics_merchant_code, ics_capitical_account_id, ics_md5_key, ics_des3_key
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from system_org_profile
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByOrgId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from system_org_profile
+		where org_id = #{orgId,jdbcType=INTEGER}
+	</select>
+
+	<select id="getOrgProfile" resultMap="QueryResultMap"
+		parameterType="com.logic.common.util.QueryUtil">
+		select t.*
+		from (
+		select
+		<include refid="Query_Column_List" />
+		from system_org_profile
+		where deleted = 0
+		) t
+		where
+	</select>
+</mapper>

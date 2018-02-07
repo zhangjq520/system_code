@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.OAuthRefreshTokenReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.OAuthRefreshToken" >
+    <result column="token_id" property="tokenId" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="BLOB" />
+    <result column="authentication" property="authentication" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    token_id, token, authentication
+  </sql>
+
+  <select id="selectByTokenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from oauth_refresh_token
+    where token_id = #{tokenId,jdbcType=VARCHAR}
+  </select>
+</mapper>

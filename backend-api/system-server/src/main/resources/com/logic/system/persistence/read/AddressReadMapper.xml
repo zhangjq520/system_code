@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.AddressReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Address">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="contact_email" jdbcType="VARCHAR" property="contactEmail" />
+    <result column="address_alias" jdbcType="VARCHAR" property="addressAlias" />
+    <result column="positions" jdbcType="VARCHAR" property="positions" />
+    <result column="address_line_1" jdbcType="VARCHAR" property="addressLine1" />
+    <result column="address_line_2" jdbcType="VARCHAR" property="addressLine2" />
+    <result column="park_name" jdbcType="VARCHAR" property="parkName" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="zip_code" jdbcType="VARCHAR" property="zipCode" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="baidu_latitude" jdbcType="DECIMAL" property="baiduLatitude" />
+    <result column="baidu_longitude" jdbcType="DECIMAL" property="baiduLongitude" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="created_dtm" jdbcType="TIMESTAMP" property="createdDtm" />
+    <result column="created_by" jdbcType="INTEGER" property="createdBy" />
+    <result column="last_modified_dtm" jdbcType="TIMESTAMP" property="lastModifiedDtm" />
+    <result column="last_modified_by" jdbcType="INTEGER" property="lastModifiedBy" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, contact_name, contact_phone, contact_email, address_alias, positions, address_line_1, 
+    address_line_2, park_name, county, city, province, country, zip_code, latitude, longitude, 
+    baidu_latitude, baidu_longitude, version, created_dtm, created_by, last_modified_dtm, 
+    last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_address
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="query" resultMap="BaseResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    select * 
+    from system_address
+    where deleted = 0 AND 
+  </select>
+
+</mapper>

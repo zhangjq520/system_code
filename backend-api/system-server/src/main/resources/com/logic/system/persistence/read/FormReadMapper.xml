@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FormReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Form" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+    <result column="short_desc" property="shortDesc" jdbcType="VARCHAR" />
+    <result column="long_desc" property="longDesc" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="theme" property="theme" jdbcType="VARCHAR" />
+	  <result column="other_1" property="other1" jdbcType="VARCHAR" />
+	  <result column="other_2" property="other2" jdbcType="VARCHAR" />
+	  <result column="other_3" property="other3" jdbcType="VARCHAR" />
+	  <result column="other_4" property="other4" jdbcType="VARCHAR" />
+	  <result column="other_5" property="other5" jdbcType="VARCHAR" />
+	  <result column="other_6" property="other6" jdbcType="VARCHAR" />
+	  <result column="other_7" property="other7" jdbcType="VARCHAR" />
+	  <result column="other_8" property="other8" jdbcType="VARCHAR" />
+	  <result column="other_9" property="other9" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.FormDTO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="form_name" property="form_name" jdbcType="VARCHAR" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+	  <result column="other_1" property="machine_type" jdbcType="VARCHAR" />
+	  <result column="other_2" property="apply_type" jdbcType="VARCHAR" />
+    <result column="form_description" property="form_description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="updated_date" property="updated_date" jdbcType="DATE" />
+	  <result column="created_date" property="created_date" jdbcType="DATE" />
+    <result column="created_by_id" property="created_by_id" jdbcType="INTEGER" />
+    <result column="created_by_name" property="created_by_name" jdbcType="VARCHAR" />
+    <result column="updated_by_id" property="updated_by_id" jdbcType="INTEGER" />
+    <result column="updated_by_name" property="updated_by_name" jdbcType="VARCHAR" />
+    <result column="org_ids" property="org_ids" jdbcType="VARCHAR" />
+	  <result column="task_id" property="task_id" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="OrgFormResultMap" type="com.logic.system.domain.OrgForm" >
+    <result column="form_id" property="formId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="JSTreeResultMap" type="com.logic.common.ws.dto.system.ForJSTreeDTO">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="children_count" property="children" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select databaseId="oracle" id="getFormForJSTreeByFormId" resultMap="JSTreeResultMap" parameterType="java.lang.Integer">
+   SELECT
+      ('root_' || sf.id) AS id,
+      ('[' || sf.code || '] ' || sf.short_desc) AS text,
+      (
+        SELECT
+          COUNT(id)
+        FROM
+          system_form_section
+        WHERE
+          form_id=sf.id AND deleted=0
+      ) AS children_count
+    FROM
+      system_form sf
+    WHERE
+      id = #{formId,jdbcType=INTEGER}
+      AND deleted = 0
+  </select>
+  
+  <select databaseId="oracle" id="getSectionsForJSTreeByFormId" resultMap="JSTreeResultMap" parameterType="java.lang.Integer" >
+  	 SELECT
+       ('child_' || id) as id,
+       name as text,
+       0  as children_count
+     FROM
+       system_form_section
+     WHERE form_id = #{formId,jdbcType=INTEGER}
+     AND deleted = 0
+  </select>
+  
+  <sql id="Base_Column_List" >
+    id, code, style, short_desc, long_desc, status, theme, other_1, other_2, other_3, other_4, other_5, other_6, other_7, other_8, other_9, version, created_dtm, created_by,
+    last_modified_dtm, last_modified_by, deleted
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="checkFormExist" resultType="int" parameterType="com.logic.system.domain.FormElement">
+    select count(1) from system_form 
+    where deleted = 0
+    <if test="formId != null">
+  		and id = #{formId}
+  	</if>
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.Form">
+    select count(1) from system_form 
+    where deleted = 0 
+    and code = #{code, jdbcType=VARCHAR}
+    <if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+  
+  <select databaseId="mysql" id="selectForms" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  	  	SELECT DISTINCT
+		t.id,
+		t.code,
+		t.form_name,
+		t.form_description,
+		t.status,
+		t.style,
+		t.updated_date,
+		t.created_by_id,
+		t.created_by_name,
+		t.updated_by_id,
+		t.updated_by_name,
+		t.org_ids
+	FROM (
+		SELECT
+			t1.id,
+			t1.code,
+			t1.short_desc AS form_name,
+			t1.long_desc AS form_description,
+			t1.status,
+			t1.style,
+			t1.last_modified_dtm AS updated_date,
+			t1.created_by AS created_by_id,
+			concat(
+				t3.first_name,
+				' ',
+				t3.last_name
+			) AS created_by_name,
+			t1.last_modified_by AS updated_by_id,
+			concat(
+				t5.first_name,
+				' ',
+				t5.last_name
+			) AS updated_by_name,
+			(
+				SELECT
+					GROUP_CONCAT(t7.org_id)
+				FROM
+					system_org_form t7
+				WHERE
+					t7.form_id = t1.id
+			) org_ids,
+			t6.org_id AS org_id
+		FROM
+			system_form t1
+		LEFT JOIN system_user t2 ON t1.created_by = t2.id
+		LEFT JOIN system_personal_info t3 ON t2.personal_info_id = t3.id
+		LEFT JOIN system_user t4 ON t1.last_modified_by = t4.id
+		LEFT JOIN system_personal_info t5 ON t4.personal_info_id = t5.id
+		LEFT JOIN system_org_form t6 ON t1.id = t6.form_id
+		WHERE
+			t1.deleted = 0
+	) t
+	WHERE
+  </select>
+  
+  <select id="selectSumPoint" resultType="int" parameterType="java.lang.Integer">
+   		select count(point) from system_form_element where form_id = #{formId,jdbcType=INTEGER}
+  </select>
+  
+  <select databaseId="oracle" id="selectForms" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+	  SELECT DISTINCT
+	  t.id,
+	  t.code,
+	  t.form_name,
+	  t.form_description,
+	  t.status,
+	  t.style,
+	  t.other_1,
+	  t.other_2,
+	  t.updated_date,
+	  t.created_by_id,
+	  t.created_by_name,
+	  t.updated_by_id,
+	  t.updated_by_name,
+	  t.org_ids,
+	  t.task_id,
+	  t.created_date
+	  FROM (
+	  SELECT
+	  t1.id,
+	  t1.code,
+	  t1.short_desc AS form_name,
+	  t1.long_desc AS form_description,
+	  t1.status,
+	  t1.style,
+	  t1.other_1,
+	  t1.other_2,
+	  t1.last_modified_dtm AS updated_date,
+	  t1.created_by AS created_by_id,
+	  t1.created_dtm AS created_date,
+	  (t3.first_name || ' ' || t3.last_name) AS created_by_name,
+	  t1.last_modified_by AS updated_by_id,
+	  (t5.first_name || ' ' || t5.last_name) AS updated_by_name,
+	  (
+	  SELECT
+	  LISTAGG(t7.org_id, ', ') WITHIN GROUP (ORDER BY t7.org_id)
+	  FROM
+	  system_org_form t7
+	  WHERE
+	  t7.form_id = t1.id
+	  ) org_ids,
+	  t6.org_id AS org_id,
+	  (select task_id from system_task_form where form_id=t1.id and rownum &lt; 2) as task_id
+	  FROM
+	  system_form t1
+	  LEFT JOIN system_user t2 ON t1.created_by = t2.id
+	  LEFT JOIN system_personal_info t3 ON t2.personal_info_id = t3.id
+	  LEFT JOIN system_user t4 ON t1.last_modified_by = t4.id
+	  LEFT JOIN system_personal_info t5 ON t4.personal_info_id = t5.id
+	  LEFT JOIN system_org_form t6 ON t1.id = t6.form_id
+	  WHERE
+	  t1.deleted = 0
+	  ) t
+	WHERE
+  </select>
+  
+  <select id="selectAllForm" resultMap="QueryResultMap" >
+  	select id,
+			code,
+  			short_desc as form_name,
+  			long_desc as form_description
+  	from system_form
+  	where deleted = 0
+  </select>
+
+  <select id="selectOrgForms" resultMap="OrgFormResultMap" parameterType="java.lang.Integer" >
+    select form_id, org_id
+    from system_org_form
+    where form_id = #{formId,jdbcType=INTEGER}
+  </select>
+
+	<select id="getElementCountByFormId" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+		select
+		count(1)
+		from system_form_element
+		where form_id = #{formId,jdbcType=INTEGER}
+	</select>
+
+	<select id="getFormByMachineTypeAndApplyType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		select
+		<include refid="Base_Column_List" />
+		from system_form
+		where other_1 like '%' || #{machineType, jdbcType=VARCHAR} || '%'
+		and other_2 = #{applyType,  jdbcType=VARCHAR}
+		and deleted = 0
+	</select>
+
+	<select id="getFormByApplyType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from system_form
+		where other_2 = #{applyType,  jdbcType=VARCHAR}
+		and deleted = 0
+	</select>
+</mapper>

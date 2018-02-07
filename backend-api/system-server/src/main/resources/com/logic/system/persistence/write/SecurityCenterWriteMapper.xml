@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.logic.system.persistence.write.SecurityCenterWriteMapper">
+ 
+  <insert id="insertSelective" parameterType="com.logic.system.domain.SecurityCenter">
+  	<selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+     </selectKey>
+    insert into system_security_center
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pwdOperationSwitch != null">
+        pwd_operation_switch,
+      </if>
+      <if test="pwdOperation != null">
+        pwd_operation,
+      </if>     
+      <if test="pwdScopeDelivery != null">
+        pwd_scope_delivery,
+      </if>
+      <if test="pwdScopeRecharge != null">
+        pwd_scope_recharge,
+      </if>
+      <if test="pwdScopeFundAllocation != null">
+        pwd_scope_fund_allocation,
+      </if>
+      <if test="smsVerifySwitch != null">
+        sms_verify_switch,
+      </if>
+      <if test="smsPhoneNumber != null">
+        sms_phone_number,
+      </if>
+      <if test="smsValidationCode != null">
+        sms_validation_code,
+      </if>
+      <if test="smsExpiryTime != null">
+        sms_expiry_time,
+      </if>
+      <if test="smsScopeDelivery != null">
+        sms_scope_delivery,
+      </if>
+      <if test="smsScopeRecharge != null">
+        sms_scope_recharge,
+      </if>
+      <if test="smsScopeFundAllocation != null">
+        sms_scope_fund_allocation,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createdDtm != null">
+        created_dtm,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null">
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null">
+        last_modified_by,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">      
+      <if test="pwdOperationSwitch != null">
+        #{pwdOperationSwitch,jdbcType=BIT},
+      </if>
+      <if test="pwdOperation != null">
+        #{pwdOperation,jdbcType=VARCHAR},
+      </if>      
+      <if test="pwdScopeDelivery != null">
+        #{pwdScopeDelivery,jdbcType=BIT},
+      </if>
+      <if test="pwdScopeRecharge != null">
+        #{pwdScopeRecharge,jdbcType=BIT},
+      </if>
+      <if test="pwdScopeFundAllocation != null">
+        #{pwdScopeFundAllocation,jdbcType=BIT},
+      </if>
+      <if test="smsVerifySwitch != null">
+        #{smsVerifySwitch,jdbcType=BIT},
+      </if>
+      <if test="smsPhoneNumber != null">
+        #{smsPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smsValidationCode != null">
+        #{smsValidationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smsExpiryTime != null">
+        #{smsExpiryTime,jdbcType=BIGINT},
+      </if>
+      <if test="smsScopeDelivery != null">
+        #{smsScopeDelivery,jdbcType=BIT},
+      </if>
+      <if test="smsScopeRecharge != null">
+        #{smsScopeRecharge,jdbcType=BIT},
+      </if>
+      <if test="smsScopeFundAllocation != null">
+        #{smsScopeFundAllocation,jdbcType=BIT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null">
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null">
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null">
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert> 
+   
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.SecurityCenter">
+    update system_security_center
+    set pwd_operation_switch = #{pwdOperationSwitch,jdbcType=BIT},
+    pwd_operation = #{pwdOperation,jdbcType=VARCHAR},    
+    pwd_scope_delivery = #{pwdScopeDelivery,jdbcType=BIT},
+    pwd_scope_recharge = #{pwdScopeRecharge,jdbcType=BIT},
+    pwd_scope_fund_allocation = #{pwdScopeFundAllocation,jdbcType=BIT},
+    sms_verify_switch = #{smsVerifySwitch,jdbcType=BIT},
+    sms_phone_number = #{smsPhoneNumber,jdbcType=VARCHAR},
+    sms_validation_code = #{smsValidationCode,jdbcType=VARCHAR},
+    sms_expiry_time = #{smsExpiryTime,jdbcType=VARCHAR},
+    sms_scope_delivery = #{smsScopeDelivery,jdbcType=BIT},
+    sms_scope_recharge = #{smsScopeRecharge,jdbcType=BIT},
+    sms_scope_fund_allocation = #{smsScopeFundAllocation,jdbcType=BIT},
+    version = version + 1,
+    created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+    created_by = #{createdBy,jdbcType=INTEGER},
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+    deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>  
+    
+</mapper>

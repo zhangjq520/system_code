@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.UserOrgHierarchyWriteMapper" >
+  
+  <insert id="insertSelective" parameterType="com.logic.system.domain.UserOrgHierarchy" >     
+    insert into system_org_user_hierarchy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <delete id="cleanupOrgIds" parameterType="java.lang.Integer" >     
+    delete from system_org_user_hierarchy
+    where user_id=#{userId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="cleanupAll">     
+    delete from system_org_user_hierarchy
+  </delete>  
+  
+</mapper>

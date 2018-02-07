@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.OnlineHelpReadMapper">
+    <resultMap id="BaseResultMap" type="com.logic.system.domain.OnlineHelp">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="QUES_SUBJECT" property="quesSubject" jdbcType="VARCHAR"/>
+        <result column="QUES_ANSWER" property="quesAnswer" jdbcType="VARCHAR"/>
+        <result column="RELATED_MODULES" property="relatedModules" jdbcType="VARCHAR"/>
+        <result column="PUBLISH_STATUS" property="publishStatus" jdbcType="VARCHAR"/>
+        <result column="VERSION" property="version" jdbcType="INTEGER"/>
+        <result column="CREATED_DTM" property="createdDtm" jdbcType="TIMESTAMP"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="INTEGER"/>
+        <result column="LAST_MODIFIED_DTM" property="lastModifiedDtm" jdbcType="TIMESTAMP"/>
+        <result column="LAST_MODIFIED_BY" property="lastModifiedBy" jdbcType="INTEGER"/>
+        <result column="DELETED" property="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.OnlineHelpDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="ques_subject" property="question_subject" jdbcType="VARCHAR"/>
+        <result column="ques_answer" property="question_answer" jdbcType="VARCHAR"/>
+        <result column="related_modules" property="related_modules" jdbcType="VARCHAR"/>
+        <result column="publish_status" property="publish_status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, QUES_SUBJECT, QUES_ANSWER, RELATED_MODULES, PUBLISH_STATUS, VERSION, CREATED_DTM, 
+    CREATED_BY, LAST_MODIFIED_DTM, LAST_MODIFIED_BY, DELETED
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from SYSTEM_ONLINE_HELP
+        where ID = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYSTEM_ONLINE_HELP
+    </select>
+
+    <select id="queryOnlineHelps" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil">
+    SELECT t.*
+    FROM (
+    SELECT
+     t1.id as id,
+     t1.ques_subject as question_subject,
+     t1.ques_answer as question_answer,
+     t1.related_modules as related_modules,
+     t1.publish_status as publish_status
+    FROM system_online_help t1
+    WHERE
+    t1.deleted = 0
+    ) t
+    WHERE
+  </select>
+
+</mapper>

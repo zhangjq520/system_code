@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.TaskFormReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.TaskForm" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TASK_ID" property="taskId" jdbcType="INTEGER" />
+    <result column="FORM_ID" property="formId" jdbcType="INTEGER" />
+    <result column="FORM_TYPE" property="formType" jdbcType="VARCHAR" />
+    <result column="FORM_DESC" property="formDesc" jdbcType="VARCHAR" />
+    <result column="OTHER_1" property="other_1" jdbcType="VARCHAR" />
+    <result column="OTHER_2" property="other_2" jdbcType="VARCHAR" />
+    <result column="OTHER_3" property="other_3" jdbcType="VARCHAR" />
+    <result column="OTHER_4" property="other_4" jdbcType="VARCHAR" />
+    <result column="OTHER_5" property="other_5" jdbcType="VARCHAR" />
+    <result column="OTHER_6" property="other_6" jdbcType="VARCHAR" />
+    <result column="OTHER_7" property="other_7" jdbcType="VARCHAR" />
+    <result column="OTHER_8" property="other_8" jdbcType="VARCHAR" />
+    <result column="OTHER_9" property="other_9" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="INTEGER" />
+    <result column="CREATED_DTM" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="INTEGER" />
+    <result column="LAST_MODIFIED_DTM" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="LAST_MODIFIED_BY" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="DELETED" property="deleted" jdbcType="INTEGER" />
+  </resultMap>
+  
+
+  <sql id="Base_Column_List" >
+    ID, TASK_ID, FORM_ID, FORM_TYPE, FORM_DESC, OTHER_1, OTHER_2, OTHER_3, OTHER_4, OTHER_5, OTHER_6, OTHER_7, OTHER_8, OTHER_9, VERSION, CREATED_DTM, CREATED_BY, LAST_MODIFIED_DTM,
+    LAST_MODIFIED_BY, DELETED
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYSTEM_TASK_FORM
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from SYSTEM_TASK_FORM
+    where task_id = #{id,jdbcType=INTEGER} AND
+    deleted = 0
+  </select>
+
+  <select id="getTaskFormsByTaskIdAndFormType" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from SYSTEM_TASK_FORM
+    where task_id = #{taskId,jdbcType=VARCHAR} AND
+    form_type = #{formType,jdbcType=VARCHAR} AND
+    deleted = 0
+  </select>
+</mapper>

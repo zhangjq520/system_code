@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.UserReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_id" property="loginId" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="pwd_expired_date" property="pwdExpiredDate" jdbcType="VARCHAR" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="locked" property="locked" jdbcType="BIT" />
+    <result column="default_locale" property="defaultLocale" jdbcType="VARCHAR" />
+    <result column="default_timezone" property="defaultTimezone" jdbcType="VARCHAR" />
+    <result column="systemic" property="systemic" jdbcType="BIT" />
+    <result column="work_phone_number" property="workPhoneNumber" jdbcType="VARCHAR" />
+    <result column="personal_info_id" property="personalInfoId" jdbcType="INTEGER" />
+    <result column="security_id" property="securityId" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.UserDTO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_id" property="login_id" jdbcType="VARCHAR" />
+    <result column="first_name" property="first_name" jdbcType="VARCHAR" />
+    <result column="last_name" property="last_name" jdbcType="VARCHAR" />
+    <result column="email_primary" property="email_primary" jdbcType="VARCHAR" />
+    <result column="default_locale" property="default_locale" jdbcType="VARCHAR" />
+    <result column="default_timezone" property="defaultTimezone" jdbcType="VARCHAR" />
+    <result column="locked" property="locked" jdbcType="BIT" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="security_id" property="securityId" jdbcType="INTEGER" />
+    <result column="role_name" property="role_name" jdbcType="VARCHAR" />
+    <result column="org_ids" property="org_ids" jdbcType="VARCHAR" />
+    <result column="role_ids" property="role_ids" jdbcType="VARCHAR" />
+    <result column="org_codes" property="org_codes" jdbcType="VARCHAR" />
+    <result column="org_names" property="org_names" jdbcType="VARCHAR" />
+    <result column="systemic" property="systemic" jdbcType="VARCHAR" />
+     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="work_phone_number" property="workPhoneNumber" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="avatar_file_name" property="avatarFileName" jdbcType="VARCHAR" />
+    <collection column="user_role_id" property="roleDTOs"
+                  ofType="com.logic.common.ws.dto.system.RoleDTO"
+                  resultMap="UserRoleDTOResultMap">
+    </collection>
+  </resultMap>
+
+  <resultMap id="UserRoleDTOResultMap" type="com.logic.common.ws.dto.system.RoleDTO" >
+        <id column="user_role_id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="levels" property="level" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="UserEmployeeResultMap" type="com.logic.common.ws.dto.configuration.UserEmployeeDTO" >
+    <result column="employee_id" property="employee_id" jdbcType="INTEGER" />
+    <result column="employee_code" property="employee_code" jdbcType="VARCHAR" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+    <result column="first_name" property="first_name" jdbcType="VARCHAR" />
+    <result column="last_name" property="last_name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="UserSearchResultMap" type="com.logic.common.ws.dto.system.UserSearchDTO" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_id" property="login_id" jdbcType="VARCHAR" />
+    <result column="user_name" property="user_name" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="UserOrgResultMap" type="com.logic.system.domain.UserOrg">
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="UserRoleResultMap" type="com.logic.system.domain.UserRole">
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, login_id, password, disabled, locked, default_locale, default_timezone, systemic, personal_info_id, security_id,
+     version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted, 
+    pwd_expired_date
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_user
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+  <select id="selectUsersByRoleCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select
+        t1.id as id,
+        t1.login_id as login_id,
+        t1.personal_info_id as personal_info_id
+      from system_user t1
+      inner JOIN SYSTEM_USER_ROLE t2 on t1.id = t2.USER_ID
+      INNER JOIN SYSTEM_ROLE t3 on t2.ROLE_ID = t3.ID and t3.CODE = #{code, jdbcType=VARCHAR}
+    </select>
+
+  <select id="checkLoginIdUnique" resultType="int" parameterType="java.lang.String">
+    select count(1) from system_user where login_id = #{loginId, jdbcType=VARCHAR}
+  </select>
+  
+  <select databaseId="oracle" id="selectUsers" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  	SELECT DISTINCT
+		t.id,
+		t.login_id,
+		t.first_name,
+		t.last_name,
+		t.email_primary,
+		t.default_locale,
+		t.default_timezone,
+		t.locked,
+		t.disabled,
+		t.role_name,
+		t.org_ids,
+        t.role_ids,
+        t.title
+	FROM
+		(
+			SELECT
+				t1.*, t2.first_name,
+				t2.last_name,
+				t2.email_primary,
+				t2.title,
+				(
+					SELECT
+						group_concat(t4. id SEPARATOR ', ')
+					FROM
+						system_user_role t3
+					JOIN system_role t4 ON t3.role_id = t4.id
+					WHERE
+						user_id = t1.id
+					GROUP BY
+						t3.user_id
+				) role_ids,
+                (
+					SELECT
+						group_concat(t4. NAME SEPARATOR ', ')
+					FROM
+						system_user_role t3
+					JOIN system_role t4 ON t3.role_id = t4.id
+					WHERE
+						user_id = t1.id
+					GROUP BY
+						t3.user_id
+				) role_name,
+				(
+					SELECT
+						GROUP_CONCAT(orgusr.org_id)
+					FROM
+						system_org_user orgusr
+					WHERE
+						orgusr.user_id = t1.id
+				) org_ids,
+				t5.org_id org_id
+                
+			FROM
+				system_user t1
+			LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id
+			LEFT JOIN system_org_user t5 ON t1.id = t5.user_id
+			WHERE
+				t1.deleted = 0
+)t
+	WHERE
+
+  </select>
+
+  <select databaseId="mysql" id="selectUsers" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+   SELECT DISTINCT t.*
+
+    FROM
+        (
+        SELECT
+            t1.*, t2.first_name,
+            t2.last_name,
+            t2.email_primary,
+            t2.title,
+            (
+                SELECT
+                GROUP_CONCAT(DISTINCT t4.name ORDER BY t4.name SEPARATOR ', ')
+                FROM
+                system_user_role t3
+                JOIN system_role t4 ON t3.role_id = t4.id
+                WHERE
+                user_id = t1.id
+                GROUP BY
+                t3.user_id
+            ) role_name,
+			(
+					SELECT
+						group_concat(t4. id SEPARATOR ', ')
+					FROM
+						system_user_role t3
+					JOIN system_role t4 ON t3.role_id = t4.id
+					WHERE
+						user_id = t1.id
+					GROUP BY
+						t3.user_id
+			) role_ids,
+            (
+                SELECT
+                  GROUP_CONCAT(DISTINCT orgusr.org_id ORDER BY orgusr.org_id SEPARATOR ',')
+                FROM
+                  system_org_user orgusr
+                WHERE
+                  orgusr.user_id = t1.id
+            ) org_ids,
+            (
+               SELECT 
+                 GROUP_CONCAT(DISTINCT t10.full_name ORDER BY orgusr.org_id SEPARATOR ', ')
+               FROM 
+                 system_org_user orgusr left join system_organization t10 on orgusr.org_id = t10.id
+               WHERE 
+                 orgusr.user_id = t1.id
+            ) org_names, 
+            (
+               SELECT 
+                 GROUP_CONCAT(DISTINCT t10.code ORDER BY orgusr.org_id SEPARATOR ',')
+               FROM 
+                 system_org_user orgusr left join system_organization t10 on orgusr.org_id = t10.id
+               WHERE 
+                 orgusr.user_id = t1.id
+            ) org_codes, 
+            '' AS org_id,
+            '' AS org_name,
+		    '' AS user_role_id,
+		    '' AS code,
+		    '' AS name,
+		    '' AS levels,
+		    t2.work_phone_number as work_phone_number,
+            t8.path AS avatar,
+            t8.name AS avatar_file_name
+            FROM
+              system_user t1
+            LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id
+            LEFT JOIN system_org_user t5 ON t1.id = t5.user_id
+            LEFT JOIN system_organization t9 ON t5.org_id = t9.id
+            LEFT JOIN system_user_role t6 ON t6.user_id = t1.id
+            LEFT JOIN system_role t7 ON t7.id = t6.role_id
+            LEFT JOIN system_file t8 ON t8.id = t2.avatar
+            WHERE
+            t1.deleted = 0
+        ) t
+    WHERE
+
+  </select>
+
+  <select id="selectByLoginId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List"/>
+    from system_user
+    where login_id = #{loginId,jdbcType=VARCHAR}
+    and deleted = 0
+    and disabled = 0
+    and now() &lt;= pwd_expired_date
+  </select>
+  
+  <select databaseId="oracle" id="quickFind" resultMap="QueryResultMap" parameterType="java.lang.String" >
+    SELECT 	t1.id, 
+    		t1.login_id, 
+    		t1.disabled, 
+    		t1.locked, 
+    		t1.default_locale,
+    		t1.default_timezone,
+           	t2.first_name,
+           	t2.last_name,
+           	t2.email_primary
+    FROM system_user t1 LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id
+    WHERE t1.deleted = 0
+    and t2.first_name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    or t2.last_name like concat('%',#{name,jdbcType=VARCHAR},'%')
+  </select>
+
+  <select databaseId="mysql" id="quickFind" resultMap="QueryResultMap" parameterType="java.lang.String" >
+        SELECT 	t1.id,
+        t1.login_id,
+        t1.disabled,
+        t1.locked,
+        t1.default_locale,
+        t1.default_timezone,
+        t2.first_name,
+        t2.last_name,
+        t2.email_primary
+        FROM system_user t1 LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id
+        WHERE t1.deleted = 0
+        and t2.first_name like '%' || #{name,jdbcType=VARCHAR} || '%'
+        or t2.last_name like '%'|| #{name,jdbcType=VARCHAR} || '%'
+    </select>
+  
+  <select databaseId="oracle" id="getUserEmployee" resultMap="UserEmployeeResultMap" parameterType="com.logic.common.util.QueryUtil" >
+  	SELECT t.*
+  	FROM (
+	    select t1.id as employee_id, t1.code as employee_code, 
+	    		concat(t2.first_name, ' ', t2.last_name) as employee_name,
+	    		t3.login_id as login_id,
+	    		t2.work_phone_number as phone, t4.email_primary as email
+	    from ehs_employee t1 left join system_personal_info t2 on t1.personal_info_id = t2.id
+	    join system_user t3 on t1.user_id = t3.id
+	    left join system_personal_info t4 on t3.personal_info_id = t4.id
+	    where t1.deleted = 0
+	    and t3.deleted = 0
+	    and t1.id not in (select employee_id from ehs_physical_contact where deleted = 0 and physical_id=#{params.physicalId})
+	    ) t
+	WHERE
+	
+  </select>
+
+  <select databaseId="mysql" id="getUserEmployee" resultMap="UserEmployeeResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    SELECT t.*
+    FROM (
+      select t1.id as employee_id, t1.code as employee_code,
+        t2.first_name || ' ' || t2.last_name as employee_name,
+        t3.login_id as login_id,
+        t2.work_phone_number as phone, t4.email_primary as email
+      from ehs_employee t1 left join system_personal_info t2 on t1.personal_info_id = t2.id
+      join system_user t3 on t1.user_id = t3.id
+      left join system_personal_info t4 on t3.personal_info_id = t4.id
+      where t1.deleted = 0
+      and t3.deleted = 0
+      and t1.id not in (select employee_id from ehs_physical_contact where deleted = 0 and physical_id=#{params.physicalId})
+    ) t
+    WHERE
+
+  </select>
+  
+  <select id="getAllSearchUser" resultMap="UserSearchResultMap" >
+    SELECT 	t1.id, 
+    		t1.login_id, 
+           	concat(t2.first_name, ' ', t2.last_name) as user_name
+    FROM system_user t1 LEFT JOIN system_personal_info t2 ON t1.personal_info_id = t2.id
+    WHERE t1.deleted = 0
+  </select>
+
+  <select id="selectOrgByUserId" resultMap="UserOrgResultMap" parameterType="java.lang.Integer" >
+    select
+    user_id, org_id
+    from system_org_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getUserRolesByUserId" resultMap="UserRoleResultMap" parameterType="java.lang.Integer" >
+        select user_id, role_id from system_user_role where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+  <select id="selectAllUserByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+       select
+           t1.*
+       from system_user t1
+       INNER JOIN system_user_role t2 on t2.USER_ID=t1.ID
+       where t2.role_id=#{roleId,jdbcType=INTEGER}
+    </select>
+
+  <select id="selectFactoryManagerId" resultType="java.lang.Integer" parameterType="java.lang.String">
+      select
+          t1.id
+      from system_user t1
+      INNER JOIN SYSTEM_ORG_USER t2 on t2.USER_ID = t1.ID
+      INNER JOIN SYSTEM_ORGANIZATION t3 on t2.ORG_ID = t3.ID
+      INNER JOIN SYSTEM_USER_ROLE t4 on t1.id = t4.USER_ID
+      INNER JOIN SYSTEM_ROLE t5 on t5.id = t4.ROLE_ID
+      where t3.CODE = #{orgCode,jdbcType=VARCHAR} and t5.CODE= '_T2M' and t1.DELETED=0
+    </select>
+    
+  <select id="getAllUserByOrgID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select u.*
+    from system_user u
+ 		right join system_org_user ou on ou.user_id = u.id
+        left join system_organization o on ou.org_id = o.id
+    where o.id = #{orgID,jdbcType=INTEGER}
+    and u.deleted = 0
+    </select>
+</mapper>

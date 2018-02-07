@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.DeviceReadMapper" >
+    <resultMap id="BaseResultMap" type="com.logic.system.domain.Device" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="device_os" property="deviceOs" jdbcType="VARCHAR" />
+        <result column="device_os_version" property="deviceOsVersion" jdbcType="VARCHAR" />
+        <result column="device_serial" property="deviceSerial" jdbcType="VARCHAR" />
+        <result column="device_brand" property="deviceBrand" jdbcType="VARCHAR" />
+        <result column="device_model" property="deviceModel" jdbcType="VARCHAR" />
+        <result column="device_cpu" property="deviceCpu" jdbcType="VARCHAR" />
+        <result column="device_ram" property="deviceRam" jdbcType="VARCHAR" />
+        <result column="purchase_date" property="purchaseDate" jdbcType="TIMESTAMP" />
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+        <result column="sim_iccid" property="simIccid" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="INTEGER" />
+        <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+        <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+        <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+        <result column="deleted" property="deleted" jdbcType="BIT" />
+    </resultMap>
+
+    <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.DeviceDTO" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="user_id" jdbcType="INTEGER" />
+        <result column="user_full_name" property="user_full_name" jdbcType="VARCHAR" />
+        <result column="user_role_name" property="user_role_name" jdbcType="VARCHAR" />
+        <result column="user_org_name" property="user_org_name" jdbcType="VARCHAR" />
+        <result column="device_os" property="device_os" jdbcType="VARCHAR" />
+        <result column="device_os_version" property="device_os_version" jdbcType="VARCHAR" />
+        <result column="device_serial" property="device_serial" jdbcType="VARCHAR" />
+        <result column="device_brand" property="device_brand" jdbcType="VARCHAR" />
+        <result column="device_model" property="device_model" jdbcType="VARCHAR" />
+        <result column="device_cpu" property="device_cpu" jdbcType="VARCHAR" />
+        <result column="device_ram" property="device_ram" jdbcType="VARCHAR" />
+        <result column="purchase_date" property="purchase_date" jdbcType="TIMESTAMP" />
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+        <result column="sim_iccid" property="simIccid" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, user_id, device_os, device_os_version, device_serial, device_brand, device_model, device_cpu,
+        device_ram, purchase_date, phone_number, sim_iccid, status, version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from system_mobile_device
+        where id = #{id,jdbcType=INTEGER}
+        and deleted = 0
+    </select>
+
+    <select id="selectByDeviceSerial" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from system_mobile_device
+        where device_serial = #{deviceSerial,jdbcType=VARCHAR}
+        and deleted = 0
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from system_mobile_device
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and deleted = 0
+    </select>
+
+    <select id="selectDTO" resultMap="QueryResultMap" parameterType="java.lang.Integer" >
+        SELECT t1.id AS id,
+            t1.user_id AS user_id,
+            t3.first_name || ' ' || t3.last_name AS user_full_name,
+            (
+                SELECT
+                LISTAGG(t7.name, ', ') WITHIN GROUP (ORDER BY t7.name)
+                FROM
+                system_user_role t6
+                JOIN system_role t7 ON t6.role_id = t7.id
+                WHERE
+                user_id = t1.user_id
+                GROUP BY
+                t6.user_id
+            ) AS user_role_name,
+            (
+                SELECT
+                LISTAGG(t9.short_name, ', ') WITHIN GROUP (ORDER BY t9.short_name)
+                FROM
+                system_org_user t8
+                JOIN system_organization t9 ON t8.org_id = t9.id
+                WHERE
+                user_id = t1.user_id
+                GROUP BY
+                t8.user_id
+            ) AS user_org_name,
+            t1.device_os AS device_os,
+            t1.device_os_version AS device_os_version,
+            t1.device_serial AS device_serial,
+            t1.device_brand AS device_brand,
+            t1.device_model AS device_model,
+            t1.device_cpu AS device_cpu,
+            t1.device_ram AS device_ram,
+            t1.purchase_date AS purchase_date,
+            t1.phone_number AS phone_number,
+            t1.sim_iccid AS sim_iccid,
+            t1.status AS status
+        FROM system_mobile_device t1
+            LEFT JOIN system_user t2 ON t1.user_id = t2.id
+            LEFT JOIN system_personal_info t3 ON t2.personal_info_id = t3.id
+            LEFT JOIN system_org_user t4 ON t2.id = t4.user_id
+        WHERE
+        t1.id = #{id,jdbcType=INTEGER}
+        AND t1.deleted = 0
+
+    </select>
+
+    <select id="selectDevices" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+        SELECT t.*
+            FROM (
+                SELECT t1.id AS id,
+                    t1.user_id AS user_id,
+                    t3.first_name || ' ' || t3.last_name AS user_full_name,
+                    (
+                        SELECT
+                        LISTAGG(t7.name, ', ') WITHIN GROUP (ORDER BY t7.name)
+                        FROM
+                        system_user_role t6
+                        JOIN system_role t7 ON t6.role_id = t7.id
+                        WHERE
+                        user_id = t1.user_id
+                        GROUP BY
+                        t6.user_id
+                    ) AS user_role_name,
+                    (
+                        SELECT
+                        LISTAGG(t9.short_name, ', ') WITHIN GROUP (ORDER BY t9.short_name)
+                        FROM
+                        system_org_user t8
+                        JOIN system_organization t9 ON t8.org_id = t9.id
+                        WHERE
+                        user_id = t1.user_id
+                        GROUP BY
+                        t8.user_id
+                    ) AS user_org_name,
+                    t1.device_os AS device_os,
+                    t1.device_os_version AS device_os_version,
+                    t1.device_serial AS device_serial,
+                    t1.device_brand AS device_brand,
+                    t1.device_model AS device_model,
+                    t1.device_cpu AS device_cpu,
+                    t1.device_ram AS device_ram,
+                    t1.purchase_date AS purchase_date,
+                    t1.phone_number AS phone_number,
+                    t1.sim_iccid AS sim_iccid,
+                    t1.status AS status
+                FROM system_mobile_device t1
+                    LEFT JOIN system_user t2 ON t1.user_id = t2.id
+                    LEFT JOIN system_personal_info t3 ON t2.personal_info_id = t3.id
+                    LEFT JOIN system_org_user t4 ON t2.id = t4.user_id
+                WHERE
+                    t1.deleted = 0
+            ) t
+        WHERE
+    </select>
+</mapper>

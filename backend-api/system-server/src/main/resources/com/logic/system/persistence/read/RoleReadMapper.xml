@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.RoleReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="levels" property="levels" jdbcType="INTEGER" />
+    <result column="systemic" property="systemic" jdbcType="BIT" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.RoleDTO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="levels" property="level" jdbcType="INTEGER" />
+    <result column="systemic" property="systemic" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, name, levels, systemic, version, created_dtm, created_by, last_modified_dtm, 
+    last_modified_by, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_role
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select id="getRolesByUserID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	 select <include refid="Base_Column_List" /> 
+	  from system_user_role sur, system_role sr
+	 where sur.role_id = sr.id
+	   and sur.user_id = #{userID,jdbcType=INTEGER}
+  </select> 
+  
+  <select id="getAllRole" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_role
+    where deleted = 0
+  </select> 
+  
+  <select id="getETMGRoles" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_role
+    where deleted = 0  and (`code` = 'ETMG' OR `code` = 'ETOP' OR `code` = 'ETAP' OR `code` = 'ETFI')
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.Role">
+  	select count(1) from system_role where code = #{code} 
+  	<if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+  
+  <select id="getRoles" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    select t.*
+    from (
+	    select 
+	    <include refid="Base_Column_List" />
+	    from system_role
+	    where deleted = 0
+	) t
+	where
+  </select>
+  
+  <select id="getRoleIdCount" resultType="int" parameterType="Integer">
+  		select count(1) from system_role where id = #{id}
+  </select>
+
+</mapper>

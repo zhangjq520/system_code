@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.FormResponseDetailWriteMapper" >
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update system_form_response_detail
+    set deleted = 1
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteBatch" parameterType="hashmap" >
+    delete from system_form_response_detail
+    where form_response_master_id = #{masterId,jdbcType=INTEGER}
+  </delete>
+
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.FormResponseDetail" >
+    <selectKey keyProperty="id" order="AFTER"
+               resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into system_form_response_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="formResponseMasterId != null" >
+        form_response_master_id,
+      </if>
+      <if test="formElementId != null" >
+        form_element_id,
+      </if>
+      <if test="comments != null" >
+        COMMENTS,
+      </if>
+      <if test="attachments != null" >
+        ATTACHMENTS,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="response != null" >
+        response,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="formResponseMasterId != null" >
+        #{formResponseMasterId,jdbcType=INTEGER},
+      </if>
+      <if test="formElementId != null" >
+        #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="response != null" >
+        #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.FormResponseDetail" >
+    update system_form_response_detail
+    <set >
+      <if test="formResponseMasterId != null" >
+        form_response_master_id = #{formResponseMasterId,jdbcType=INTEGER},
+      </if>
+      <if test="formElementId != null" >
+        form_element_id = #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        COMMENTS = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="attachments != null" >
+        ATTACHMENTS = #{attachments,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        POINT = #{point,jdbcType=DECIMAL},
+      </if>
+      version = version+1,
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="response != null" >
+        response = #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.FormResponseDetail" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_form_response_detail.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form_response_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="formResponseMasterId != null" >
+        form_response_master_id,
+      </if>
+      <if test="formElementId != null" >
+        form_element_id,
+      </if>
+      <if test="comments != null" >
+        COMMENTS,
+      </if>
+      <if test="attachments != null" >
+        ATTACHMENTS,
+      </if>
+      <if test="point != null" >
+        POINT,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="response != null" >
+        response,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="formResponseMasterId != null" >
+        #{formResponseMasterId,jdbcType=INTEGER},
+      </if>
+      <if test="formElementId != null" >
+        #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="response != null" >
+        #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <insert databaseId="oracle" id="insertBatch" parameterType="java.util.List" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_form_response_detail.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form_response_detail(
+    id,
+    form_response_master_id,
+    form_element_id,
+    point,
+    version,
+    created_dtm,
+    created_by,
+    last_modified_dtm,
+    last_modified_by,
+    deleted
+    )
+    select s_system_form_response_detail.NextVal,A.* from
+    (<foreach item="detail" collection="list" separator="union all">
+    (select
+    #{detail.formResponseMasterId,jdbcType=INTEGER},
+    #{detail.formElementId,jdbcType=INTEGER},
+    #{detail.point,jdbcType=REAL},
+    #{detail.version,jdbcType=INTEGER},
+    #{detail.createdDtm,jdbcType=TIMESTAMP},
+    #{detail.createdBy,jdbcType=INTEGER},
+    #{detail.lastModifiedDtm,jdbcType=TIMESTAMP},
+    #{detail.lastModifiedBy,jdbcType=INTEGER},
+    #{detail.deleted,jdbcType=BIT}
+    from dual)
+    </foreach>) A
+  </insert>
+  
+  <insert databaseId="mysql" id="insertBatch" parameterType="java.util.List" >
+    insert into system_form_response_detail(
+    form_response_master_id,
+    form_element_id,
+    response,
+    comments,
+    attachments,
+    point,
+    version,
+    created_dtm,
+    created_by,
+    last_modified_dtm,
+    last_modified_by,
+    deleted
+    ) values 
+    <foreach collection="list" index="index" item="detail" separator="," open="" close="">
+    ( #{detail.formResponseMasterId,jdbcType=INTEGER},
+    #{detail.formElementId,jdbcType=INTEGER},
+    #{detail.response, jdbcType=VARCHAR},
+    #{detail.comments, jdbcType=VARCHAR},
+    #{detail.attachments, jdbcType=VARCHAR},
+    #{detail.point,jdbcType=REAL},
+    #{detail.version,jdbcType=INTEGER},
+    #{detail.createdDtm,jdbcType=TIMESTAMP},
+    #{detail.createdBy,jdbcType=INTEGER},
+    #{detail.lastModifiedDtm,jdbcType=TIMESTAMP},
+    #{detail.lastModifiedBy,jdbcType=INTEGER},
+    #{detail.deleted,jdbcType=BIT} )
+    </foreach>
+  </insert>
+  
+   <update id="updateDetailByEleIdAndMasterId" parameterType="com.logic.system.domain.FormResponseDetail" >
+    update system_form_response_detail
+    <set >
+      <if test="formResponseMasterId != null" >
+        form_response_master_id = #{formResponseMasterId,jdbcType=INTEGER},
+      </if>
+      <if test="formElementId != null" >
+        form_element_id = #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="comments != null" >
+        COMMENTS = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="attachments != null" >
+        ATTACHMENTS = #{attachments,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        POINT = #{point,jdbcType=DECIMAL},
+      </if>
+      version = version+1,
+      <if test="createdDtm != null" >
+        created_dtm = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="response != null" >
+        response = #{response,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where form_response_master_id = #{formResponseMasterId,jdbcType=INTEGER} 
+    and form_element_id = #{formElementId,jdbcType=INTEGER}
+  </update>
+</mapper>

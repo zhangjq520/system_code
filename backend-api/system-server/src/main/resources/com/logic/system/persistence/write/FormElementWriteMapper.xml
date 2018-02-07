@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.FormElementWriteMapper" >
+
+  <delete id="deleteByPrimaryKey" parameterType="com.logic.system.domain.FormElement" >
+    update system_form_element
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.FormElement" >
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+		SELECT
+		LAST_INSERT_ID()
+	</selectKey>
+    insert into system_form_element
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="formId != null" >
+        form_id,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="elementType != null" >
+        element_type,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="subjectDesc != null" >
+        subject_desc,
+      </if>
+      <if test="inputDesc != null" >
+        input_desc,
+      </if>
+      <if test="correctResponse != null" >
+        correct_response,
+      </if>
+      <if test="correctNumberStart != null" >
+        correct_number_start,
+      </if>
+      <if test="correctNumberEnd != null" >
+        correct_number_end,
+      </if>            
+      <if test="inputForException != null" >
+        input_for_exception,
+      </if>
+      <if test="parentAnswerCode != null" >
+        parent_answer_code,
+      </if>
+      <if test="viewName != null" >
+        view_name,
+      </if>
+      <if test="columnForDisplay != null" >
+        column_for_display,
+      </if>
+      <if test="columnForValue != null" >
+        column_for_value,
+      </if>
+      <if test="whereClause != null" >
+        where_clause,
+      </if>
+      <if test="headerText != null" >
+        header_text,
+      </if>
+      <if test="refQuestionId != null" >
+        ref_question_id,
+      </if>
+      <if test="required != null" >
+        required,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="isSummary != null" >
+        is_summary,
+      </if>
+      <if test="isInvalid != null" >
+        is_invalid,
+      </if>
+      <if test="isSummaryHidden != null" >
+        is_summary_hidden,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="sectionId != null" >
+        section_id,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="other1 != null" >
+        other_1,
+      </if>
+      <if test="other2 != null" >
+        other_2,
+      </if>
+      <if test="other3 != null" >
+        other_3,
+      </if>
+      <if test="other4 != null" >
+        other_4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+   	  <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="formId != null" >
+        #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="elementType != null" >
+        #{elementType,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectDesc != null" >
+        #{subjectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDesc != null" >
+        #{inputDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="correctResponse != null" >
+        #{correctResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="correctNumberStart != null" >
+        #{correctNumberStart,jdbcType=DECIMAL},
+      </if>
+      <if test="correctNumberEnd != null" >
+        #{correctNumberEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="inputForException != null" >
+        #{inputForException,jdbcType=VARCHAR},
+      </if>
+      <if test="parentAnswerCode != null" >
+        #{parentAnswerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null" >
+        #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForDisplay != null" >
+        #{columnForDisplay,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForValue != null" >
+        #{columnForValue,jdbcType=VARCHAR},
+      </if>
+      <if test="whereClause != null" >
+        #{whereClause,jdbcType=VARCHAR},
+      </if>
+      <if test="headerText != null" >
+        #{headerText,jdbcType=VARCHAR},
+      </if>
+      <if test="refQuestionId != null" >
+        #{refQuestionId,jdbcType=INTEGER},
+      </if>
+      <if test="required != null" >
+        #{required,jdbcType=SMALLINT},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="isSummary != null" >
+        #{isSummary,jdbcType=BIT},
+      </if>
+      <if test="isInvalid != null" >
+        #{isInvalid,jdbcType=BIT},
+      </if>
+      <if test="isSummaryHidden != null" >
+        #{isSummaryHidden,jdbcType=BIT},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null" >
+        #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+       #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+       #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        #{other4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update  id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.FormElement" >
+    update system_form_element
+    <set >
+      <if test="formId != null" >
+        form_id = #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="elementType != null" >
+        element_type = #{elementType,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectDesc != null" >
+        subject_desc = #{subjectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDesc != null" >
+        input_desc = #{inputDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="correctResponse != null" >
+        correct_response = #{correctResponse,jdbcType=VARCHAR},
+      </if>
+      correct_number_start = #{correctNumberStart,jdbcType=DECIMAL},
+      correct_number_end = #{correctNumberEnd,jdbcType=DECIMAL},
+      <if test="inputForException != null" >
+        input_for_exception = #{inputForException,jdbcType=VARCHAR},
+      </if>
+      <if test="parentAnswerCode != null" >
+        parent_answer_code = #{parentAnswerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null" >
+        view_name = #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForDisplay != null" >
+        column_for_display = #{columnForDisplay,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForValue != null" >
+        column_for_value = #{columnForValue,jdbcType=VARCHAR},
+      </if>
+      <if test="whereClause != null" >
+        where_clause = #{whereClause,jdbcType=VARCHAR},
+      </if>
+      <if test="headerText != null" >
+        header_text = #{headerText,jdbcType=VARCHAR},
+      </if>
+      <if test="refQuestionId != null" >
+        ref_question_id = #{refQuestionId,jdbcType=INTEGER},
+      </if>
+      <if test="required != null" >
+        required = #{required,jdbcType=SMALLINT},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="isSummary != null" >
+        is_summary = #{isSummary,jdbcType=BIT},
+      </if>
+      <if test="isInvalid != null" >
+        is_invalid = #{isInvalid,jdbcType=BIT},
+      </if>
+      <if test="isSummaryHidden != null" >
+        is_summary_hidden = #{isSummaryHidden,jdbcType=BIT},
+      </if>
+      <if test="stepId != null" >
+        step_id = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null" >
+        section_id = #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="subject != null" >
+        subject = #{subject,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+       <if test="other1 != null" >
+        other_1 = #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        other_2 = #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        other_3 = #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        other_4 = #{other4,jdbcType=VARCHAR},
+      </if>
+      version=version+1
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateCorrectResponseById" parameterType="java.util.Map" >
+    update system_form_element set
+    	correct_response = #{optionalAnswerId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete  id="deleteByFormId" parameterType="com.logic.system.domain.FormElement" >
+    update system_form_element
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where form_id = #{formId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.FormElement" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_form_element.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form_element
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="formId != null" >
+        form_id,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="elementType != null" >
+        element_type,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="subjectDesc != null" >
+        subject_desc,
+      </if>
+      <if test="inputDesc != null" >
+        input_desc,
+      </if>
+      <if test="correctResponse != null" >
+        correct_response,
+      </if>
+      <if test="correctNumberStart != null" >
+        correct_number_start,
+      </if>
+      <if test="correctNumberEnd != null" >
+        correct_number_end,
+      </if>            
+      <if test="inputForException != null" >
+        input_for_exception,
+      </if>
+      <if test="parentAnswerCode != null" >
+        parent_answer_code,
+      </if>
+      <if test="viewName != null" >
+        view_name,
+      </if>
+      <if test="columnForDisplay != null" >
+        column_for_display,
+      </if>
+      <if test="columnForValue != null" >
+        column_for_value,
+      </if>
+      <if test="whereClause != null" >
+        where_clause,
+      </if>
+      <if test="headerText != null" >
+        header_text,
+      </if>
+      <if test="refQuestionId != null" >
+        ref_question_id,
+      </if>
+      <if test="required != null" >
+        required,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="isSummary != null" >
+        is_summary,
+      </if>
+      <if test="isInvalid != null" >
+        is_invalid,
+      </if>
+      <if test="isSummaryHidden != null" >
+        is_summary_hidden,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="sectionId != null" >
+        section_id,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="other1 != null" >
+        other_1,
+      </if>
+      <if test="other2 != null" >
+        other_2,
+      </if>
+      <if test="other3 != null" >
+        other_3,
+      </if>
+      <if test="other4 != null" >
+        other_4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="formId != null" >
+        #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="elementType != null" >
+        #{elementType,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectDesc != null" >
+        #{subjectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDesc != null" >
+        #{inputDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="correctResponse != null" >
+        #{correctResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="correctNumberStart != null" >
+        #{correctNumberStart,jdbcType=DECIMAL},
+      </if>
+      <if test="correctNumberEnd != null" >
+        #{correctNumberEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="inputForException != null" >
+        #{inputForException,jdbcType=VARCHAR},
+      </if>
+      <if test="parentAnswerCode != null" >
+        #{parentAnswerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null" >
+        #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForDisplay != null" >
+        #{columnForDisplay,jdbcType=VARCHAR},
+      </if>
+      <if test="columnForValue != null" >
+        #{columnForValue,jdbcType=VARCHAR},
+      </if>
+      <if test="whereClause != null" >
+        #{whereClause,jdbcType=VARCHAR},
+      </if>
+      <if test="headerText != null" >
+        #{headerText,jdbcType=VARCHAR},
+      </if>
+      <if test="refQuestionId != null" >
+        #{refQuestionId,jdbcType=INTEGER},
+      </if>
+      <if test="required != null" >
+        #{required,jdbcType=SMALLINT},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=DECIMAL},
+      </if>
+      <if test="isSummary != null" >
+        #{isSummary,jdbcType=BIT},
+      </if>
+      <if test="isInvalid != null" >
+        #{isInvalid,jdbcType=BIT},
+      </if>
+      <if test="isSummaryHidden != null" >
+        #{isSummaryHidden,jdbcType=BIT},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="sectionId != null" >
+        #{sectionId,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="other1 != null" >
+        #{other1,jdbcType=VARCHAR},
+      </if>
+      <if test="other2 != null" >
+        #{other2,jdbcType=VARCHAR},
+      </if>
+      <if test="other3 != null" >
+        #{other3,jdbcType=VARCHAR},
+      </if>
+      <if test="other4 != null" >
+        #{other4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <insert databaseId="oracle" id="insertBatch" parameterType="java.util.List" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_form_element.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form_element(
+    id,
+    form_id,
+    section_id,
+    seq,
+    type,
+    subject,
+    point,
+    code,
+    other_1,
+    other_2,
+    other_3,
+    other_4,
+    version,
+    created_dtm,
+    created_by,
+    last_modified_dtm,
+    last_modified_by,
+    deleted
+    )
+    select s_system_form_element.NextVal,A.* from
+    (<foreach item="detail" collection="list" separator="union all">
+    (select
+    #{detail.formId,jdbcType=INTEGER},
+    #{detail.sectionId,jdbcType=INTEGER},
+    #{detail.seq,jdbcType=INTEGER},
+    #{detail.type,jdbcType=VARCHAR},
+    #{detail.subject,jdbcType=VARCHAR},
+    #{detail.point,jdbcType=REAL},
+    #{detail.code,jdbcType=VARCHAR},
+    #{detail.other1,jdbcType=VARCHAR},
+    #{detail.other2,jdbcType=VARCHAR},
+    #{detail.other3,jdbcType=VARCHAR},
+    #{detail.other4,jdbcType=VARCHAR},
+    #{detail.version,jdbcType=INTEGER},
+    #{detail.createdDtm,jdbcType=TIMESTAMP},
+    #{detail.createdBy,jdbcType=INTEGER},
+    #{detail.lastModifiedDtm,jdbcType=TIMESTAMP},
+    #{detail.lastModifiedBy,jdbcType=INTEGER},
+    #{detail.deleted,jdbcType=BIT}
+    from dual)
+  </foreach>) A
+  </insert>
+</mapper>

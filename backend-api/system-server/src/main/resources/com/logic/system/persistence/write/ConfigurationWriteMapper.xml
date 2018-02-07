@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.ConfigurationWriteMapper" >
+  
+
+  <delete  id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from system_configuration
+    where key_name = #{keyName,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.logic.system.domain.Configuration" >
+    insert into system_configuration
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="keyName != null" >
+        key_name,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="keyName != null" >
+        #{keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update  id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.Configuration" >
+    update system_configuration
+    <set >
+      <if test="value != null" >
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where key_name = #{keyName,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

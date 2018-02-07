@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FormElementReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.FormElement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="form_id" property="formId" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="element_type" property="elementType" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="subject_desc" property="subjectDesc" jdbcType="VARCHAR" />
+    <result column="input_desc" property="inputDesc" jdbcType="VARCHAR" />
+    <result column="correct_response" property="correctResponse" jdbcType="VARCHAR" />
+    <result column="correct_number_start" property="correctNumberStart" jdbcType="DECIMAL" />
+    <result column="correct_number_end" property="correctNumberEnd" jdbcType="DECIMAL" />
+    <result column="input_for_exception" property="inputForException" jdbcType="VARCHAR" />
+    <result column="parent_answer_code" property="parentAnswerCode" jdbcType="VARCHAR" />
+    <result column="view_name" property="viewName" jdbcType="VARCHAR" />
+    <result column="column_for_display" property="columnForDisplay" jdbcType="VARCHAR" />
+    <result column="column_for_value" property="columnForValue" jdbcType="VARCHAR" />
+    <result column="where_clause" property="whereClause" jdbcType="VARCHAR" />
+    <result column="header_text" property="headerText" jdbcType="VARCHAR" />
+    <result column="ref_question_id" property="refQuestionId" jdbcType="INTEGER" />
+    <result column="required" property="required" jdbcType="SMALLINT" />
+    <result column="point" property="point" jdbcType="DECIMAL" />
+    <result column="is_summary" property="isSummary" jdbcType="BIT" />
+    <result column="is_invalid" property="isInvalid" jdbcType="BIT" />
+    <result column="is_summary_hidden" property="isSummaryHidden" jdbcType="BIT" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="section_id" property="sectionId" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="other_1" property="other1" jdbcType="VARCHAR" />
+    <result column="other_2" property="other2" jdbcType="VARCHAR" />
+    <result column="other_3" property="other3" jdbcType="VARCHAR" />
+    <result column="other_4" property="other4" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.logic.system.ws.dto.FormElementDTO" id="FormElementDTOMap">
+  	<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="subject_desc" property="subjectDesc" jdbcType="VARCHAR" />
+    <result column="parent_answer_code" property="parentAnswerCode" jdbcType="VARCHAR" />
+    <result column="section_id" property="sectionId" jdbcType="INTEGER" />
+    <result column="is_summary" property="isSummary" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="section_name" property="sectionName" jdbcType="VARCHAR" />
+    <result column="section_code" property="sectionCode" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, form_id, seq, element_type, code, type, subject_desc, input_desc, correct_response, 
+    correct_number_start, correct_number_end, input_for_exception, parent_answer_code, 
+    view_name, column_for_display, column_for_value, where_clause, header_text, ref_question_id, 
+    required, point, is_summary, is_invalid, is_summary_hidden, step_id, section_id, 
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted, subject, status, other_1, other_2, other_3, other_4
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_form_element
+    where id = #{id,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+  
+  <select databaseId="mysql" id="selectByFormIdAndSectionId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+    <include refid="Base_Column_List" />,
+    GROUP_CONCAT(distinct t2.category) as questionCategory,
+ 	GROUP_CONCAT(distinct t3.reference_item_id) as questionReferenceItem
+    from system_form_element t1 left join system_element_category t2 on t1.id = t2.form_element_id
+    left join system_element_reference_item t3 on t1.id = t3.form_element_id
+    where t1.form_id = #{formId,jdbcType=INTEGER}
+    <if test="sectionId != null" >
+    and t1.section_id = #{sectionId,jdbcType=INTEGER}
+    </if>
+    and t1.deleted = 0
+    group by t1.id
+    order by t1.seq asc
+  </select>
+
+  <select databaseId="oracle" id="selectByFormIdAndSectionId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+     select 
+     <include refid="Base_Column_List" />,
+     (select WM_CONCAT(t2.category) from system_element_category t2 where t1.id = t2.form_element_id group by t2.form_element_id) as questionCategory,
+     (select WM_CONCAT(t3.reference_item_id) from system_element_reference_item t3 where t1.id = t3.form_element_id group by  t3.form_element_id) as questionReferenceItem 
+     from system_form_element t1
+     where t1.form_id = #{formId,jdbcType=INTEGER}
+     <if test="sectionId != null" >
+     and t1.section_id = #{sectionId,jdbcType=INTEGER}
+     </if>
+     and t1.deleted = 0
+     order by t1.seq asc
+  </select>
+  
+  <select id="selectByFormId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	select 
+    <include refid="Base_Column_List" />
+    from system_form_element
+    where form_id = #{formId,jdbcType=INTEGER}
+    and deleted = 0
+    and section_id is null
+  </select>
+  
+  <select id="checkCodeUnique" resultType="int" parameterType="com.logic.system.domain.FormElement">
+    select count(1) from system_form_element 
+    where deleted = 0 
+    and code = #{code, jdbcType=VARCHAR}
+    <if test="id != null">
+  		and id != #{id}
+  	</if>
+  </select>
+
+  <select id="selectByFormIdAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from system_form_element
+    where form_id = #{formId,jdbcType=INTEGER}
+    and deleted = 0
+  </select>
+
+  <select id="getPassedElementsByMasterId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+      fe.id as id,
+      fe.form_id as form_id,
+      fe.seq as seq,
+      fe.code as code,
+      fe.type as type,
+      fe.subject as subject,
+      fe.point as point,
+      fe.other_1 as other_1,
+      fe.other_2 as other_2,
+      fe.other_3 as other_3,
+      fe.other_4 as other_4
+    from system_form_element fe
+    left join system_form_response_detail frd on fe.id=frd.form_element_id
+    where frd.response= '1'
+    and frd.form_response_master_id= #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getFormElementByIds" resultMap="BaseResultMap" parameterType="java.util.List" >
+  	select *
+  	from system_form_element
+  	where id in 
+  	<foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+  	  #{id, jdbcType=INTEGER}
+  	</foreach>
+  </select>
+  
+  <select id="getElementListByFormIdAndSectionId" resultMap="FormElementDTOMap" parameterType="hashmap">
+  	select 
+  	  s.`code` as section_code,
+	  s.`name` as section_name,
+  	  t.*
+  	from system_form_element t
+  	inner join system_form_section s on t.section_id = s.id
+  	where t.form_id in 
+  		<foreach collection="formIdList" index="index" item="formId" open="(" close=")" separator=",">
+  			#{formId}
+  		</foreach>
+  	  and t.section_id in 
+  	  	<foreach collection="sectionIdList" index="index" item="sectionId" open="(" close=")" separator=",">
+  			#{sectionId}
+  		</foreach>
+  </select>
+  
+  <select id="getElementByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select *
+  	from system_form_element
+  	where code = #{code, jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getIdByEleAndFromCode" resultMap="BaseResultMap" >
+  	SELECT ele.* 
+	from system_form_element ele,system_form f,system_form_section fs
+	where ele.deleted = 0 AND ele.form_id=f.id AND ele.section_id=fs.id AND
+	f.`code`=#{0, jdbcType=VARCHAR} AND 
+	ele.`code`=#{1, jdbcType=VARCHAR} AND 
+	fs.`code`=#{2, jdbcType=VARCHAR}
+  </select>
+  
+   <select id="queryFormElement" resultMap="BaseResultMap" parameterType="com.logic.common.util.QueryUtil">
+  	SELECT * FROM system_form_element
+	WHERE form_id=(
+	SELECT id FROM system_form WHERE `code`='eshop_product'
+	) AND deleted=0 AND
+  </select>
+  
+</mapper>

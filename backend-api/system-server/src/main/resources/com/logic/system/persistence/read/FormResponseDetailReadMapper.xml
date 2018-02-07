@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.FormResponseDetailReadMapper">
+	<resultMap id="BaseResultMap" type="com.logic.system.domain.FormResponseDetail">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="form_response_master_id" property="formResponseMasterId"
+			jdbcType="INTEGER" />
+		<result column="form_element_id" property="formElementId"
+			jdbcType="INTEGER" />
+	    <result column="COMMENTS" property="comments" jdbcType="VARCHAR" />
+        <result column="ATTACHMENTS" property="attachments" jdbcType="VARCHAR" />
+        <result column="POINT" property="point" jdbcType="DECIMAL" />
+		<result column="version" property="version" jdbcType="INTEGER" />
+		<result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+		<result column="created_by" property="createdBy" jdbcType="INTEGER" />
+		<result column="last_modified_dtm" property="lastModifiedDtm"
+			jdbcType="TIMESTAMP" />
+		<result column="last_modified_by" property="lastModifiedBy"
+			jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+		<result column="response" property="response" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="formDetailMap" type="com.logic.system.ws.dto.FormDetailDTO">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="element_id" property="elementId" jdbcType="INTEGER" />
+	    <result column="element_code" property="elementCode" jdbcType="VARCHAR" />
+	    <result column="element_type" property="elementType" jdbcType="VARCHAR" />
+        <result column="element_subject" property="elementSubject" jdbcType="VARCHAR" />
+        <result column="element_subject_desc" property="elementSubjectDesc" jdbcType="VARCHAR" />
+        <result column="parent_answer_code" property="parentAnswerCode" jdbcType="VARCHAR" />
+        <result column="form_id" property="formId" jdbcType="INTEGER" />
+        <result column="section_id" property="sectionId" jdbcType="INTEGER" />
+        <result column="section_code" property="sectionCode" jdbcType="VARCHAR" />
+		<result column="response" property="response" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, form_response_master_id, form_element_id, COMMENTS, ATTACHMENTS, POINT,version, created_dtm,
+		created_by, last_modified_dtm,
+		last_modified_by, deleted, response
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from system_form_response_detail
+		where id = #{id,jdbcType=INTEGER}
+		and deleted = 0
+	</select>
+
+	<select id="getResponseList" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from system_form_response_detail
+		where form_response_master_id = #{responseMasterId,jdbcType=INTEGER}
+		and deleted = 0
+	</select>
+	
+	<select id="getResponseDTOList" resultMap="formDetailMap" 
+	  parameterType="java.lang.Integer">
+		select
+		detail.id as id,
+		detail.form_element_id as element_id,
+		element.code as element_code,
+		element.type as element_type,
+		element.subject as element_subject,
+		element.subject_desc as element_subject_desc,
+		element.parent_answer_code as parent_answer_code,
+		formRepmst.form_id as form_id,
+		section.id as section_id,
+		section.code as section_code,
+		detail.response as response
+		from 
+		system_form_response_detail detail
+		inner join system_form_response_master formRepmst on detail.form_response_master_id = formRepmst.id
+		inner join system_form_element element on detail.form_element_id = element.id
+		left outer join system_form_section section on element.section_id = section.id
+		where detail.form_response_master_id = #{responseMasterId,jdbcType=INTEGER}
+		and detail.deleted = 0
+	</select>
+
+	<!--<select id="checkFormResponseDetail" parameterType="com.qcs.inspection.domain.InspectionFormInstance"-->
+		<!--resultType="java.lang.Integer">-->
+		<!--select-->
+		<!--count(detail.id)-->
+		<!--from-->
+		<!--system_form_response_detail detail,-->
+		<!--ehs_inspection_form_instance instance-->
+		<!--where-->
+		<!--detail.form_response_master_id = instance.form_response_master_id-->
+		<!--and-->
+		<!--instance.inspection_object_id = #{inspectionObjectId }-->
+		<!--and-->
+		<!--instance.form_id = #{formId }-->
+		<!--and-->
+		<!--detail.deleted = 0-->
+		<!--and-->
+		<!--instance.deleted = 0-->
+	<!--</select>-->
+
+	<select id="checkFormResponseDetailByElementId" parameterType="java.util.HashMap"
+			resultType="java.lang.Integer">
+		select
+		count(detail.id)
+		from
+		system_form_response_detail detail,
+		ehs_inspection_form_instance instance
+		where
+		detail.form_response_master_id = instance.form_response_master_id
+		and
+		instance.inspection_object_id = #{inspectionObjectId }
+		and
+		instance.form_id = #{formId }
+		and
+		detail.form_element_id = #{formElementId}
+		and
+		detail.deleted = 0
+		and
+		instance.deleted = 0
+	</select>
+	
+	<select id="queryResponseWithDeviation" resultType="com.logic.common.ws.dto.qcs.inspection.FormResponseDetailDTO"
+		parameterType="java.lang.Integer">
+		select
+		detail.id,
+		detail.form_element_id,
+		detail.response,
+		deviation.severity,
+		deviation.scene_pictures,
+		deviation.immediate_action,
+		deviation.id as deviation_id
+		from 
+		system_form_response_detail detail
+		left join ehs_deviation deviation on deviation.response_detail_id = detail.id
+		where detail.form_response_master_id = #{responseMasterId,jdbcType=INTEGER}
+		and detail.deleted = 0
+	</select>
+</mapper>

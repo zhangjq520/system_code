@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.MobileDeviceWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SYSTEM_MOBILE_DEVICE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.MobileDevice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_DEVICE.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DEVICE (ID, USER_ID, DEVICE_OS, 
+      DEVICE_OS_VERSION, DEVICE_SERIAL, DEVICE_BRAND, 
+      DEVICE_MODEL, DEVICE_CPU, DEVICE_RAM, 
+      VERSION, CREATED_DTM, CREATED_BY, 
+      LAST_MODIFIED_DTM, LAST_MODIFIED_BY, DELETED
+      )
+    values (#{id,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{deviceOs,jdbcType=VARCHAR}, 
+      #{deviceOsVersion,jdbcType=VARCHAR}, #{deviceSerial,jdbcType=VARCHAR}, #{deviceBrand,jdbcType=VARCHAR}, 
+      #{deviceModel,jdbcType=VARCHAR}, #{deviceCpu,jdbcType=VARCHAR}, #{deviceRam,jdbcType=VARCHAR}, 
+      #{version,jdbcType=DECIMAL}, #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=DECIMAL}, 
+      #{lastModifiedDtm,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=DECIMAL}, #{deleted,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.MobileDevice" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYSTEM_MOBILE_DEVICE.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DEVICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="deviceOs != null" >
+        DEVICE_OS,
+      </if>
+      <if test="deviceOsVersion != null" >
+        DEVICE_OS_VERSION,
+      </if>
+      <if test="deviceSerial != null" >
+        DEVICE_SERIAL,
+      </if>
+      <if test="deviceBrand != null" >
+        DEVICE_BRAND,
+      </if>
+      <if test="deviceModel != null" >
+        DEVICE_MODEL,
+      </if>
+      <if test="deviceCpu != null" >
+        DEVICE_CPU,
+      </if>
+      <if test="deviceRam != null" >
+        DEVICE_RAM,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM,
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY,
+      </if>
+      <if test="deleted != null" >
+        DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceOs != null" >
+        #{deviceOs,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceOsVersion != null" >
+        #{deviceOsVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceSerial != null" >
+        #{deviceSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceBrand != null" >
+        #{deviceBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceModel != null" >
+        #{deviceModel,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceCpu != null" >
+        #{deviceCpu,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceRam != null" >
+        #{deviceRam,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.MobileDevice" >
+    update SYSTEM_MOBILE_DEVICE
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceOs != null" >
+        DEVICE_OS = #{deviceOs,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceOsVersion != null" >
+        DEVICE_OS_VERSION = #{deviceOsVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceSerial != null" >
+        DEVICE_SERIAL = #{deviceSerial,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceBrand != null" >
+        DEVICE_BRAND = #{deviceBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceModel != null" >
+        DEVICE_MODEL = #{deviceModel,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceCpu != null" >
+        DEVICE_CPU = #{deviceCpu,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceRam != null" >
+        DEVICE_RAM = #{deviceRam,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        DELETED = #{deleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.MobileDevice" >
+    update SYSTEM_MOBILE_DEVICE
+    set USER_ID = #{userId,jdbcType=DECIMAL},
+      DEVICE_OS = #{deviceOs,jdbcType=VARCHAR},
+      DEVICE_OS_VERSION = #{deviceOsVersion,jdbcType=VARCHAR},
+      DEVICE_SERIAL = #{deviceSerial,jdbcType=VARCHAR},
+      DEVICE_BRAND = #{deviceBrand,jdbcType=VARCHAR},
+      DEVICE_MODEL = #{deviceModel,jdbcType=VARCHAR},
+      DEVICE_CPU = #{deviceCpu,jdbcType=VARCHAR},
+      DEVICE_RAM = #{deviceRam,jdbcType=VARCHAR},
+      VERSION = #{version,jdbcType=DECIMAL},
+      CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      DELETED = #{deleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

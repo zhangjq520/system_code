@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.CodeReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.common.domain.Code" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="code_desc_en" property="codeDescEn" jdbcType="VARCHAR" />
+    <result column="code_desc_zh" property="codeDescZh" jdbcType="VARCHAR" />
+    <result column="code_desc_tr" property="codeDescTr" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="other_1" property="other1" jdbcType="VARCHAR" />
+    <result column="other_2" property="other2" jdbcType="VARCHAR" />
+    <result column="other_3" property="other3" jdbcType="VARCHAR" />
+    <result column="other_4" property="other4" jdbcType="VARCHAR" />
+    <result column="other_5" property="other5" jdbcType="VARCHAR" />
+    <result column="other_6" property="other6" jdbcType="VARCHAR" />
+    <result column="other_7" property="other7" jdbcType="VARCHAR" />
+    <result column="other_8" property="other8" jdbcType="VARCHAR" />
+    <result column="other_9" property="other9" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="created_dtm" property="createdDtm" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="INTEGER" />
+    <result column="last_modified_dtm" property="lastModifiedDtm" jdbcType="TIMESTAMP" />
+    <result column="last_modified_by" property="lastModifiedBy" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.CodeDTO">
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <result column="code_desc_en" property="code_desc_en" jdbcType="VARCHAR" />
+    <result column="code_desc_zh" property="code_desc_zh" jdbcType="VARCHAR" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="parent_code" property="parent_code" jdbcType="VARCHAR" />
+    <result column="org_ids" property="org_ids" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="JSTreeResultMap" type="com.logic.common.ws.dto.system.CodeForJSTreeDTO">
+    <id column="code" property="id" jdbcType="VARCHAR" />
+    <result column="code_desc_zh" property="text" jdbcType="VARCHAR" />
+    <result column="children_count" property="children" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="OrgCodeResultMap" type="com.logic.common.domain.OrgCode" >
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, code_desc_en, code_desc_zh, priority, disabled, parent_code, other_1, other_2, other_3, other_4, other_5, other_6, other_7, other_8, other_9,
+    version, created_dtm, created_by, last_modified_dtm, last_modified_by, deleted
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_code
+    where code = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+  </select>
+  
+  <select id="getRootCodes" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    SELECT DISTINCT
+      t.code as id, 
+      t.code,
+      t.code_desc_en,
+      t.code_desc_zh,
+      t.priority,
+      t.disabled,
+      t.parent_code,
+      t.other_1,
+      t.other_2,
+      t.other_3,
+      t.other_4,
+      t.other_5,
+      t.other_6,
+      t.other_7,
+      t.other_8,
+      t.other_9,      
+      t.org_ids
+    FROM (
+      SELECT
+        t1.code,
+        t1.code_desc_en,
+        t1.code_desc_zh,
+        t1.priority,
+        t1.disabled,
+        t1.parent_code,
+        t1.other_1,
+        t1.other_2,
+        t1.other_3,
+        t1.other_4,
+        t1.other_5,
+        t1.other_6,
+        t1.other_7,
+        t1.other_8,
+        t1.other_9,
+        (
+          SELECT
+            GROUP_CONCAT(t3.org_id)
+          FROM
+            system_org_code t3
+          WHERE
+            t3.code = t1.code
+        ) org_ids,
+        t2.org_id AS org_id
+      FROM
+        system_code t1
+      LEFT JOIN system_org_code t2 ON t1.code = t2.code
+      WHERE
+        t1.deleted = 0
+        and t1.parent_code is null
+    ) t
+    WHERE
+  </select>
+  
+  
+  <select  id="getChildCodes" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_code
+    where parent_code = #{code,jdbcType=VARCHAR}
+    and deleted = 0
+    and disabled = 0
+  </select>
+  
+  <select  id="checkCodeUnique" resultType="int" parameterType="java.lang.String" >
+    select count(1)
+    from system_code
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectOrgCodes" resultMap="OrgCodeResultMap" parameterType="java.lang.String" >
+    select code, org_id
+    from system_org_code
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  
+  <select databaseId="oracle" id="getCodeForJSTree" resultMap="JSTreeResultMap">
+  	SELECT
+      sc.code AS code,
+      concat('[', sc.code, '] ', sc.code_desc_zh) AS code_desc_zh,
+      (
+        SELECT
+          COUNT(code)
+        FROM
+          system_code
+        WHERE
+          parent_code=sc.code AND disabled=0 AND deleted=0
+      ) AS children_count
+	FROM
+	  system_code sc
+	WHERE
+	  code = #{code,jdbcType=VARCHAR}
+	  AND deleted = 0
+	  AND disabled = 0
+  </select>
+
+  <select databaseId="mysql" id="getCodeForJSTree" resultMap="JSTreeResultMap">
+    SELECT
+      sc.code AS code,
+       CONCAT('[', sc.code , '] ' , sc.code_desc_zh) AS code_desc_zh,
+      (
+        SELECT
+          COUNT(code)
+        FROM
+          system_code
+        WHERE
+          parent_code=sc.code AND disabled=0 AND deleted=0
+      ) AS children_count
+    FROM
+      system_code sc
+    WHERE
+      code = #{code,jdbcType=VARCHAR}
+      AND deleted = 0
+      AND disabled = 0
+  </select>
+  
+  <select id="getChildCodesForJSTree" resultMap="JSTreeResultMap" parameterType="java.lang.String" >
+  	SELECT
+	  sc.code AS code,
+	  concat('[', sc.code, '] ', sc.code_desc_zh) AS code_desc_zh,
+	  (
+	    SELECT
+	      COUNT(code)
+	    FROM
+	      system_code
+	    WHERE
+	      parent_code=sc.code
+	      AND disabled=0
+	      AND deleted=0
+	  ) AS children_count
+	FROM
+	  system_code sc
+	WHERE
+	  sc.parent_code = #{code,jdbcType=VARCHAR}
+	  AND sc.deleted = 0
+	  AND sc.disabled = 0
+  </select>
+  
+  <select databaseId="mysql" id="getCodeWithBlur" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from system_code
+    where code like #{code,jdbcType=VARCHAR} || '%'
+    and deleted = 0
+  </select>
+
+  <select databaseId="mysql" id="selectCodeForDiag" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from system_code t1
+    where code like 'Z1%' and (select count(1) from system_code where PARENT_CODE=t1.code)=0
+    and t1.deleted = 0
+  </select>
+  
+  <select id="getCodesByIds" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT t.*
+  	FROM (
+	    select 
+	    <include refid="Base_Column_List" />
+	    from system_code 
+	    where 
+	    code in         
+	    <foreach collection="list" item="codeId" index="index"
+            open="(" close=")" separator=",">
+            #{codeId}
+        </foreach>
+	    and deleted = 0
+	    ) t
+  </select>
+</mapper>

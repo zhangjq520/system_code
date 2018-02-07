@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.MobileDevicePositionWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from SYSTEM_MOBILE_DEVICE_POSITION
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.logic.system.domain.MobileDevicePosition" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYS_MOBILE_DEVICE_POSITION.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DEVICE_POSITION (ID, DEVICE_ID, TRACK_TIME, 
+      LONGITUDE, LATITUDE, VERSION, 
+      CREATED_DTM, CREATED_BY, LAST_MODIFIED_DTM, 
+      LAST_MODIFIED_BY, DELETED)
+    values (#{id,jdbcType=DECIMAL}, #{deviceId,jdbcType=DECIMAL}, #{trackTime,jdbcType=TIMESTAMP}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{version,jdbcType=DECIMAL}, 
+      #{createdDtm,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=DECIMAL}, #{lastModifiedDtm,jdbcType=TIMESTAMP}, 
+      #{lastModifiedBy,jdbcType=DECIMAL}, #{deleted,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.logic.system.domain.MobileDevicePosition" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT S_SYS_MOBILE_DEVICE_POSITION.NextVal FROM DUAL
+    </selectKey>
+    insert into SYSTEM_MOBILE_DEVICE_POSITION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      ID,
+      <if test="deviceId != null" >
+        DEVICE_ID,
+      </if>
+      <if test="trackTime != null" >
+        TRACK_TIME,
+      </if>
+      <if test="longitude != null" >
+        LONGITUDE,
+      </if>
+      <if test="latitude != null" >
+        LATITUDE,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM,
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY,
+      </if>
+      <if test="deleted != null" >
+        DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=DECIMAL},
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="trackTime != null" >
+        #{trackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.MobileDevicePosition" >
+    update SYSTEM_MOBILE_DEVICE_POSITION
+    <set >
+      <if test="deviceId != null" >
+        DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="trackTime != null" >
+        TRACK_TIME = #{trackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        LONGITUDE = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        LATITUDE = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDtm != null" >
+        CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null" >
+        DELETED = #{deleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.logic.system.domain.MobileDevicePosition" >
+    update SYSTEM_MOBILE_DEVICE_POSITION
+    set DEVICE_ID = #{deviceId,jdbcType=DECIMAL},
+      TRACK_TIME = #{trackTime,jdbcType=TIMESTAMP},
+      LONGITUDE = #{longitude,jdbcType=DECIMAL},
+      LATITUDE = #{latitude,jdbcType=DECIMAL},
+      VERSION = #{version,jdbcType=DECIMAL},
+      CREATED_DTM = #{createdDtm,jdbcType=TIMESTAMP},
+      CREATED_BY = #{createdBy,jdbcType=DECIMAL},
+      LAST_MODIFIED_DTM = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=DECIMAL},
+      DELETED = #{deleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

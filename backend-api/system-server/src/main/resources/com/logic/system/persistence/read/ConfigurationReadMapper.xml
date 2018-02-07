@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.ConfigurationReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.Configuration" >
+    <id column="key_name" property="keyName" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="QueryResultMap" type="com.logic.common.ws.dto.system.ConfigurationDTO">
+    <id column="key_name" property="key_name" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    key_name, value, description
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_configuration
+    where key_name = #{keyName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="checkKeyNameUnique" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	select count(1) 
+  	from system_configuration 
+  	where key_name = #{keyName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getConfigurations" resultMap="QueryResultMap" parameterType="com.logic.common.util.QueryUtil" >
+    select t.*, t.key_name as id
+    from (
+	    select 
+	    <include refid="Base_Column_List" />
+	    from system_configuration
+	) t
+	where
+  </select>
+</mapper>

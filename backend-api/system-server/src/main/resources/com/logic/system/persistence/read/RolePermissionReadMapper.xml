@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.read.RolePermissionReadMapper" >
+  <resultMap id="BaseResultMap" type="com.logic.system.domain.RolePermission" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <id column="module_id" property="moduleId" jdbcType="INTEGER" />
+    <result column="permission_string" property="permissionString" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="userPermissionMap" type="com.logic.common.ws.dto.system.UserPermissionDTO" >
+    <id column="module_id" property="moduleId" jdbcType="INTEGER" />
+    <result column="role_permission" property="rolePermission" jdbcType="INTEGER" />
+    <result column="module_permission" property="modulePermission" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    role_id, module_id, permission_string
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.logic.system.domain.RolePermission" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_role_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+      and module_id = #{moduleId,jdbcType=INTEGER}
+  </select>
+
+  <select id="getUserPermission" resultMap="userPermissionMap" parameterType="java.lang.Integer" >
+    select 
+    	t2.module_id, 
+    	t2.permission_string as role_permission, 
+    	t3.permission_string as module_permission
+	from 
+		system_user_role t1 join system_role_permission t2 on t1.role_id = t2.role_id
+		join system_module t3 on t2.module_id = t3.id 
+	where 
+		t1.user_id = #{userId,jdbcType=INTEGER}
+		and t3.deleted = 0
+		and t3.type = '_A52'
+	order by t3.priority asc
+  </select>
+  
+  <select id="getUserModulePermission" resultMap="userPermissionMap" parameterType="java.util.Map" >
+    select 
+    	t2.module_id, 
+    	t2.permission_string as role_permission, 
+    	t3.permission_string as module_permission
+	from 
+		system_user_role t1 join system_role_permission t2 on t1.role_id = t2.role_id
+		join system_module t3 on t2.module_id = t3.id 
+	where 
+		t1.user_id = #{userId,jdbcType=INTEGER}
+		and t3.id = #{moduleId,jdbcType=INTEGER}
+		and t3.deleted = 0
+  </select>
+  
+    <select id="getRoleModulesByRoleId"  resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select 
+    <include refid="Base_Column_List" />
+    from system_role_permission
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.FormElementOptionalAnswerWriteMapper" >
+
+  <delete  id="deleteByPrimaryKey" parameterType="com.logic.system.domain.FormElementOptionalAnswer" >
+    update system_form_ele_opt_answer
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete  id="deleteByElementId" parameterType="com.logic.system.domain.FormElementOptionalAnswer" >
+    update system_form_ele_opt_answer
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where form_element_id = #{formElementId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deletePhysicallyByElementId" parameterType="java.lang.Integer" >
+    delete from system_form_ele_opt_answer
+    where form_element_id = #{id,jdbcType=INTEGER}
+  </delete>  
+  
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.FormElementOptionalAnswer" >
+    <selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+    </selectKey>  
+    insert into system_form_ele_opt_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="formElementId != null" >
+        form_element_id,
+      </if>
+      <if test="answerSeq != null" >
+        answer_seq,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="answerText != null" >
+        answer_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="formElementId != null" >
+        #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSeq != null" >
+        #{answerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="answerText != null" >
+        #{answerText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update  id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.FormElementOptionalAnswer" >
+    update system_form_ele_opt_answer
+    <set >
+      <if test="formElementId != null" >
+        form_element_id = #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSeq != null" >
+        answer_seq = #{answerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      version = version + 1,
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="answerText != null" >
+        answer_text = #{answerText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+ 
+  <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.FormElementOptionalAnswer" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+     	SELECT s_system_form_ele_opt_answer.NextVal FROM DUAL
+    </selectKey>
+    insert into system_form_ele_opt_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="formElementId != null" >
+        form_element_id,
+      </if>
+      <if test="answerSeq != null" >
+        answer_seq,
+      </if>
+      <if test="point != null" >
+        point,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="answerText != null" >
+        answer_text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=INTEGER},
+      <if test="formElementId != null" >
+        #{formElementId,jdbcType=INTEGER},
+      </if>
+      <if test="answerSeq != null" >
+        #{answerSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null" >
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="answerText != null" >
+        #{answerText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+</mapper>

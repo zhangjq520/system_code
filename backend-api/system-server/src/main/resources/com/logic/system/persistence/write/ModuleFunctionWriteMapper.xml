@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.logic.system.persistence.write.ModuleFunctionWriteMapper" >
+  <delete id="deleteByPrimaryKey" parameterType="com.logic.system.domain.ModuleFunction" >
+    update 
+    system_module_function 
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert databaseId="mysql" id="insertSelective" parameterType="com.logic.system.domain.ModuleFunction" >
+  	<selectKey keyProperty="id" order="AFTER"  
+            resultType="java.lang.Integer">  
+            SELECT LAST_INSERT_ID()  
+    </selectKey>
+    insert into system_module_function
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="moduleId != null" >
+        module_id,
+      </if>
+      <if test="functionNewEnabled != null" >
+        function_new_enabled,
+      </if>
+      <if test="functionNewLabelEn != null" >
+        function_new_label_en,
+      </if>
+      <if test="functionNewLabelZh != null" >
+        function_new_label_zh,
+      </if>
+      <if test="functionUpdateEnabled != null" >
+        function_update_enabled,
+      </if>
+      <if test="functionUpdateLabelEn != null" >
+        function_update_label_en,
+      </if>
+      <if test="functionUpdateLabelZh != null" >
+        function_update_label_zh,
+      </if>
+      <if test="functionDeleteEnabled != null" >
+        function_delete_enabled,
+      </if>
+      <if test="functionDeleteLabelEn != null" >
+        function_delete_label_en,
+      </if>
+      <if test="functionDeleteLabelZh != null" >
+        function_delete_label_zh,
+      </if>
+      <if test="functionQueryEnabled != null" >
+        function_query_enabled,
+      </if>
+      <if test="functionQueryLabelEn != null" >
+        function_query_label_en,
+      </if>
+      <if test="functionQueryLabelZh != null" >
+        function_query_label_zh,
+      </if>
+      <if test="functionOther1Enabled != null" >
+        function_other1_enabled,
+      </if>
+      <if test="functionOther1LabelEn != null" >
+        function_other1_label_en,
+      </if>
+      <if test="functionOther1LabelZh != null" >
+        function_other1_label_zh,
+      </if>
+      <if test="functionOther2Enabled != null" >
+        function_other2_enabled,
+      </if>
+      <if test="functionOther2LabelEn != null" >
+        function_other2_label_en,
+      </if>
+      <if test="functionOther2LabelZh != null" >
+        function_other2_label_zh,
+      </if>
+      <if test="functionOther3Enabled != null" >
+        function_other3_enabled,
+      </if>
+      <if test="functionOther3LabelEn != null" >
+        function_other3_label_en,
+      </if>
+      <if test="functionOther3LabelZh != null" >
+        function_other3_label_zh,
+      </if>
+      <if test="functionOther4Enabled != null" >
+        function_other4_enabled,
+      </if>
+      <if test="functionOther4LabelEn != null" >
+        function_other4_label_en,
+      </if>
+      <if test="functionOther4LabelZh != null" >
+        function_other4_label_zh,
+      </if>
+      <if test="functionOther5Enabled != null" >
+        function_other5_enabled,
+      </if>
+      <if test="functionOther5LabelEn != null" >
+        function_other5_label_en,
+      </if>
+      <if test="functionOther5LabelZh != null" >
+        function_other5_label_zh,
+      </if>
+      <if test="functionOther6Enabled != null" >
+        function_other6_enabled,
+      </if>
+      <if test="functionOther6LabelEn != null" >
+        function_other6_label_en,
+      </if>
+      <if test="functionOther6LabelZh != null" >
+        function_other6_label_zh,
+      </if>
+      <if test="functionOther7Enabled != null" >
+        function_other7_enabled,
+      </if>
+      <if test="functionOther7LabelEn != null" >
+        function_other7_label_en,
+      </if>
+      <if test="functionOther7LabelZh != null" >
+        function_other7_label_zh,
+      </if>
+      <if test="functionOther8Enabled != null" >
+        function_other8_enabled,
+      </if>
+      <if test="functionOther8LabelEn != null" >
+        function_other8_label_en,
+      </if>
+      <if test="functionOther8LabelZh != null" >
+        function_other8_label_zh,
+      </if>
+      <if test="functionOther9Enabled != null" >
+        function_other9_enabled,
+      </if>
+      <if test="functionOther9LabelEn != null" >
+        function_other9_label_en,
+      </if>
+      <if test="functionOther9LabelZh != null" >
+        function_other9_label_zh,
+      </if>
+      <if test="functionOther10Enabled != null" >
+        function_other10_enabled,
+      </if>
+      <if test="functionOther10LabelEn != null" >
+        function_other10_label_en,
+      </if>
+      <if test="functionOther10LabelZh != null" >
+        function_other10_label_zh,
+      </if>
+      <if test="functionOther11Enabled != null" >
+        function_other11_enabled,
+      </if>
+      <if test="functionOther11LabelEn != null" >
+        function_other11_label_en,
+      </if>
+      <if test="functionOther11LabelZh != null" >
+        function_other11_label_zh,
+      </if>
+      <if test="functionOther12Enabled != null" >
+        function_other12_enabled,
+      </if>
+      <if test="functionOther12LabelEn != null" >
+        function_other12_label_en,
+      </if>
+      <if test="functionOther12LabelZh != null" >
+        function_other12_label_zh,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="functionNewEnabled != null" >
+        #{functionNewEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionNewLabelEn != null" >
+        #{functionNewLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionNewLabelZh != null" >
+        #{functionNewLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateEnabled != null" >
+        #{functionUpdateEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionUpdateLabelEn != null" >
+        #{functionUpdateLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateLabelZh != null" >
+        #{functionUpdateLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteEnabled != null" >
+        #{functionDeleteEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionDeleteLabelEn != null" >
+        #{functionDeleteLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteLabelZh != null" >
+        #{functionDeleteLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryEnabled != null" >
+        #{functionQueryEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionQueryLabelEn != null" >
+        #{functionQueryLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryLabelZh != null" >
+        #{functionQueryLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1Enabled != null" >
+        #{functionOther1Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther1LabelEn != null" >
+        #{functionOther1LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1LabelZh != null" >
+        #{functionOther1LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2Enabled != null" >
+        #{functionOther2Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther2LabelEn != null" >
+        #{functionOther2LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2LabelZh != null" >
+        #{functionOther2LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3Enabled != null" >
+        #{functionOther3Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther3LabelEn != null" >
+        #{functionOther3LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3LabelZh != null" >
+        #{functionOther3LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4Enabled != null" >
+        #{functionOther4Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther4LabelEn != null" >
+        #{functionOther4LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4LabelZh != null" >
+        #{functionOther4LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5Enabled != null" >
+        #{functionOther5Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther5LabelEn != null" >
+        #{functionOther5LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5LabelZh != null" >
+        #{functionOther5LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6Enabled != null" >
+        #{functionOther6Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther6LabelEn != null" >
+        #{functionOther6LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6LabelZh != null" >
+        #{functionOther6LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7Enabled != null" >
+        #{functionOther7Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther7LabelEn != null" >
+        #{functionOther7LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7LabelZh != null" >
+        #{functionOther7LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8Enabled != null" >
+        #{functionOther8Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther8LabelEn != null" >
+        #{functionOther8LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8LabelZh != null" >
+        #{functionOther8LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9Enabled != null" >
+        #{functionOther9Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther9LabelEn != null" >
+        #{functionOther9LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9LabelZh != null" >
+        #{functionOther9LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10Enabled != null" >
+        #{functionOther10Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther10LabelEn != null" >
+        #{functionOther10LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10LabelZh != null" >
+        #{functionOther10LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11Enabled != null" >
+        #{functionOther11Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther11LabelEn != null" >
+        #{functionOther11LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11LabelZh != null" >
+        #{functionOther11LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12Enabled != null" >
+        #{functionOther12Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther12LabelEn != null" >
+        #{functionOther12LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12LabelZh != null" >
+        #{functionOther12LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  
+    <insert databaseId="oracle" id="insertSelective" parameterType="com.logic.system.domain.ModuleFunction" >
+  	<selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT s_system_module_function.NextVal FROM DUAL
+    </selectKey>
+    insert into system_module_function
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="moduleId != null" >
+        module_id,
+      </if>
+      <if test="functionNewEnabled != null" >
+        function_new_enabled,
+      </if>
+      <if test="functionNewLabelEn != null" >
+        function_new_label_en,
+      </if>
+      <if test="functionNewLabelZh != null" >
+        function_new_label_zh,
+      </if>
+      <if test="functionUpdateEnabled != null" >
+        function_update_enabled,
+      </if>
+      <if test="functionUpdateLabelEn != null" >
+        function_update_label_en,
+      </if>
+      <if test="functionUpdateLabelZh != null" >
+        function_update_label_zh,
+      </if>
+      <if test="functionDeleteEnabled != null" >
+        function_delete_enabled,
+      </if>
+      <if test="functionDeleteLabelEn != null" >
+        function_delete_label_en,
+      </if>
+      <if test="functionDeleteLabelZh != null" >
+        function_delete_label_zh,
+      </if>
+      <if test="functionQueryEnabled != null" >
+        function_query_enabled,
+      </if>
+      <if test="functionQueryLabelEn != null" >
+        function_query_label_en,
+      </if>
+      <if test="functionQueryLabelZh != null" >
+        function_query_label_zh,
+      </if>
+      <if test="functionOther1Enabled != null" >
+        function_other1_enabled,
+      </if>
+      <if test="functionOther1LabelEn != null" >
+        function_other1_label_en,
+      </if>
+      <if test="functionOther1LabelZh != null" >
+        function_other1_label_zh,
+      </if>
+      <if test="functionOther2Enabled != null" >
+        function_other2_enabled,
+      </if>
+      <if test="functionOther2LabelEn != null" >
+        function_other2_label_en,
+      </if>
+      <if test="functionOther2LabelZh != null" >
+        function_other2_label_zh,
+      </if>
+      <if test="functionOther3Enabled != null" >
+        function_other3_enabled,
+      </if>
+      <if test="functionOther3LabelEn != null" >
+        function_other3_label_en,
+      </if>
+      <if test="functionOther3LabelZh != null" >
+        function_other3_label_zh,
+      </if>
+      <if test="functionOther4Enabled != null" >
+        function_other4_enabled,
+      </if>
+      <if test="functionOther4LabelEn != null" >
+        function_other4_label_en,
+      </if>
+      <if test="functionOther4LabelZh != null" >
+        function_other4_label_zh,
+      </if>
+      <if test="functionOther5Enabled != null" >
+        function_other5_enabled,
+      </if>
+      <if test="functionOther5LabelEn != null" >
+        function_other5_label_en,
+      </if>
+      <if test="functionOther5LabelZh != null" >
+        function_other5_label_zh,
+      </if>
+      <if test="functionOther6Enabled != null" >
+        function_other6_enabled,
+      </if>
+      <if test="functionOther6LabelEn != null" >
+        function_other6_label_en,
+      </if>
+      <if test="functionOther6LabelZh != null" >
+        function_other6_label_zh,
+      </if>
+      <if test="functionOther7Enabled != null" >
+        function_other7_enabled,
+      </if>
+      <if test="functionOther7LabelEn != null" >
+        function_other7_label_en,
+      </if>
+      <if test="functionOther7LabelZh != null" >
+        function_other7_label_zh,
+      </if>
+      <if test="functionOther8Enabled != null" >
+        function_other8_enabled,
+      </if>
+      <if test="functionOther8LabelEn != null" >
+        function_other8_label_en,
+      </if>
+      <if test="functionOther8LabelZh != null" >
+        function_other8_label_zh,
+      </if>
+      <if test="functionOther9Enabled != null" >
+        function_other9_enabled,
+      </if>
+      <if test="functionOther9LabelEn != null" >
+        function_other9_label_en,
+      </if>
+      <if test="functionOther9LabelZh != null" >
+        function_other9_label_zh,
+      </if>
+      <if test="functionOther10Enabled != null" >
+        function_other10_enabled,
+      </if>
+      <if test="functionOther10LabelEn != null" >
+        function_other10_label_en,
+      </if>
+      <if test="functionOther10LabelZh != null" >
+        function_other10_label_zh,
+      </if>
+      <if test="functionOther11Enabled != null" >
+        function_other11_enabled,
+      </if>
+      <if test="functionOther11LabelEn != null" >
+        function_other11_label_en,
+      </if>
+      <if test="functionOther11LabelZh != null" >
+        function_other11_label_zh,
+      </if>
+      <if test="functionOther12Enabled != null" >
+        function_other12_enabled,
+      </if>
+      <if test="functionOther12LabelEn != null" >
+        function_other12_label_en,
+      </if>
+      <if test="functionOther12LabelZh != null" >
+        function_other12_label_zh,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createdDtm != null" >
+        created_dtm,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm,
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{id,jdbcType=INTEGER},
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="functionNewEnabled != null" >
+        #{functionNewEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionNewLabelEn != null" >
+        #{functionNewLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionNewLabelZh != null" >
+        #{functionNewLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateEnabled != null" >
+        #{functionUpdateEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionUpdateLabelEn != null" >
+        #{functionUpdateLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateLabelZh != null" >
+        #{functionUpdateLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteEnabled != null" >
+        #{functionDeleteEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionDeleteLabelEn != null" >
+        #{functionDeleteLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteLabelZh != null" >
+        #{functionDeleteLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryEnabled != null" >
+        #{functionQueryEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionQueryLabelEn != null" >
+        #{functionQueryLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryLabelZh != null" >
+        #{functionQueryLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1Enabled != null" >
+        #{functionOther1Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther1LabelEn != null" >
+        #{functionOther1LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1LabelZh != null" >
+        #{functionOther1LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2Enabled != null" >
+        #{functionOther2Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther2LabelEn != null" >
+        #{functionOther2LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2LabelZh != null" >
+        #{functionOther2LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3Enabled != null" >
+        #{functionOther3Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther3LabelEn != null" >
+        #{functionOther3LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3LabelZh != null" >
+        #{functionOther3LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4Enabled != null" >
+        #{functionOther4Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther4LabelEn != null" >
+        #{functionOther4LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4LabelZh != null" >
+        #{functionOther4LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5Enabled != null" >
+        #{functionOther5Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther5LabelEn != null" >
+        #{functionOther5LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5LabelZh != null" >
+        #{functionOther5LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6Enabled != null" >
+        #{functionOther6Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther6LabelEn != null" >
+        #{functionOther6LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6LabelZh != null" >
+        #{functionOther6LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7Enabled != null" >
+        #{functionOther7Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther7LabelEn != null" >
+        #{functionOther7LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7LabelZh != null" >
+        #{functionOther7LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8Enabled != null" >
+        #{functionOther8Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther8LabelEn != null" >
+        #{functionOther8LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8LabelZh != null" >
+        #{functionOther8LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9Enabled != null" >
+        #{functionOther9Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther9LabelEn != null" >
+        #{functionOther9LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9LabelZh != null" >
+        #{functionOther9LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10Enabled != null" >
+        #{functionOther10Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther10LabelEn != null" >
+        #{functionOther10LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10LabelZh != null" >
+        #{functionOther10LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11Enabled != null" >
+        #{functionOther11Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther11LabelEn != null" >
+        #{functionOther11LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11LabelZh != null" >
+        #{functionOther11LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12Enabled != null" >
+        #{functionOther12Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther12LabelEn != null" >
+        #{functionOther12LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12LabelZh != null" >
+        #{functionOther12LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdDtm != null" >
+        #{createdDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifiedDtm != null" >
+        #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.logic.system.domain.ModuleFunction" >
+    update system_module_function
+    <set >
+      <if test="moduleId != null" >
+        module_id = #{moduleId,jdbcType=INTEGER},
+      </if>
+      <if test="functionNewEnabled != null" >
+        function_new_enabled = #{functionNewEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionNewLabelEn != null" >
+        function_new_label_en = #{functionNewLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionNewLabelZh != null" >
+        function_new_label_zh = #{functionNewLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateEnabled != null" >
+        function_update_enabled = #{functionUpdateEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionUpdateLabelEn != null" >
+        function_update_label_en = #{functionUpdateLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionUpdateLabelZh != null" >
+        function_update_label_zh = #{functionUpdateLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteEnabled != null" >
+        function_delete_enabled = #{functionDeleteEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionDeleteLabelEn != null" >
+        function_delete_label_en = #{functionDeleteLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionDeleteLabelZh != null" >
+        function_delete_label_zh = #{functionDeleteLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryEnabled != null" >
+        function_query_enabled = #{functionQueryEnabled,jdbcType=BIT},
+      </if>
+      <if test="functionQueryLabelEn != null" >
+        function_query_label_en = #{functionQueryLabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionQueryLabelZh != null" >
+        function_query_label_zh = #{functionQueryLabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1Enabled != null" >
+        function_other1_enabled = #{functionOther1Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther1LabelEn != null" >
+        function_other1_label_en = #{functionOther1LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther1LabelZh != null" >
+        function_other1_label_zh = #{functionOther1LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2Enabled != null" >
+        function_other2_enabled = #{functionOther2Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther2LabelEn != null" >
+        function_other2_label_en = #{functionOther2LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther2LabelZh != null" >
+        function_other2_label_zh = #{functionOther2LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3Enabled != null" >
+        function_other3_enabled = #{functionOther3Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther3LabelEn != null" >
+        function_other3_label_en = #{functionOther3LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther3LabelZh != null" >
+        function_other3_label_zh = #{functionOther3LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4Enabled != null" >
+        function_other4_enabled = #{functionOther4Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther4LabelEn != null" >
+        function_other4_label_en = #{functionOther4LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther4LabelZh != null" >
+        function_other4_label_zh = #{functionOther4LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5Enabled != null" >
+        function_other5_enabled = #{functionOther5Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther5LabelEn != null" >
+        function_other5_label_en = #{functionOther5LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther5LabelZh != null" >
+        function_other5_label_zh = #{functionOther5LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6Enabled != null" >
+        function_other6_enabled = #{functionOther6Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther6LabelEn != null" >
+        function_other6_label_en = #{functionOther6LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther6LabelZh != null" >
+        function_other6_label_zh = #{functionOther6LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7Enabled != null" >
+        function_other7_enabled = #{functionOther7Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther7LabelEn != null" >
+        function_other7_label_en = #{functionOther7LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther7LabelZh != null" >
+        function_other7_label_zh = #{functionOther7LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8Enabled != null" >
+        function_other8_enabled = #{functionOther8Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther8LabelEn != null" >
+        function_other8_label_en = #{functionOther8LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther8LabelZh != null" >
+        function_other8_label_zh = #{functionOther8LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9Enabled != null" >
+        function_other9_enabled = #{functionOther9Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther9LabelEn != null" >
+        function_other9_label_en = #{functionOther9LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther9LabelZh != null" >
+        function_other9_label_zh = #{functionOther9LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10Enabled != null" >
+        function_other10_enabled = #{functionOther10Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther10LabelEn != null" >
+        function_other10_label_en = #{functionOther10LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther10LabelZh != null" >
+        function_other10_label_zh = #{functionOther10LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11Enabled != null" >
+        function_other11_enabled = #{functionOther11Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther11LabelEn != null" >
+        function_other11_label_en = #{functionOther11LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther11LabelZh != null" >
+        function_other11_label_zh = #{functionOther11LabelZh,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12Enabled != null" >
+        function_other12_enabled = #{functionOther12Enabled,jdbcType=BIT},
+      </if>
+      <if test="functionOther12LabelEn != null" >
+        function_other12_label_en = #{functionOther12LabelEn,jdbcType=VARCHAR},
+      </if>
+      <if test="functionOther12LabelZh != null" >
+        function_other12_label_zh = #{functionOther12LabelZh,jdbcType=VARCHAR},
+      </if>
+      version = version + 1,
+      <if test="lastModifiedDtm != null" >
+        last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null" >
+        last_modified_by = #{lastModifiedBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteModuleFunctionByModuleId" parameterType="com.logic.system.domain.ModuleFunction" >
+    update system_module_function 
+    set deleted = 1,
+    version = version+1,
+    last_modified_dtm = #{lastModifiedDtm,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=INTEGER}
+    where module_id = #{moduleId,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>
