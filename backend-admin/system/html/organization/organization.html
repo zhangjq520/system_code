@@ -1,0 +1,1399 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="../../../assets/global/plugins/font-google/css/google-fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/pace/themes/pace-theme-big-counter.css" rel="stylesheet" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="../../../assets/global/plugins/select2/select2.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/global/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+    <link href="../../../assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+    <link href="../../../assets/global/plugins/jstree/dist/themes/default/style.css" rel="stylesheet" />
+    <link href="../../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="../../../assets/global/plugins/toastr/toastr.css" rel="stylesheet" />
+    <!-- END PAGE LEVEL STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link href="../../../assets/global/css/animate.css" rel="stylesheet" />
+    <link href="../../../assets/global/css/components-rounded.css" id="style_components" rel="stylesheet" />
+    <link href="../../../assets/global/css/plugins-md.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/admin/layout3/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="../../../assets/admin/layout3/css/themes/blue-steel.css" rel="stylesheet" />
+    <link href="../../../common/custom.css" rel="stylesheet" />
+    <!-- END THEME STYLES -->
+    <style type="text/css">
+    .progress > .progress-bar-success {
+        background-color: #00a0df;
+    }
+    
+    .form-wizard .steps > li.active > a.step .number {
+        background-color: #ee7633;
+        color: #fff;
+    }
+    
+    .form-wizard .steps > li.done > a.step .number {
+        background-color: #00a0df;
+        color: #fff;
+    }
+    
+    .dropdown-menu {
+        min-width: 90px;
+    }
+    
+    .text-word-wrap {
+        word-wrap: break-word;
+        word-break: normal;
+    }
+
+    #addFile1{
+        width:300px;
+        height:30px;
+        z-index: 1;
+        filter:alpha(opacity:0);
+        opacity: 0;
+        margin-top: -35px;
+
+    }
+    .addfileButton button{
+        height:25px;
+       float:right;  
+       margin-top: -23px;  
+       background: none;
+       border:1px solid #efefef;
+       border-radius:2px;   
+
+    }
+    
+    .addfileButton{
+         z-index: -1;
+        /*margin-top: 30px;*/
+        display: inline-block;
+        width:300px;
+        height:30px;
+        border-radius: 3px;
+        border:1px solid #eee;
+    }
+    #tab5 .leftBar{
+        width:550px;
+        float:left;
+        height:100%;
+        padding:0 100px 0 50px;
+        border-right:1px solid #eee;
+    }
+    #tab5 .leftBar .col-md-6{
+        float:left;
+        width:100%;
+    }
+      #tab5 .leftBar .col-md-6 .control-label{
+        float:left;
+      }
+    #tab5 .leftBar .col-md-6 .corperateInfo{
+       width:300px;
+       float:right;
+    }
+
+     #tab5 .rightBar{
+        width:500px;
+        float:right;
+        height:100%;
+        padding:0 50px 0 0;
+        border-right:1px solid #eee;
+    }
+    #tab5 .rightBar .col-md-6{
+        float:left;
+        width:100%;
+    }
+      #tab5 .rightBar .col-md-6 .control-label{
+        float:left;
+      }
+    #tab5 .rightBar .col-md-6 .corperateInfo{
+       width:300px;
+       float:right;
+    }
+    #editFile1{
+          filter:alpha(opacity:0);
+        opacity: 0;
+        float:right;
+       margin-top:-34px;
+
+
+    }
+    .editBrowse{
+        float: right;
+        padding:5px 10px;
+         background: none;
+       border:1px solid #efefef;
+       border-radius:2px;   
+       z-index: -2;
+
+
+    }
+    #editFileContent{
+        height:34px;
+        float:left;
+        width:80%;
+        overflow: hidden;
+    }
+
+
+    </style>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-menu-fixed" class to set the mega menu fixed  -->
+<!-- DOC: Apply "page-header-top-fixed" class to set the top menu fixed  -->
+
+<body>
+    <!-- BEGIN HEADER -->
+    <div class="page-header" id="headerId">
+    </div>
+    <!-- END HEADER -->
+    <!-- BEGIN PAGE CONTAINER -->
+    <div class="page-container">
+        <!-- BEGIN PAGE CONTENT -->
+        <div class="page-content">
+            <div class="container">
+                <!-- BEGIN PAGE BREADCRUMB -->
+                <div class="row navigation_path">
+                    <div class="col-xs-10">
+                        <ul class="page-breadcrumb breadcrumb">
+                           <!--  <li>
+                                <a onclick='BackToIndex()'>首页</a><i class="fa fa-circle"></i>
+                            </li> -->
+                            <li>
+                                <a>控制台</a><i class="fa fa-circle"></i>
+                            </li>
+                            <!-- <li>
+                                <a>基础数据</a><i class="fa fa-circle"></i>
+                            </li> -->
+                            <li class="active">
+                                企业管理
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- END PAGE BREADCRUMB -->
+                <!-- BEGIN PAGE CONTENT INNER -->
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="portlet light shadow">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <div class="row">
+                                        <div class="col-xs-4" style="font-size: 16px; line-height: 32px;">
+                                            <span class="caption-subject custom-text-1 bold"><i class="fa fa-search"></i>org List</span>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="input-icon">
+                                                <i class="fa fa-search"></i>
+                                                <input id="search_tree" class="form-control" placeholder="Search">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-2 no-padding-left">
+                                            <div class="task-config">
+                                                <a class="btn btn-custom-1" href="javascript:;" data-toggle="dropdown" data-close-others="true">
+                                                    <i class="fa fa-cog"></i> <i class="fa fa-angle-down"></i>
+                                                </a>
+                                                <ul class="dropdown-menu pull-left">
+                                                    <li>
+                                                        <a href="javascript:;" id="expand_all">
+                                                            expand all </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div id="corporate_tree" class="tree-demo" style="min-height: 250px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8" id="previewId">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet light shadow">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <div style="font-size: 16px; line-height: 32px;">
+                                                <span class="caption-subject custom-text-1 bold"><i class="fa fa-edit"></i> <span id="orgnization_code"></span>组织机构详情预览</span>
+                                            </div>
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                 <!--   <div class="portlet-body form">
+                                        <div class="row">
+                                            <div class="col-md-12" style="padding-left: 0; padding-right: 0">
+                                                &lt;!&ndash; BEGIN INFO &ndash;&gt;
+                                                <div class="col-md-12">
+                                                    <div class="panel-group accordion">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" href="#collapse_1">
+                                                        <i class="fa fa-list-alt">&nbsp;组织机构基本信息</i></a>
+                                                        </h4>
+                                                            </div>
+                                                            <div id="collapse_1" class="panel-collapse in">
+                                                                <div class="panel-body">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6 ">
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name  ">企业层级 :</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="corporateTypePreviewId"> &nbsp; </label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name ">企业名称:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewOrgNameId">&nbsp;</label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">所属行业:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewOrgTypeId">&nbsp;</label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">营业执照注册号:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewLicenseNoId">&nbsp;</label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">营业执照扫描件:</label>
+                                                                                <label class="col-xs-7" id="previewLicenseImageId">&nbsp;</label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">企业网址:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewWebsiteUrlId">&nbsp;</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6 ">
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人姓名:</label>
+                                                                                <label class="col-xs-7" id="previewNameId">&nbsp;</label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人职位:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewTitleId"> &nbsp; </label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人手机号:</label>
+                                                                                <label class="col-xs-7" id="previewMobiePhoneNumberId"> &nbsp; </label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人地址:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewAddressId"> &nbsp; </label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人办公电话 :</label>
+                                                                                <label class="col-xs-7" id="previewWorkPhoneNumberId"> &nbsp; </label>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-xs-5 no-padding-right name">联系人邮箱:</label>
+                                                                                <label class="col-xs-7 text-word-wrap" id="previewEmailId"> &nbsp; </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                &lt;!&ndash; END ACTIVITY &ndash;&gt;
+                                            </div>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="portlet-body form">
+                                        <form action="javascript:;" class="form-horizontal" >
+                                            <div class="form-wizard">
+
+                                                <div class="form-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="previewTab1">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">机构代码
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="previewOrgCode" id="previewOrgCodeId"  readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">机构名称
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="previewOrgNameId" name="previewOrgName" readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">上级组织机构
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="previewOrgParentNameId" name="previewOrgParentName" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">机构层级
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="corporateTypePreviewId" name="previewOrgParentName" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-8" id="editDiv" style="display:none">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet light" id="form_wizard_1">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <div style="font-size: 16px; line-height: 32px;">
+                                                <span class="caption-subject custom-text-1 bold"><i class="fa fa-edit"></i> <span id="editOrgInfo"></span>编辑组织机构</span>
+                                            </div>
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse" data-original-title="" title="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body form">
+                                        <form action="javascript:;" class="form-horizontal" id="submit_form">
+                                            <div class="form-wizard">
+                                             <!--   <div class="form-body">
+                                                    <ul class="nav nav-pills nav-justified steps" id="editUl">
+                                                        <li id="tabLi">
+                                                            <a href="#tab1" data-toggle="tab" class="step">
+                                                                <div class="number">
+                                                                    1
+                                                                </div>
+                                                                <span class="desc">
+                                                                <i class="fa fa-check"></i> 基本信息 </span>
+                                                            </a>
+                                                        </li>
+&lt;!&ndash;                                                         <li>
+                                                            <a href="#tab2" data-toggle="tab" class="step">
+                                                                <span class="number">
+                                                               2 </span>
+                                                                <span class="desc">
+                                                                <i class="fa fa-check"></i> 账号信息 </span>
+                                                            </a>
+                                                        </li> &ndash;&gt;
+                                                        <li>
+                                                            <a href="#tab3" data-toggle="tab" class="step">
+                                                                <span class="number">
+                                                               2 </span>
+                                                                <span class="desc">
+                                                                <i class="fa fa-check"></i> 资金账户 </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#tab4" data-toggle="tab" class="step active">
+                                                                <span class="number">
+                                                               3 </span>
+                                                                <span class="desc">
+                                                                <i class="fa fa-check"></i> 安全设置 </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div id="" class="progress progress-striped" role="progressbar">
+                                                        <div class="progress-bar progress-bar-success">
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="tab1">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">企业层级 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <select class="form-control select2me" id="corporateTypeEditId1" disabled>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">企业编码 <span class="required">
+                                                                    * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editCorporateCodeId" name="code" readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">企业名称 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editOrgNameId" name="editorgName" readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">所属行业<span class="required handleRequired">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <select class="form-control select2me" id="editOrgTypeId" name="editorgType">
+                                                                    </select>
+                                                                    &lt;!&ndash; <input type="text" class="form-control" name="editorgType" id="editOrgTypeId" /> &ndash;&gt;
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">营业执照注册号
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="editlicenseNo" id="editLicenseNoId" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">营业执照扫描件
+                                                                </label>  
+                                                            
+                                                                                                                      
+                                                                <div class="col-md-6" >
+                                                                    <div type="text" class="form-control"  style="padding:0" /> 
+                                                                        <div id="editFileContent" ></div>
+                                                                         <button class="editBrowse" >浏览</button> 
+                                                                    </div>
+                                                                
+                                                                    <input type='file' class="form-control" style="padding:0" accept="image/gif,image/jpeg,image/jpg,image/bmp,application/pdf" id="editFile1">
+                                                                          <span style="color:##E4E4E4;font-size:12px;">
+                                                                           <button class="btn btn-xs green"  style="float:right;" onclick="LOGIC.Controllers.CorporateListController.uploadFileC()">确定</button>      
+                                                                          <br>支持jpg、jpeg、bmp、gif、pdf格式，不超过5M</span>
+                                                                          <br/>已上传文件: <label id="editLicenseImageId">&nbsp;</label>
+                                                                          <input type='hidden' name="editCorporatefile" id="editCorporatefileId" />
+                                                                            
+                                                                         
+                                                                         
+                                                            
+                                                                         
+                                                                     
+                                                                    &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                             
+
+
+                                                                </div>
+                                                               
+                                                              
+                                                                   
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">企业网址
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="editwebsiteUrl" id="editWebsiteUrlId" />
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人姓名
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editLastNameId" name="edit_last_name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人职位 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="edittitle" id="editTitleId" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人手机号 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="editmobilePhoneNumber" id="editMobiePhoneNumberId" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人地址 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editAddressId" name="editAddress" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人办公电话 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="editworkPhoneNumber" id="editWorkPhoneNumberId" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">联系人邮箱
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="editemailPrimary" id="editEmailId" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id="tab2">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">登录邮箱 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="edit_login_id" id="editLoginId" readonly/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label  col-md-3">姓 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editUserLastName" name="edit_user_last_name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">名 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editUserFirstName" name="edit_user_first_name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">角色 <span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <select class="select2me form-control" multiple="multiple" id="edit_roles_select" name="edit_user_role_name">
+                                                                        <option></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">操作员职位<span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="edit_job_name" id="editJobName" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">操作员手机号<span class="required">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="edit_user_phone_number" id="editUerPhoneNumberId" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">操作授权证明</label>
+                                                                <label class="col-sm-3">已上传文件:</label>
+                                                                <label class="col-sm-3" id="editiveproveId">&nbsp;</label>
+                                                                 <div class="col-md-4">
+                                                                <input type='file' accept="image/gif,image/jpeg,image/jpg,image/bmp,application/pdf" id="editFile2">
+                                                                <span style="color:##E4E4E4">支持jpg、jpeg、bmp、gif、pdf格式，不超过5M</span>
+                                                                <input type='hidden' name="editPersonInfoFile" id="editPersonInfoFileId" />
+                                                                &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <button class="btn btn-xs green" onclick="LOGIC.Controllers.CorporateListController.uploadFileD()">确定</button>
+                                                                    &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                                </div>                                                                
+&lt;!&ndash;                                                                 <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editiveproveId" readonly />
+                                                                </div> &ndash;&gt;
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id="tab3">
+                                                            
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">开户行地区 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editcapticalaccountlocationId" name="edit_captical_account_location" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">开户行名称 
+
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" placeholder="" class="form-control" id="editcapticalaccountbankname" name="edit_captical_account_bank_name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">开户名 
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editcapiticalaccountnameId" name="edit_capitical_account_name" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">开户账号
+                                                                
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editcapticalaccountno" name="edit_captical_account_no" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">授信额度<span class="required ">
+                                                                   * </span>
+                                                                </label>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" id="editcreditbalanceId" name="editcreditbalance" />
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" class="form-control" id="editpersonId" />
+                                                            <input type="hidden" class="form-control" id="editOrgProfileId" />
+                                                            <input type="hidden" class="form-control" id="editOrgId" />                                                            
+                                                            <input type="hidden" class="form-control" id="editUserNameId" />
+                                                            <input type="hidden" class="form-control" id="editAddressHiddenId" />
+                                                        </div>
+                                                        <div class="tab-pane" id="tab4">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">发货操作： </label>
+                                                                <div class="col-md-7" style="font-size:14px;">
+
+                                                                    <label class="checkbox-inline" for="chkDeliveryPwd">
+                                                                        <input type="checkbox" name="chkDeliveryPwdFlag" id="chkDeliveryPwd"> 操作密码
+                                                                     </label>
+                                                                    <label class="checkbox-inline" for="chkDeliverySms">
+                                                                        <input type="checkbox" name="chkDeliverySmsFlag" id="chkDeliverySms"> 短信验证
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" id="fundRechargeSwitch" >
+                                                                <label class="control-label col-md-3">账户充值： </label>
+                                                                <div class="col-md-7" style="font-size:14px;">
+                                                                
+                                                                    <label class="checkbox-inline" for="chkRechargePwd">
+                                                                        <input type="checkbox" name="chkRechargePwdFlag" id="chkRechargePwd"> 操作密码
+                                                                    </label>
+                                                                    <label class="checkbox-inline" for="chkRechargeSms">
+                                                                        <input type="checkbox" name="chkRechargeSmsFlag" id="chkRechargeSms"> 短信验证
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3">资金划拨： </label>
+                                                                <div class="col-md-7" style="font-size:14px;">
+                                                                
+                                                                    <label class="checkbox-inline" for="chkFundOperaPwd">
+                                                                        <input type="checkbox" name="chkFundOperaFlag" id="chkFundOperaPwd"> 操作密码
+                                                                    </label>
+                                                                    <label class="checkbox-inline" for="chkFundSms">
+                                                                        <input type="checkbox" name="chkFundSmsFlag" id="chkFundSms"> 短信验证
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group"  style="position:relative;left:30px;">
+                                                                <label class="control-label col-md-3">操作密码最大错误次数</label>
+                                                                <div class="col-md-3" style="font-size:14px;">                              
+                                                                    <input type="text" class="form-control" name="operaPwdMaxTimes" id="operaPwdMaxTimes" />
+                                                                </div>
+                                                                <label class="control-label col-md-1">次</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-3" style="position:relative;top:10px;">批量提货安全设置</label>
+                                                                <div class="md-radio-inline col-md-9 nowrap">
+                                                                    <label class="checkbox-inline" ">
+                                                                        <input type="radio" name="pickupsafety" id="status1" value="true"> 
+                                                                        <div style="display:inline-block;float:right;margin-top:7px;margin-left:2px;">线下获取卡密文件</div>
+                                                                    </label>
+                                                                    <label class="checkbox-inline">
+                                                                        <input type="radio" name="pickupsafety" id="status2" value="false"> 
+                                                                        <div style="display:inline-block;float:right;margin-top:7px;margin-left:2px;">线下获取加密文件，使用解密功能线上解密</div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+
+                                                <div class="form-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="tab1">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">上级组织机构
+                                                                <span class="required">* </span>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <input  type="hidden" id="editOrgParentId" name="editOrgParent"/>
+                                                                <input type="text" class="form-control" id="editOrgParentNameId" name="editOrgParentName" readonly />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">机构层级
+                                                                <span class="required">* </span>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <select class="form-control select2me" id="corporateTypeEditId" name="editOrgType">
+                                                                        <option value="">请选择</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">机构代码
+                                                                <span class="required">* </span>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <input type="text" class="form-control" name="editOrgCode" id="editOrgCodeId" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">机构名称
+                                                                <span class="required">* </span>
+                                                            </label>
+                                                            <div class="col-md-6">
+                                                                <input type="text" class="form-control" id="editOrgNameId" name="editOrgName" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions">
+                                                    <div class="row" style="position:relative;left:40px;">
+                                                        <div class="col-md-offset-3 col-md-9">
+                                                            <a href="javascript:;" class="btn green button-submit">
+                                                               保存
+                                                            </a>
+                                                            <a data-dismiss="modal" class="btn"  href="javascript:;" id="edit_cancel">取消</a>
+
+                                                     <!--       <a href="javascript:;" class="btn default button-previous">
+                                                                 上一步 </a>
+                                                            <a href="javascript:;" class="btn blue button-next">
+                                                                下一步 
+                                                            </a>
+                                                            <a href="javascript:;" class="btn green button-submit">
+                                                                提交 
+                                                            </a>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- <div id="add_corporate1" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" data-width="1150">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="LOGIC.Controllers.CorporateListController.cancelAddChildrenCode()"></button>
+                            <h4 class="modal-title">增加企业</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="javascript:;" class="form-horizontal" id="add_form1">
+                                <div class="form-wizard">
+                                    <div class="form-body">
+                                        <ul cl="nav nav-pills nav-justified steps" id="addUL">
+                                            <li id="activeId">
+                                                <a href="#tab5" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                      1 </span>
+                                                    <span class="desc">
+                                                      <i class="fa fa-check"></i> 企业基本信息 </span>
+                                                    ass  </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab6" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                        2 </span>
+                                                    <span class="desc">
+                                                        <i class="fa fa-check"></i> 账号信息 </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab7" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                        3 </span>
+                                                    <span class="desc">
+                                                        <i class="fa fa-check"></i> 资金账户信息 </span>
+                                                </a>
+                                            </li>
+                                            &lt;!&ndash; <li>
+                                                <a href="#tab7" data-toggle="tab" class="step">
+                                                    <span class="number">
+                                                        4 </span>
+                                                    <span class="desc">
+                                                        <i class="fa fa-check"></i> 安全设置 </span>
+                                                </a>
+                                            </li> &ndash;&gt;
+                                        </ul>
+                                        <div id="" class="progress progress-striped" role="progressbar">
+                                            <div class="progress-bar progress-bar-success">
+                                            </div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab5" >
+                                            <div class="leftBar">
+                                                 <div class="row" >
+                                                    <div class="col-md-6">
+                                                        <div class="form-group" >
+                                                            <label  class="control-label" style="font-weight:bold">企业信息:
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" >
+                                                    <div class="col-md-6">
+                                                        <div class="form-group" >
+                                                            <label  class="control-label">企业层级 <span class="required">
+                                                        * </span>
+                                                            </label>
+                                                            <div class="corperateInfo" >
+                                                                <input type="text" class="form-control" id="corporateTypeAddId1" name="" readonly/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">企业代码<span class="required">
+                                                        * </span>
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addCorporateCodeId" name="code" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">企业名称 <span class="required">
+                                                        * </span>
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addCorporateNameId" name="short_name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">所属行业 <span class="required addhandleRequired">
+                                                        *</span>
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <select class="form-control select2me ignoreValidate" id="addOrgTypeId" name="orgType" placeholder="搜索">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">营业执照注册号
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addLicenseNoId" name="licenseNo" data-type="remove" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">营业执照扫描件
+                                                            </label>
+                                                            <div class="corperateInfo">
+
+                                                                <div class="form-control addfileButton" style="padding:0">
+                                                                    <div style="padding:5px;height:25px;float:left;width:260px;overflow:hidden;"></div>
+                                                                    <button id="Browse">浏览</button>
+
+                                                                </div>
+                                                                  <button id="upload" class="btn btn-xs green" style="float:right;margin-right:5px;" onclick="LOGIC.Controllers.CorporateListController.uploadFileA()">确定</button>
+
+
+                                                                <input type='file' accept="image/gif,image/jpeg,image/jpg,image/bmp,application/pdf" id="addFile1">
+                                                                <span style="color:##E4E4E4;">支持jpg、jpeg、bmp、gif、pdf格式，不超过5M</span>
+                                                                &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                            </div>
+                                                            <div class="">
+
+                                                                &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">企业网址
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addWebsiteUrlId" name="websiteUrl" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                               &lt;!&ndash;  <hr> &ndash;&gt;
+                                            <div class="rightBar">
+                                             <div class="row" >
+                                                    <div class="col-md-6">
+                                                        <div class="form-group" >
+                                                            <label  class="control-label" style="font-weight:bold">联系人信息:
+                                                            </label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人姓名
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addLastNameId" name="last_name" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   &lt;!&ndash;  <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">名
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addFirstNameId" name="first_name" />
+                                                            </div>
+                                                        </div>
+                                                    </div> &ndash;&gt;
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人职位
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addTitle" name="title" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人手机号
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addMobilePhoneNumber" name="mobilePhoneNumber" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人办公电话
+
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addWorkPhoneNumber" name="workPhoneNumber" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人邮箱
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addEmailPrimary" name="emailPrimary" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">联系人地址
+                                                            </label>
+                                                            <div class="corperateInfo">
+                                                                <input type="text" class="form-control" id="addAddress" name="addAddress" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                         </div>
+                                            <div class="tab-pane" id="tab6" style="position:relative;left:60px;">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">登录邮箱 <span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" id="addLoginId" name="login_id" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">姓 <span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" id="addLastName" name="user_last_name" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">名 <span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" id="addFirstName" name="user_first_name" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">角色 <span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <select class="select2me form-control" multiple="multiple" id="add_roles_select" value="" name="user_role_name">
+                                                            <option></option>
+                                                        </select>
+                                                        &lt;!&ndash; <input type="hidden" class="form-control ignoreValidate" id="add_roles_select" value="" name="user_role_name" readonly> &ndash;&gt;
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3"> 操作员职位<span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        &lt;!&ndash;    <select class="select2me form-control" multiple="multiple" id="add_roles_select" value="" name="user_role_name">
+                                                            <option></option>
+                                                        </select> &ndash;&gt;
+                                                        <input type="text" class="form-control ignoreValidate" id="addJobName" name="job_name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">操作员手机号<span class="required">
+                                                                   * </span>
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" id="userPhoneNumber" name="user_phone_number" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-offset-1 col-md-3">操作授权证明</label>
+                                                        <div class="col-md-4">
+                                                                <input type='file' accept="image/gif,image/jpeg,image/jpg,image/bmp,application/pdf" id="addFile2">
+                                                                <span style="color:##E4E4E4">支持jpg、jpeg、bmp、gif、pdf格式，不超过5M</span>
+                                                                &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button class="btn btn-xs green" onclick="LOGIC.Controllers.CorporateListController.uploadFileB()">确定</button>
+                                                                &lt;!&ndash; <input type="text" class="form-control" id="addLicenseImageId" name="licenseImage" readonly/> &ndash;&gt;
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab7" style="position:relative;left:40px;">
+
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">开户行地区
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="addcapticalaccountlocationId" name="add_captical_account_location" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">开户行名称
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" placeholder="" class="form-control" id="addcapticalaccountbankname" name="add_captical_account_bank_name" />
+                                                    </div>
+                                                </div>
+                                                  <div class="form-group">
+                                                    <label class="control-label col-md-3">开户名
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="addcapiticalaccountnameId" name="add_capitical_account_name" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">开户账号
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="addcapticalaccountno" name="add_captical_account_no" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">授信额度<span class="required ">
+                                                    * </span>
+                                                    </label>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="addcreditbalanceId" name="addcreditbalance" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    &lt;!&ndash; <div class="tab-pane" id="tab7">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">发货操作： </label>
+                                            <div class="col-md-7">
+                                                <label class="checkbox-inline" for="addchkDeliveryPwd">
+                                                    <input type="checkbox" name="addchkDeliveryPwdFlag" id="addchkDeliveryPwd"> 操作密码
+                                                </label>
+                                                <label class="checkbox-inline" for="addchkDeliverySms">
+                                                    <input type="checkbox" name="addchkDeliverySmsFlag" id="addchkDeliverySms"> 短信验证
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">账户操作： </label>
+                                            <div class="col-md-7">
+                                                <label class="checkbox-inline" for="addchkRechargePwd">
+                                                    <input type="checkbox" name="addchkRechargePwdFlag" id="addchkRechargePwd"> 操作密码
+                                                </label>
+                                                <label class="checkbox-inline" for="addchkRechargeSms">
+                                                    <input type="checkbox" name="addchkRechargeSmsFlag" id="addchkRechargeSms"> 短信验证
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">资金划拨： </label>
+                                            <div class="col-md-7">
+                                                <label class="checkbox-inline" for="addchkFundOperaPwd">
+                                                    <input type="checkbox" name="addchkFundOperaFlag" id="addchkFundOperaPwd"> 操作密码
+                                                </label>
+                                                <label class="checkbox-inline" for="addchkFundSms">
+                                                    <input type="checkbox" name="addchkFundSmsFlag" id="addchkFundSms"> 短信验证
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">操作密码最大错误次数</label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" name="addoperaPwdMaxTimes" id="addoperaPwdMaxTimes" />
+                                            </div>
+                                            <label class="control-label col-md-1">次</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">批量提货安全设置</label>
+                                            <div class="md-radio-inline col-md-9 nowrap">
+                                                <label class="checkbox-inline">
+                                                    <input type="radio" name="addpickupsafety" id="addstatus1" value="true"> 线下获取卡密文件
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input type="radio" name="addpickupsafety" id="addstatus2" value="false"> 线下获取加密文件，使用解密功能线上解密
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div> &ndash;&gt;
+                                    <div class="form-actions" >
+                                        <div class="row">
+                                            <div class="col-md-offset-4 col-md-6" style="margin-top:50px;margin-bottom:30px;position:relative;left:80px;">
+                                                <a href="javascript:;" class="btn default button-previous">
+                                                    上一步 </a>
+                                                 <a href="javascript:;" class="btn green button-submit">
+                                                    提交
+                                                </a>
+                                                 <a href="javascript:;" class="btn blue button-next">
+                                                    下一步
+                                                </a>
+                                                <a href="javascript:;" class="btn btn-default" data-dismiss="modal" onclick="LOGIC.Controllers.CorporateListController.cancelAddChildrenCode()">
+                                                    取消
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>-->
+
+
+                <div id="add_corporate" class="modal fade" tabindex="-1" data-width="760">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="msg_code_edittitle">增加组织机构</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="javascript:;" class="form-horizontal" id="add_form">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">
+                                        <span class="lbl_parent_code">上级组织机构</span>
+                                        <span class="required" aria-required="true"> * </span>
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="parent_code" class="form-control" id="parentName" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"> <span>机构层级</span>
+                                        <span class="required" aria-required="true"> * </span>
+                                    </label>
+                                    <div class="col-md-7">
+                                        <!-- <input type="text" class="form-control" name="other_8" id="add_code_other_8"> -->
+                                        <select id="corporateTypeAddId" name="orgType" class="form-control form-filter input-sm">
+                                            <option value="">请选择</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">
+                                        <span id="lbl_code_name">机构代码</span>
+                                        <span class="required" aria-required="true"> * </span>
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="code" class="form-control inputEmpty" id="addOrgCode" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">
+                                        <span id="lbl_code_desc_zh">机构名称</span>
+                                        <span class="required" aria-required="true"> * </span>
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input type="text" name="short_name" class="form-control inputEmpty" id="addOrgName" >
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-xs-12">
+                                        <button type="submit" class="btn blue button-submit" id="btn_modal_save"> 保存 </button>
+                                        <a data-dismiss="modal" class="btn" onclick="LOGIC.Controllers.CorporateListController.cancelAddChildrenCode()" id="btn_modal_cancel">取消</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+                </div>
+                <!-- END PAGE CONTENT INNER -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div>
+    <!-- END PAGE CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer" id="footerId">
+    </div>
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up-circle"></i>
+    </div>
+    <!--[if lt IE 9]>
+<script src="../../../assets/global/plugins/respond.min.js"></script>
+<script src="../../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+    <!-- BEGIN CORE LIBS -->
+    <script src="../../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="../../../assets/global/plugins/jquery-1.9.1.js" type="text/javascript"></script>
+<![endif]-->
+    <script src="../../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- END CORE LIBS -->
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="../../../assets/global/plugins/pace/pace.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="../../../assets/global/plugins/underscore/underscore.js"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="../../../assets/global/plugins/jstree/dist/jstree.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="../../../assets/global/plugins/jstree/jstree-3.4.4.min.js"></script>
+    <![endif]-->
+    <script src="../../../assets/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+    <script src="../../../assets/global/plugins/jquery-validation/js/jquery.validate.js"></script>
+    <script src="../../../assets/global/plugins/jquery-validation/js/additional-methods.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
+    <script src="../../../assets/global/plugins/select2/select2.min.js"></script>
+    <script src="../../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="../../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+    <script src="../../../assets/global/plugins/moment.min.js"></script>
+    <script src="../../../assets/global/plugins/toastr/toastr.js"></script>
+    <script src="../../../assets/global/plugins/bootbox/bootbox.min.js"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->    
+    <script src="../../../common/permission.js"></script>
+    <script src="../../../common/transport.js"></script>
+    <script src="../../../common/storage.js"></script>
+    <script src="../../../common/selective-serialize.js"></script>
+    <script src="../../../common/toastr-prompt.js"></script>
+    <script src="../../../common/query-tool.js"></script>
+    <script src="../../../common/code-save.js"></script>
+    <script src="../../../common/toshiba-common-tools.js"></script>
+    <script src="../../../common/include.js" type="text/javascript"></script>
+    <script src="../../../common/executeWhenDomReady.js" type="text/javascript"></script>
+    <script src="../../../system/scripts/user/user-service.js"></script>
+    <script src="../../../system/scripts/user/login-controller.js"></script>
+    <script src="../../../system/scripts/configuration/configuration-service.js"></script>
+    <script src="../../../system/scripts/code/code-service.js"></script>
+    <script src="../../../system/scripts/corporate/corporate-list-controller.js"></script>
+    <script src="../../../system/scripts/log/log-service.js"></script>
+    <script src="../../../system/scripts/corporate/corporate-service.js"></script>
+    <script src="../../../system/scripts/permission/permission-service.js"></script>
+    <script src="../../../system/scripts/address/address-service.js"></script>
+    <script src="../../../system/scripts/personInfo/personInfo-service.js"></script>
+    <script src="../../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+    <script src="../../../assets/admin/layout3/scripts/layout.js" type="text/javascript"></script>
+    <script src="../../../assets/admin/layout3/scripts/demo.js" type="text/javascript"></script>
+    <script src="../../../common/init.js"></script>
+    <!--[if lt IE 9]>
+        <script src="../../../common/fixIE8iussue.js"></script>
+    <![endif]-->
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script>
+    jQuery(document).ready(function() {
+        // initiate layout and plugins
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        Demo.init(); // init demo features
+        Include.init(); //init include features
+        LOGIC.Controllers.CorporateListController.init();
+
+    });
+    </script>
+    <!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+
+</html>

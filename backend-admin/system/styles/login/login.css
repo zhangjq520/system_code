@@ -1,0 +1,101 @@
+
+.login {
+  background-color: #F6F6F6 !important;
+}
+
+.logo-99 {
+	background-color: #F7F7F7;
+	padding: 10px 30px;
+	width: 200px;
+}
+
+.login .content {
+    margin: 20px auto 60px auto;
+    padding: 15px 30px;
+}
+
+.header-container {
+    background-color: #C9002A;
+    color: #ffffff;
+    height: 80px;
+    position: relative;
+}
+
+.header {
+	margin: 0 auto;
+}
+
+.brand-title h3 {
+	line-height: 40px;
+}
+
+.contact {
+	position: relative;
+	top: 40%;
+}
+
+.login-page-container {
+    background-image: url("../../images/99/login-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login .content {
+    background: url("../../images/99/bg-white-lock.png") repeat;
+    background-color: rgba(255,255,255,0.5);
+    width: 350px;
+}
+
+.footer {
+    color: #999999;
+	min-height: 100px;
+	background-position: center bottom;
+}
+
+.footer-desc {
+	margin-top: 40px;
+	border-left: 1px solid #BFBFBF;
+}
+
+.login .content h3 {
+    color: #333333;
+}
+
+.login .content p,
+.login .content label {
+    color: #333333;
+}
+
+.verification-code {
+    height: 34px;
+}
+
+.replace-verification-code {
+	margin-top: 8px;
+}
+
+.replace-verification-code a {
+	line-height: 15px;
+}
+.control-label {
+    font-family: '微软雅黑';
+}
+.portlet.light > .portlet-title > .caption > .caption-subject {
+    font-family: '微软雅黑';
+}
+b, strong {
+    font-family: '微软雅黑';
+}
+label {
+    font-family: '微软雅黑';
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    font-family: '微软雅黑';
+}
+div.dataTables_info {
+    font-family: '微软雅黑';
+}
+a {
+    background-color: transparent;
+    font-family: '微软雅黑';
+}
